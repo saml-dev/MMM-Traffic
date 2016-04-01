@@ -1,4 +1,4 @@
-# MMM-Facial-Recognition
+# MMM-Wunderlist
 This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror). It can display your Wunderlist todos. You can add multiple instances with different lists. Only one account supported.
 
 ## Usage
