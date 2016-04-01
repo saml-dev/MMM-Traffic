@@ -2,7 +2,7 @@
 This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror). It can display your Wunderlist todos. You can add multiple instances with different lists. Only one account supported.
 
 ## Usage
-The entry in config.js can look like the following.
+The entry in config.js can look like the following. You will need an `access_token` and a `client_id`, you can obtain them [here](https://developer.wunderlist.com/apps/new).
 
 ```
 {
