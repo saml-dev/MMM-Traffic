@@ -13,7 +13,9 @@ The entry in config.js can look like the following. You will need an `access_tok
 		access_token: "your_token_here",
 		client_id: "your_client_id_here",
 		//Array with the lists you want to display. Example: ["inbox", "ViRO Entertainment"]
-		lists: ["inbox"]
+		lists: ["inbox"],
+		//interval in seconds
+		interval: 60
 	}
 },
 ```

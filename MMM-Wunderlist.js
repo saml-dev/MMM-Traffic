@@ -10,7 +10,8 @@
 Module.register('MMM-Wunderlist',{
 	
 	defaults: {
-		lists: ["inbox"]
+		lists: ["inbox"],
+		interval: 60
 	},
 	
 	// Override socket notification handler.
@@ -35,7 +36,7 @@ Module.register('MMM-Wunderlist',{
 	
 	start: function() {
 		this.tasks = []
-		this.sendSocketNotification('WUNDERLIST_CONFIG', this.data.config);
+		this.sendSocketNotification('WUNDERLIST_CONFIG', this.config);
 		Log.info('Starting module: ' + this.name);
 	},
 	
@@ -43,9 +44,9 @@ Module.register('MMM-Wunderlist',{
 		var wrapper = document.createElement("div");
 		wrapper.className = "normal small light"
 		var tasks = []
-		for (var i = 0; i < this.data.config.lists.length; i++) {
-			if (typeof this.tasks[this.data.config.lists[i].replace(/\s+/g, '')] != 'undefined'){
-				tasks.push.apply(tasks, this.tasks[this.data.config.lists[i].replace(/\s+/g, '')][0]);
+		for (var i = 0; i < this.config.lists.length; i++) {
+			if (typeof this.tasks[this.config.lists[i].replace(/\s+/g, '')] != 'undefined'){
+				tasks.push.apply(tasks, this.tasks[this.config.lists[i].replace(/\s+/g, '')][0]);
 			}
 		}
 		
