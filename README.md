@@ -1,6 +1,10 @@
 # MMM-Wunderlist
 This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror). It can display your Wunderlist todos. You can add multiple instances with different lists. Only one account supported.
 
+## Installation
+1. Navigate into your MagicMirror's `modules` folder and execute `git clone https://github.com/paviro/MMM-Wunderlist.git`. A new folder will appear navigate into it.
+2. Execute `npm install` to install the node dependencies.
+
 ## Usage
 The entry in config.js can look like the following. You will need an `access_token` and a `client_id`, you can obtain them [here](https://developer.wunderlist.com/apps/new).
 
@@ -24,7 +28,7 @@ The entry in config.js can look like the following. You will need an `access_tok
 - The node side of this script is proably not really efficient, I am glad it works at all. If you want to improve it, I am happy about pull requests!
 
 ## Dependencies
-- [request](https://www.npmjs.com/package/request) (npm install request)
+- [request](https://www.npmjs.com/package/request) (installed via `npm install`)
 
 ## Licenses
 The MIT License (MIT)
