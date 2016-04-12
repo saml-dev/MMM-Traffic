@@ -18,6 +18,12 @@ The entry in config.js can look like the following. You will need an `access_tok
 		client_id: "your_client_id_here",
 		//Array with the lists you want to display. Example: ["inbox", "ViRO Entertainment"]
 		lists: ["inbox"],
+		//Number of todos to be shown
+		maximumEntries: 10,
+		//Fade todos to black. (Gradient)
+		fade: true,
+		//Where to start the fade
+		fadePoint: 0.25,
 		//interval in seconds
 		interval: 60
 	}
