@@ -10,8 +10,11 @@
 Module.register('MMM-Wunderlist',{
 	
 	defaults: {
+		maximumEntries: 10,
 		lists: ["inbox"],
-		interval: 60
+		interval: 60,
+		fade: true,
+		fadePoint: 0.25
 	},
 	
 	// Override socket notification handler.
@@ -40,28 +43,51 @@ Module.register('MMM-Wunderlist',{
 		Log.info('Starting module: ' + this.name);
 	},
 	
-	getDom: function() {
-		var wrapper = document.createElement("div");
-		wrapper.className = "normal small light"
-		var tasks = []
+	getTodos: function () {
+		var tasks_to_show = []
+		
 		for (var i = 0; i < this.config.lists.length; i++) {
 			if (typeof this.tasks[this.config.lists[i].replace(/\s+/g, '')] != 'undefined'){
-				tasks.push.apply(tasks, this.tasks[this.config.lists[i].replace(/\s+/g, '')][0]);
+				var list = this.tasks[this.config.lists[i].replace(/\s+/g, '')][0]
+				
+				for (var todo in list){
+				tasks_to_show.push(list[todo])
+				
+				}
+			} 		
+		}
+		return tasks_to_show.slice(0, this.config.maximumEntries);
+		
+	},
+	getDom: function() {
+		var wrapper = document.createElement("table");
+		wrapper.className = "normal small light"
+		
+		var todos = this.getTodos()
+		console.log(todos);
+		
+		for (var i = 0; i < todos.length; i++) {
+			var titleWrapper =  document.createElement("tr");
+			titleWrapper.innerHTML = todos[i];
+			titleWrapper.className = "title bright";
+			wrapper.appendChild(titleWrapper);
+			
+			// Create fade effect by MichMich (MIT)
+			if (this.config.fade && this.config.fadePoint < 1) {
+				if (this.config.fadePoint < 0) {
+					this.config.fadePoint = 0;
+				}
+				var startingPoint = todos.length * this.config.fadePoint;
+				var steps = todos.length - startingPoint;
+				if (i >= startingPoint) {
+					var currentStep = i - startingPoint;
+					titleWrapper.style.opacity = 1 - (1 / steps * currentStep);
+				}
 			}
+			// End Create fade effect by MichMich (MIT)
 		}
 		
-		if (tasks.length > 0){
-		wrapper.innerHTML = tasks.join("<br />")
-
-		for (var i = 0; i < tasks.length ; i++) {
-			//console.log(tasks[i]);
-		}
-
-		return wrapper;
-		}
-		else {
-			wrapper.innerHTML = "You have nothing to do."
-		}
+		
 		return wrapper;
 	}
 
