@@ -8,7 +8,7 @@ This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror)
 ## Usage
 The entry in `config.js` can include the following options.
 
-##### Required config options
+#### Required config options
 You can get an api key [here](https://developers.google.com/maps/documentation/directions/).
 ```
 api_key: 'your_apikey_here'
@@ -18,10 +18,10 @@ Address of starting/ending locations just as you would write them on an envelope
 origin: 'origin_address_here',
 destination: 'destination_address_here'
 ```
-##### Optional
+#### Optional
 Mode of transportation, default is driving, can also be walking, bicycling, or transit
 ```
-mode: driving
+mode: 'driving'
 ```
 Update interval in seconds, default is 60
 ```
@@ -34,16 +34,11 @@ Here is an example of an entry in `config.js`
 	position: 'top_left',
 	header: 'Traffic',
 	config: {
-		//your personal api key from link above
 		api_key: 'your_apikey_here',
-		//method of transportation, can be 'driving', 'walking', 'bicycling', 'transit'
-		mode: "driving",
-		//address of starting point
-		origin: "origin_address_here",
-		//address of destination
-		destination: "destination_address_here",
-		//update interval in seconds
-		interval: 60
+		mode: 'driving',
+		origin: ,
+		destination: ,
+		interval: 300
 	}
 },
 ```
