@@ -6,7 +6,7 @@ This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror)
 2. Execute `npm install` to install the node dependencies.
 
 ## Usage
-The entry in `config.js` can include the following options.
+The entry in `config.js` can include the following options:
 
 #### Required config options
 You can get an api key [here](https://developers.google.com/maps/documentation/directions/).
@@ -36,8 +36,8 @@ Here is an example of an entry in `config.js`
 	config: {
 		api_key: 'your_apikey_here',
 		mode: 'driving',
-		origin: ,
-		destination: ,
+		origin: '4 Pennsylvania Plaza, New York, NY 10001',
+		destination: '1 MetLife Stadium Dr, East Rutherford, NJ 07073',
 		interval: 300
 	}
 },
