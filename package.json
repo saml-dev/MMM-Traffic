@@ -1,24 +1,24 @@
 {
-  "name": "Magic-Mirror-Module-Wunderlist",
+  "name": "Magic-Mirror-Module-Traffic",
   "version": "1.0.0",
-  "description": "Wunderlist module for the Magic Mirror.",
+  "description": "Google Maps Traffic module for the Magic Mirror.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/paviro/MMM-Wunderlist"
+    "url": "git+https://github.com/SamLewis0602/MMM-Traffic"
   },
   "keywords": [
     "magic mirror",
     "smart mirror",
-    "wunderlist",
+    "traffic",
     "module"
   ],
-  "author": "Paul-Vincent Roll",
-  "contributors": "https://github.com/paviro/MMM-Wunderlist/graphs/contributors",
+  "author": "Sam Lewis",
+  "contributors": "https://github.com/SamLewis0602/MMM-Traffic/graphs/contributors",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/paviro/MMM-Wunderlist/issues"
+    "url": "https://github.com/SamLewis0602/MMM-Traffic/issues"
   },
-  "homepage": "https://github.com/paviro/MMM-Wunderlist#readme",
+  "homepage": "https://github.com/SamLewis0602/MMM-Traffic#readme",
   "dependencies": {
     "request": "latest"
     }
