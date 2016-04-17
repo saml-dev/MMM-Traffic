@@ -6,17 +6,34 @@ This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror)
 2. Execute `npm install` to install the node dependencies.
 
 ## Usage
-The entry in config.js can look like the following. You will need an `api_key`, you can get one [here](https://developers.google.com/maps/documentation/directions/).
+The entry in `config.js` can include the following options.
+
+### Required config options
+You can get an api key [here](https://developers.google.com/maps/documentation/directions/).
+`api_key: 'your_apikey_here'`
+
+Address of starting/ending locations just as you would write them on an envelope, i.e. "123 North Main Street Chicago, Illinois 55555"
+```
+origin: 'origin_address_here',
+destination: 'destination_address_here'
+```
+
+### Optional
+Mode of transportation, default is driving, can also be walking, bicycling, or transit
+`mode: driving`
+
+Update interval in seconds, default is 60
+`interval: 60`
 
 ```
 {
 	module: 'MMM-Traffic',
-	position: "top_left",
+	position: 'top_left',
 	header: 'Traffic',
 	config: {
 		//your personal api key from link above
-		api_key: "your_apikey_here",
-		//method of transportation, can be "driving", "walking", "bicycling", "transit"
+		api_key: 'your_apikey_here',
+		//method of transportation, can be 'driving', 'walking', 'bicycling', 'transit'
 		mode: "driving",
 		//address of starting point
 		origin: "origin_address_here",
