@@ -10,21 +10,24 @@ The entry in `config.js` can include the following options.
 
 ##### Required config options
 You can get an api key [here](https://developers.google.com/maps/documentation/directions/).
-`api_key: 'your_apikey_here'`
-
+```
+api_key: 'your_apikey_here'
+```
 Address of starting/ending locations just as you would write them on an envelope, i.e. "123 North Main Street Chicago, Illinois 55555"
 ```
 origin: 'origin_address_here',
 destination: 'destination_address_here'
 ```
-
 ##### Optional
 Mode of transportation, default is driving, can also be walking, bicycling, or transit
-`mode: driving`
-
+```
+mode: driving
+```
 Update interval in seconds, default is 60
-`interval: 60`
-
+```
+interval: 60
+```
+Here is an example of an entry in `config.js`
 ```
 {
 	module: 'MMM-Traffic',
