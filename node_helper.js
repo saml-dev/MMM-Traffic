@@ -1,9 +1,9 @@
 'use strict';
 
 /* Magic Mirror
- * Module: MMM-Wunderlist
+ * Module: MMM-Traffic
  *
- * By Paul-Vincent Roll http://paulvincentroll.com
+ * By Sam Lewis https://github.com/SamLewis0602
  * MIT Licensed.
  */
 
@@ -62,10 +62,10 @@ module.exports = NodeHelper.create({
     const self = this;
     if (notification === 'WUNDERLIST_CONFIG') {
       //Remove any existing timer
-      if(this.config.timers.length > 0){   
+      if(this.config.timers.length > 0){
         for (var i = 0; i < this.config.timers.length; i++) {
           clearInterval(this.config.timers[i]);
-        } 
+        }
       }
       this.config.lists = this.arrayUnique(this.config.lists.concat(payload.lists));
       this.config.access_token = payload.access_token
@@ -73,15 +73,15 @@ module.exports = NodeHelper.create({
       this.config.interval = payload.interval * 1000
       this.get_lists(function (data) {
         for (var i = 0; i < self.config.lists.length; i++) {
-  
+
             self.updateData(data,self, i)
             self.config.timers.push(setInterval(self.updateData, self.config.interval, data, self, i));
 
         }
-        
+
         self.sendSocketNotification('WUNDERLIST', {lists: data});
       })
     };
   }
-  
+
 });
