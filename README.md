@@ -1,59 +1,35 @@
-# MMM-Wunderlist
-This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror). It can display your Wunderlist todos. You can add multiple instances with different lists. Only one account supported.
+# MMM-Traffic
+This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror). It can display commute time between two given addresses by car, walking, or transit. The module uses the Google Maps Directions API to get commute time, which factors in traffic information.
 
 ## Installation
-1. Navigate into your MagicMirror's `modules` folder and execute `git clone https://github.com/paviro/MMM-Wunderlist.git`. A new folder will appear navigate into it.
+1. Navigate into your MagicMirror's `modules` folder and execute `git clone https://github.com/SamLewis0602/MMM-Traffic.git`. A new folder will appear, navigate into it.
 2. Execute `npm install` to install the node dependencies.
 
 ## Usage
-The entry in config.js can look like the following. You will need an `access_token` and a `client_id`, you can obtain them [here](https://developer.wunderlist.com/apps/new).
+The entry in config.js can look like the following. You will need an `api_key`, you can get one [here](https://developers.google.com/maps/documentation/directions/).
 
 ```
 {
-	module: 'MMM-Wunderlist',
-	position: "top_right",
-	header: 'Wunderlist',
+	module: 'MMM-Traffic',
+	position: "top_left",
+	header: 'Traffic',
 	config: {
-		access_token: "your_token_here",
-		client_id: "your_client_id_here",
-		//Array with the lists you want to display. Example: ["inbox", "ViRO Entertainment"]
-		lists: ["inbox"],
-		//Number of todos to be shown
-		maximumEntries: 10,
-		//Fade todos to black. (Gradient)
-		fade: true,
-		//Where to start the fade
-		fadePoint: 0.25,
-		//interval in seconds
+		//your personal api key from link above
+		api_key: "your_apikey_here",
+		//method of transportation, can be "driving", "walking", "bicycling", "transit"
+		mode: "driving",
+		//address of starting point
+		origin: "origin_address_here",
+		//address of destination
+		destination: "destination_address_here",
+		//update interval in seconds
 		interval: 60
 	}
 },
 ```
 
-## Important Notes
-- The node side of this script is proably not really efficient, I am glad it works at all. If you want to improve it, I am happy about pull requests!
-
 ## Dependencies
 - [request](https://www.npmjs.com/package/request) (installed via `npm install`)
 
-## Licenses
-The MIT License (MIT)
-
-Copyright (c) 2016 Paul-Vincent Roll
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+## Important Notes
+- This is my first project using Node, so feel free to submit pull requests or post on the issues/wiki and I will do my best to improve the project.
