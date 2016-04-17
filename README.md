@@ -8,7 +8,7 @@ This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror)
 ## Usage
 The entry in `config.js` can include the following options.
 
-### Required config options
+##### Required config options
 You can get an api key [here](https://developers.google.com/maps/documentation/directions/).
 `api_key: 'your_apikey_here'`
 
@@ -18,7 +18,7 @@ origin: 'origin_address_here',
 destination: 'destination_address_here'
 ```
 
-### Optional
+##### Optional
 Mode of transportation, default is driving, can also be walking, bicycling, or transit
 `mode: driving`
 
