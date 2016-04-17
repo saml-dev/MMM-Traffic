@@ -50,5 +50,5 @@ Here is an example of an entry in `config.js`
 - This is my first project using Node, so feel free to submit pull requests or post on the issues/wiki and I will do my best to improve the project.
 
 ## Special Thanks
-- MichMich for creating the awesome [MagicMirror2](https://github.com/MichMich/MagicMirror/tree/v2-beta) project that made this module possible.
-- paviro for creating the [Wunderlist](https://github.com/paviro/MMM-Wunderlist) module that I used as guidance in creating this module.
+- [Michael Teeuw](https://github.com/MichMich) for creating the awesome [MagicMirror2](https://github.com/MichMich/MagicMirror/tree/v2-beta) project that made this module possible.
+- [Paul-Vincent Roll](https://github.com/paviro) for creating the [Wunderlist](https://github.com/paviro/MMM-Wunderlist) module that I used as guidance in creating this module.
