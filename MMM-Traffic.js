@@ -32,7 +32,7 @@ Module.register('MMM-Traffic',{
 				if (this.status === 200) {
 					self.traffic = JSON.parse(this.response);
 					Log.log(self.traffic);
-					self.updateDom(1000);
+//					self.updateDom(1000);
 				}
 			}
 		};
@@ -40,6 +40,8 @@ Module.register('MMM-Traffic',{
 	},
 
 	getDom: function() {
+		this.getDirections();
+
 		var wrapper = document.createElement("div");
 		wrapper.className = "normal medium"
 
