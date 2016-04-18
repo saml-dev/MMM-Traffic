@@ -71,9 +71,6 @@ Module.register('MMM-Traffic',{
 			this.config.commute = payload;
 			this.loaded = true;
 			this.updateDom(1000);
-			setInterval(function() {
-				this.updateDom(1000);
-			}, this.config.interval * 1000);
 		}
 	}
 
