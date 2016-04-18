@@ -37,7 +37,7 @@ Module.register('MMM-Traffic',{
 		}
 		var wrapper = document.createElement('div');
 		var table = document.createElement("table");
-		table.className = "bright medium";
+		table.className = "bright small";
 		table.style.width = '100%';
 		var row = document.createElement("tr");
 
@@ -57,6 +57,7 @@ Module.register('MMM-Traffic',{
 		trafficInfo.innerHTML = "Current commute is " + this.config.commute;
 		row.appendChild(trafficInfo);
 
+		//add to wrapper
 		table.appendChild(row);
 		wrapper.appendChild(table);
 		return wrapper;
