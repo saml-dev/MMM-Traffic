@@ -24,10 +24,11 @@ Module.register('MMM-Traffic',{
 	getDirections: function() {
 		Log.error("in getDirections")
 		var url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
+		Log.error(url)
 
 		var self = this;
 		var api = new XMLHttpRequest();
-		api.open('GET', this.url, true);
+		api.open('GET', url, true);
 		api.onreadystatechange = function(callback) {
 			// if (this.readystate === 4) {
 			// 	if (this.status === 200) {
