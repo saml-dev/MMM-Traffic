@@ -44,6 +44,7 @@ Module.register('MMM-Traffic',{
 		symbolWrapper.className = 'symbol';
 		var symbol = document.createElement('span');
 		symbol.className = this.symbols[this.config.mode];
+		Log.error(this.symbols[this.config.mode]);
 		symbolWrapper.appendChild(symbol);
 		row.appendChild(symbolWrapper);
 
