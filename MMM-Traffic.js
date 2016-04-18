@@ -30,6 +30,7 @@ Module.register('MMM-Traffic',{
 			if (this.readystate === 4) {
 				if (this.status === 200) {
 					self.traffic = JSON.parse(this.response);
+					console.log(self.traffic);
 					self.updateDom(1000);
 				}
 			}
@@ -43,7 +44,7 @@ Module.register('MMM-Traffic',{
 
 		var duration = this.traffic.routes[0].legs[0].duration.text;
 		wrapper.innerHTML = "Current commute is " + duration;
-		
+
 		return wrapper;
 	},
 
