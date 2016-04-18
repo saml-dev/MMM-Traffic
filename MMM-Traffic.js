@@ -38,23 +38,19 @@ Module.register('MMM-Traffic',{
 		var wrapper = document.createElement('div');
 		var table = document.createElement("table");
 		table.className = "bright medium";
-		table.style.font-size = '90%';
-		table.style.width = '100%';
 		var row = document.createElement("tr");
 
 		//symbol
 		var symbolWrapper = document.createElement("td");
 		symbolWrapper.className = 'symbol';
-		symbolWrapper.style.marginRight = '25px';
 		var symbol = document.createElement('span');
-		symbol.className = this.symbols[this.config.mode];
-		Log.error(this.symbols[this.config.mode]);
+		symbol.className = this.symbols[this.config.mode] + ' symbol';
 		symbolWrapper.appendChild(symbol);
 		row.appendChild(symbolWrapper);
 
 		//commute time
 		var trafficInfo = document.createElement('td');
-		trafficInfo.style.align = 'right';
+		trafficInfo.className = 'trafficInfo';
 		trafficInfo.innerHTML = "Current commute is " + this.config.commute;
 		row.appendChild(trafficInfo);
 
