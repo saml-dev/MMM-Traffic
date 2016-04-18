@@ -33,7 +33,8 @@ Module.register('MMM-Traffic',{
 				//this.updateCommute(this);
     },
 
-    updateCommute: function(self) {
+    updateCommute: function(self)
+			Log.info(self.url);
         self.sendSocketNotification('TRAFFIC_URL', self.url);
 				setTimeout(self.updateCommute, self.config.interval * 1000, self);
     },
