@@ -27,28 +27,31 @@ Module.register('MMM-Traffic',{
 		var self = this;
 		var api = new XMLHttpRequest();
 		api.open('GET', this.url, true);
-		api.onreadystatechange = function() {
-			if (this.readystate === 4) {
-				if (this.status === 200) {
+		api.onreadystatechange = function(callback) {
+			// if (this.readystate === 4) {
+			// 	if (this.status === 200) {
 					self.traffic = JSON.parse(this.response);
 					Log.log(self.traffic);
+					callback();
 //					self.updateDom(1000);
-				}
-			}
+			// 	}
+			// }
 		};
 		api.send();
 	},
 
 	getDom: function() {
-		this.getDirections();
+		this.getDirections(function() {
+			var wrapper = document.createElement("div");
+			wrapper.className = "normal medium"
 
-		var wrapper = document.createElement("div");
-		wrapper.className = "normal medium"
+			var duration = this.traffic.routes[0].legs[0].duration.text;
+			wrapper.innerHTML = "Current commute is " + duration;
 
-		var duration = this.traffic.routes[0].legs[0].duration.text;
-		wrapper.innerHTML = "Current commute is " + duration;
+			return wrapper;
+		});
 
-		return wrapper;
+
 	},
 
 	getParams: function() {
