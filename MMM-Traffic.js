@@ -22,39 +22,20 @@ Module.register('MMM-Traffic',{
 	},
 
 	getDirections: function(callback) {
-		Log.error("in getDirections")
-		var url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
-		Log.error(url)
 
-		var self = this;
-		var api = new XMLHttpRequest();
-		api.open('GET', url, true);
-		api.onreadystatechange = function(callback) {
-			// if (this.readystate === 4) {
-			// 	if (this.status === 200) {
-					self.traffic = JSON.parse(this.response);
-					Log.log(self.traffic);
-					callback();
-//					self.updateDom(1000);
-			// 	}
-			// }
-		};
-		api.send();
 	},
 
 	getDom: function() {
 		Log.error("in getDom")
-		this.getDirections(function() {
-			var wrapper = document.createElement("div");
-			wrapper.className = "normal medium"
 
-			var duration = this.traffic.routes[0].legs[0].duration.text;
-			wrapper.innerHTML = "Current commute is " + duration;
+		var wrapper = document.createElement("div");
+		wrapper.className = "normal medium"
 
-			return wrapper;
-		});
+		var duration = this.traffic.routes[0].legs[0].duration.text;
+		wrapper.innerHTML = "Current commute is " + duration;
 
-
+		return wrapper;
+	
 	},
 
 	getParams: function() {
