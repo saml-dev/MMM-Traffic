@@ -21,7 +21,7 @@ Module.register('MMM-Traffic',{
 		Log.info('Starting module: ' + this.name);
 	},
 
-	getDirections: function() {
+	getDirections: function(callback) {
 		Log.error("in getDirections")
 		var url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
 		Log.error(url)
