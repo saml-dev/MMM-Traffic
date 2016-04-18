@@ -22,6 +22,7 @@ Module.register('MMM-Traffic',{
 	},
 
 	getDirections: function() {
+		Log.error("in getDirections")
 		var url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
 
 		var self = this;
@@ -41,6 +42,7 @@ Module.register('MMM-Traffic',{
 	},
 
 	getDom: function() {
+		Log.error("in getDom")
 		this.getDirections(function() {
 			var wrapper = document.createElement("div");
 			wrapper.className = "normal medium"
