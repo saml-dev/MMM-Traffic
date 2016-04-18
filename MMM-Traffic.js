@@ -37,7 +37,8 @@ Module.register('MMM-Traffic',{
 		}
 		var wrapper = document.createElement('div');
 		var table = document.createElement("table");
-		table.className = "bright small";
+		table.className = "bright medium";
+		table.style.font-size = '90%';
 		table.style.width = '100%';
 		var row = document.createElement("tr");
 
