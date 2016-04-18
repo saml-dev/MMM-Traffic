@@ -28,7 +28,7 @@ Module.register('MMM-Traffic',{
 		this.symbols['walking'] = 'fa fa-odnoklassniki';
 		this.symbols['bicycling'] = 'fa fa-bicycle';
 		this.symbols['transit'] = 'fa fa-train';
-		this.sendSocketNotification('TRAFFIC_URL', this.url);
+		this.updateCommute();
 		var self = this;
 		setInterval(this.updateCommute, this.config.interval * 1000, self);
 	},
