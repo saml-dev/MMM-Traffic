@@ -35,6 +35,7 @@ Module.register('MMM-Traffic',{
 			wrapper.innerHTML = "Loading commute...";
 			return wrapper;
 		}
+		var wrapper = document.createElement('div');
 		var table = document.createElement("table");
 		table.className = "bright medium";
 		var row = document.createElement("tr");
@@ -42,6 +43,7 @@ Module.register('MMM-Traffic',{
 		//symbol
 		var symbolWrapper = document.createElement("td");
 		symbolWrapper.className = 'symbol';
+		symbolWrapper.style.marginRight = '5px';
 		var symbol = document.createElement('span');
 		symbol.className = this.symbols[this.config.mode];
 		Log.error(this.symbols[this.config.mode]);
@@ -54,7 +56,8 @@ Module.register('MMM-Traffic',{
 		row.appendChild(trafficInfo);
 
 		table.appendChild(row);
-		return table;
+		wrapper.appendChild(table);
+		return wrapper;
 	},
 
 	getParams: function() {
