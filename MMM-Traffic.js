@@ -38,7 +38,6 @@ Module.register('MMM-Traffic',{
 		wrapper.innerHTML = "Current commute is " + duration;
 
 		return wrapper;
-
 	},
 
 	getParams: function() {
@@ -51,7 +50,9 @@ Module.register('MMM-Traffic',{
 	},
 
 	socketNotificationReceived: function(notification, payload) {
+		Log.error('got socket');
 		if (notification === 'TRAFFIC_COMMUTE') {
+			Log.error('in if statement');
 			this.config.commute = payload;
 			this.updateDom(1000);
 		}
