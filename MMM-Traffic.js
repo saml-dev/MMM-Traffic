@@ -31,7 +31,7 @@ Module.register('MMM-Traffic',{
 
 	getStyles: function() {
 		return ['traffic.css'];
-	}
+	},
 
 	getDom: function() {
 		if (!this.loaded) {
