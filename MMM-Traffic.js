@@ -19,11 +19,11 @@ Module.register('MMM-Traffic',{
 
 	start: function() {
 		Log.info('Starting module: ' + this.name);
-		this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
-		this.getDirections();
 	},
 
 	getDirections: function() {
+		var url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
+
 		var self = this;
 		var api = new XMLHttpRequest();
 		api.open('GET', this.url, true);
@@ -57,5 +57,7 @@ Module.register('MMM-Traffic',{
 		params += '&key=' + this.config.api_key;
 		return params;
 	}
+
+	this.getDirections();
 
 });
