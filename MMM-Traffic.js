@@ -22,7 +22,7 @@ Module.register('MMM-Traffic',{
 	start: function() {
 		Log.info('Starting module: ' + this.name);
 		this.loaded = false;
-		this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
+		this.config.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
 		this.symbols = {};
 		this.symbols['driving'] = 'fa fa-car';
 		this.symbols['walking'] = 'fa fa-odnoklassniki';
@@ -35,7 +35,7 @@ Module.register('MMM-Traffic',{
 
 	updateCommute: function(self) {
 		Log.info("in updateCommute");
-		self.sendSocketNotification('TRAFFIC_URL', self.url);
+		self.sendSocketNotification('TRAFFIC_URL', self.config.url);
 	},
 
 	getStyles: function() {
