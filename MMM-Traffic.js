@@ -14,7 +14,9 @@ Module.register('MMM-Traffic',{
 		mode: 'driving',
 		interval: 60,
 		origin: '',
-		destination: ''
+		destination: '',
+		traffic_model: 'best_guess',
+		departure_time: 'now'
 	},
 
 	start: function() {
@@ -71,6 +73,8 @@ Module.register('MMM-Traffic',{
 		params += '&origin=' + this.config.origin;
 		params += '&destination=' + this.config.destination;
 		params += '&key=' + this.config.api_key;
+		params += '&traffic_model=' + this.config.traffic_model;
+		params += '&departure_time=now';
 		return params;
 	},
 

@@ -20,7 +20,7 @@ module.exports = NodeHelper.create({
     request({url: this.url, method: 'GET'}, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         console.log(body);
-        var commute = JSON.parse(body).routes[0].legs[0].duration.text;
+        var commute = JSON.parse(body).routes[0].legs[0].duration_in_traffic.text;
         self.sendSocketNotification('TRAFFIC_COMMUTE', commute);
       }
     })
