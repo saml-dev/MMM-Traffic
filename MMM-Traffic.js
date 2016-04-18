@@ -20,6 +20,7 @@ Module.register('MMM-Traffic',{
 	start: function() {
 		Log.info('Starting module: ' + this.name);
 		this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
+		this.getDirections();
 	},
 
 	getDirections: function() {
