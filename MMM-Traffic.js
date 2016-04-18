@@ -54,7 +54,7 @@ Module.register('MMM-Traffic',{
 		row.appendChild(trafficInfo);
 
 		table.appendChild(row);
-		return wrapper;
+		return table;
 	},
 
 	getParams: function() {
@@ -69,7 +69,7 @@ Module.register('MMM-Traffic',{
 	socketNotificationReceived: function(notification, payload) {
 		if (notification === 'TRAFFIC_COMMUTE') {
 			this.config.commute = payload;
-			this.loaded = false;
+			this.loaded = true;
 			this.updateDom(1000);
 		}
 	}
