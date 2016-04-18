@@ -21,6 +21,7 @@ Module.register('MMM-Traffic',{
 
 	start: function() {
 		Log.info('Starting module: ' + this.name);
+		var self = this;
 		this.loaded = false;
 		this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
 		this.symbols = {};
@@ -33,7 +34,7 @@ Module.register('MMM-Traffic',{
 	},
 
 	updateCommute: function() {
-		this.sendSocketNotification('TRAFFIC_URL', this.url);
+		self.sendSocketNotification('TRAFFIC_URL', this.url);
 	},
 
 	getStyles: function() {
