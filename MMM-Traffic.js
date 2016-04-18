@@ -21,6 +21,7 @@ Module.register('MMM-Traffic',{
 
 	start: function() {
 		Log.info('Starting module: ' + this.name);
+		const self = this;
 		this.loaded = false;
 		this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
 		this.symbols = {};
@@ -29,7 +30,7 @@ Module.register('MMM-Traffic',{
 		this.symbols['bicycling'] = 'fa fa-bicycle';
 		this.symbols['transit'] = 'fa fa-train';
 		this.sendSocketNotification('TRAFFIC_URL', this.url);
-		setInterval(this.updateCommute, this.config.interval * 1000, this);
+		setInterval(this.updateCommute, this.config.interval * 1000, self);
 	},
 
 	updateCommute: function(self) {
