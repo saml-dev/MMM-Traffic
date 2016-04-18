@@ -17,36 +17,43 @@ Module.register('MMM-Traffic',{
 		destination: ''
 	},
 
-	// Override socket notification handler.
-	socketNotificationReceived: function(notification, payload) {
-		if (notification === "TRAFFIC"){
-
-			//console.log(this.tasks.inbox[0]);
-			this.updateDom(1000);
-		}
-	},
-
 	start: function() {
-		this.tasks = []
-		this.sendSocketNotification('WUNDERLIST_CONFIG', this.config);
 		Log.info('Starting module: ' + this.name);
+		this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
 	},
 
+	getDirections: function() {
+		var self = this;
+		var api = new XMLHttpRequest();
+		api.open('GET', this.url, true);
+		api.onreadystatechange = function() {
+			if (this.readystate === 4) {
+				if (this.status === 200) {
+					self.traffic = JSON.parse(this.response);
+					self.updateDom(1000);
+				}
+			}
+		};
+		api.send();
 	},
+
 	getDom: function() {
-		var wrapper = document.createElement("table");
-		wrapper.className = "normal small light"
+		var wrapper = document.createElement("div");
+		wrapper.className = "normal medium"
 
-		var todos = this.getTodos()
-		console.log(todos);
-
-		for (var i = 0; i < todos.length; i++) {
-			var titleWrapper =  document.createElement("tr");
-			titleWrapper.innerHTML = todos[i];
-			titleWrapper.className = "title bright";
-			wrapper.appendChild(titleWrapper);
-		}
+		var duration = this.traffic.routes[0].legs[0].duration.text;
+		wrapper.innerHTML = "Current commute is " + duration;
+		
 		return wrapper;
+	},
+
+	getParams: function() {
+		var params = '?';
+		params += 'mode=' + this.config.mode;
+		params += '&origin=' + this.config.origin;
+		params += '&destination=' + this.config.destination;
+		params += '&key=' + this.config.api_key;
+		return params;
 	}
 
 });
