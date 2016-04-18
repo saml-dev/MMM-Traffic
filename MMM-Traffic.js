@@ -42,7 +42,7 @@ Module.register('MMM-Traffic',{
 	},
 
 	getParams: function() {
-		var this.config.params = '?';
+		this.config.params = '?';
 		params += 'mode=' + this.config.mode;
 		params += '&origin=' + this.config.origin;
 		params += '&destination=' + this.config.destination;
