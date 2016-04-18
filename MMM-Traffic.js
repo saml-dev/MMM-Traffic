@@ -42,12 +42,12 @@ Module.register('MMM-Traffic',{
 	},
 
 	getParams: function() {
-		this.config.params = '?';
+		this.params = '?';
 		params += 'mode=' + this.config.mode;
 		params += '&origin=' + this.config.origin;
 		params += '&destination=' + this.config.destination;
 		params += '&key=' + this.config.api_key;
-		return this.config.params;
+		return this.params;
 	},
 
 	socketNotificationReceived: function(notification, payload) {
