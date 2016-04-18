@@ -27,6 +27,7 @@ Module.register('MMM-Traffic',{
 		this.symbols['bicycling'] = 'fa fa-bicycle';
 		this.symbols['transit'] = 'fa fa-train';
 		this.sendSocketNotification('TRAFFIC_URL', this.url);
+		setInterval(this.sendSocketNotification('TRAFFIC_URL',this.url), this.config.interval * 1000);
 	},
 
 	getStyles: function() {
