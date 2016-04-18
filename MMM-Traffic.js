@@ -32,7 +32,7 @@ Module.register('MMM-Traffic',{
 		}
 
 		var wrapper = document.createElement("div");
-		wrapper.className = "normal medium"
+		wrapper.className = "bright medium"
 
 		var duration = this.config.commute;
 		wrapper.innerHTML = "Current commute is " + duration;
