@@ -31,7 +31,7 @@ Module.register('MMM-Traffic',{
 			if (this.readystate === 4) {
 				if (this.status === 200) {
 					self.traffic = JSON.parse(this.response);
-					console.log(self.traffic);
+					Log.info(self.traffic);
 					self.updateDom(1000);
 				}
 			}
