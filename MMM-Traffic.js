@@ -35,7 +35,7 @@ Module.register('MMM-Traffic',{
 
 	updateCommute: function(self) {
 		Log.info("in updateCommute");
-		self.sendSocketNotification('TRAFFIC_URL', this.url);
+		self.sendSocketNotification('TRAFFIC_URL', self.url);
 	},
 
 	getStyles: function() {
