@@ -53,7 +53,7 @@ Module.register('MMM-Traffic',{
 
 		//commute time
 		var trafficInfo = document.createElement('td');
-		trafficInfo.style.aligh = 'right';
+		trafficInfo.style.align = 'right';
 		trafficInfo.innerHTML = "Current commute is " + this.config.commute;
 		row.appendChild(trafficInfo);
 
