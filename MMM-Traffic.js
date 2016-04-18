@@ -26,8 +26,8 @@ Module.register('MMM-Traffic',{
 
 	getDom: function() {
 		if (!this.loaded) {
-			var wrapper = document.createElement('div');
-			wrapper.innerHTML('Loading commute...');
+			var wrapper = document.createElement("div");
+			wrapper.innerHTML("Loading commute...");
 			return wrapper;
 		}
 
