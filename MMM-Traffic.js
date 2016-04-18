@@ -29,11 +29,11 @@ Module.register('MMM-Traffic',{
 		this.symbols['bicycling'] = 'fa fa-bicycle';
 		this.symbols['transit'] = 'fa fa-train';
 		this.sendSocketNotification('TRAFFIC_URL', this.url);
-		setInterval(this.updateCommute, this.config.interval * 1000);
+		setInterval(this.updateCommute, this.config.interval * 1000, this);
 	},
 
-	updateCommute: function() {
-		this.sendSocketNotification('TRAFFIC_URL', this.url);
+	updateCommute: function(self) {
+		self.sendSocketNotification('TRAFFIC_URL', this.url);
 	},
 
 	getStyles: function() {
