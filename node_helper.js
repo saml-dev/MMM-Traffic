@@ -30,6 +30,7 @@ module.exports = NodeHelper.create({
   socketNotificationReceived: function(notification, payload) {
     if (notification === 'TRAFFIC_URL') {
       this.url = payload;
+      this.getCommute();
     }
   }
 
