@@ -21,6 +21,11 @@ Module.register('MMM-Traffic',{
 		Log.info('Starting module: ' + this.name);
 		this.loaded = false;
 		this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
+		this.symbols = {};
+		this.symbols['driving'] = 'fa fa-car';
+		this.symbols['walking'] = 'fa fa-odnoklassniki';
+		this.symbols['bicycling'] = 'fa fa-bicycle';
+		this.symbols['transit'] = 'fa fa-train';
 		this.sendSocketNotification('TRAFFIC_URL', this.url);
 	},
 
@@ -30,13 +35,24 @@ Module.register('MMM-Traffic',{
 			wrapper.innerHTML = "Loading commute...";
 			return wrapper;
 		}
+		var table = document.createElement("table");
+		table.className = "bright medium";
+		var row = document.createElement("tr");
 
-		var wrapper = document.createElement("div");
-		wrapper.className = "bright medium"
+		//symbol
+		var symbolWrapper = document.createElement("td");
+		symbolWrapper.className = 'symbol';
+		var symbol = document.createElement('span');
+		symbol.className = this.symbols[this.config.mode];
+		symbolWrapper.appendChild(symbol);
+		row.appendChild(symbolWrapper);
 
-		var duration = this.config.commute;
-		wrapper.innerHTML = "Current commute is " + duration;
+		//commute time
+		var trafficInfo = document.createElement('td');
+		trafficInfo.innerHTML = "Current commute is " + this.config.commute;
+		row.appendChild(trafficInfo);
 
+		table.appendChild(row);
 		return wrapper;
 	},
 
@@ -54,6 +70,9 @@ Module.register('MMM-Traffic',{
 			this.config.commute = payload;
 			this.loaded = true;
 			this.updateDom(1000);
+			setInterval(function() {
+				this.updateDom(1000);
+			}, this.config.interval * 1000);
 		}
 	}
 
