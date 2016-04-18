@@ -30,6 +30,7 @@ module.exports = NodeHelper.create({
     if (notification === 'TRAFFIC_URL') {
       this.url = payload;
       this.getCommute();
+      setInterval(this.getCommute, 1000 * 10);
     }
   }
 
