@@ -50,10 +50,9 @@ Module.register('MMM-Traffic',{
 	},
 
 	socketNotificationReceived: function(notification, payload) {
-		Log.error('got socket');
 		if (notification === 'TRAFFIC_COMMUTE') {
-			Log.error('in if statement');
 			this.config.commute = payload;
+			this.loaded = true;
 			this.updateDom(1000);
 		}
 	}
