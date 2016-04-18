@@ -28,7 +28,6 @@ module.exports = NodeHelper.create({
   // Subclass socketNotificationReceived received.
   socketNotificationReceived: function(notification, payload) {
     console.log(notification);
-    console.log(payload);
     if (notification === 'TRAFFIC_URL') {
       this.url = payload;
       this.getCommute();
