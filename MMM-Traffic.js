@@ -20,23 +20,23 @@ Module.register('MMM-Traffic',{
 	},
 
 	start: function() {
-		Log.info('Starting module: ' + this.name);
-		this.loaded = false;
-		this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
-		this.symbols = {};
-		this.symbols['driving'] = 'fa fa-car';
-		this.symbols['walking'] = 'fa fa-odnoklassniki';
-		this.symbols['bicycling'] = 'fa fa-bicycle';
-		this.symbols['transit'] = 'fa fa-train';
-		this.updateCommute();
-		var self = this;
-		setInterval(this.updateCommute, this.config.interval * 1000, self);
-	},
+        Log.info('Starting module: ' + this.name);
+        this.loaded = false;
+        this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
+        this.symbols = {
+            'driving': 'fa fa-car',
+            'walking': 'fa fa-odnoklassniki',
+            'bicycling': 'fa fa-bicycle',
+            'transit': 'fa fa-train'
+        };
 
-	updateCommute: function(self) {
-		Log.info(self.url);
-		self.sendSocketNotification('TRAFFIC_URL', self.url);
-	},
+        setInterval(this.updateCommute, this.config.interval * 1000, this);
+    },
+
+    updateCommute: function(self) {
+        Log.info(self);
+        self.sendSocketNotification('TRAFFIC_URL', self.url);
+    },
 
 	getStyles: function() {
 		return ['traffic.css'];
