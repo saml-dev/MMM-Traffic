@@ -29,6 +29,10 @@ Module.register('MMM-Traffic',{
 		this.sendSocketNotification('TRAFFIC_URL', this.url);
 	},
 
+	getStyles: function() {
+		return ['traffic.css'];
+	}
+
 	getDom: function() {
 		if (!this.loaded) {
 			var wrapper = document.createElement("div");
