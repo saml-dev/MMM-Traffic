@@ -30,12 +30,12 @@ Module.register('MMM-Traffic',{
             'transit': 'fa fa-train'
         };
 
-				this.updateCommute(this);
+				//this.updateCommute(this);
     },
 
     updateCommute: function(self) {
         self.sendSocketNotification('TRAFFIC_URL', self.url);
-				setTimeout(self.updateCommute, self.config.interval * 1000);
+				setTimeout(self.updateCommute, self.config.interval * 1000, self);
     },
 
 	getStyles: function() {
