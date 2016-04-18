@@ -33,9 +33,11 @@ Module.register('MMM-Traffic',{
 	},
 
 	startCycle: function() {
+		var interval = this.config.interval * 1000;
+		var self = this;
 		setInterval(function(){
-			this.sendSocketNotification('TRAFFIC_URL', this.url);
-		}, this.config.interval * 1000);
+			self.sendSocketNotification('TRAFFIC_URL', this.url);
+		}, interval);
 	},
 
 	getStyles: function() {
