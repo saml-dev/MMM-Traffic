@@ -19,7 +19,6 @@ module.exports = NodeHelper.create({
     var self = this;
     request({url: this.url, method: 'GET'}, function(error, response, body) {
       if (!error && response.statusCode == 200) {
-        console.log(body);
         var commute = JSON.parse(body).routes[0].legs[0].duration_in_traffic.value;
         self.sendSocketNotification('TRAFFIC_COMMUTE', commute);
       }
@@ -29,6 +28,7 @@ module.exports = NodeHelper.create({
   // Subclass socketNotificationReceived received.
   socketNotificationReceived: function(notification, payload) {
     if (notification === 'TRAFFIC_URL') {
+      Log.info('got TRAFFIC_URL notification');
       this.url = payload;
       this.getCommute();
     }
