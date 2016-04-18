@@ -29,7 +29,7 @@ Module.register('MMM-Traffic',{
 		this.symbols['bicycling'] = 'fa fa-bicycle';
 		this.symbols['transit'] = 'fa fa-train';
 		this.sendSocketNotification('TRAFFIC_URL', this.url);
-		startCycle();
+		this.startCycle();
 	},
 
 	startCycle: function() {
