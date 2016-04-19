@@ -30,7 +30,7 @@ Module.register('MMM-Traffic', {
             'transit': 'fa fa-train'
         };
         this.updateCommute(this);
-				setInterval(this.updateCommute, this.config.interval, this);
+				//setInterval(this.updateCommute, this.config.interval, this);
     },
 
     updateCommute: function(self) {
