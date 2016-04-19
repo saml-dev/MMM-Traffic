@@ -29,12 +29,13 @@ Module.register('MMM-Traffic', {
             'bicycling': 'fa fa-bicycle',
             'transit': 'fa fa-train'
         };
-        this.updateCommute(this);
-				setInterval(this.updateCommute, this.config.interval, this);
+        this.updateCommute();
     },
 
-    updateCommute: function(self) {
+    updateCommute: function() {
+				var self = this;
         self.sendSocketNotification('TRAFFIC_URL', self.url);
+				setTimeout(self.updateCommute, self.config.interval);
     },
 
     getStyles: function() {
