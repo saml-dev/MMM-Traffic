@@ -33,9 +33,11 @@ Module.register('MMM-Traffic', {
     },
 
     updateCommute: function() {
-				var self = this;
+        var self = this;
         self.sendSocketNotification('TRAFFIC_URL', self.url);
-				setTimeout(self.updateCommute, self.config.interval);
+        setTimeout(function() {
+            self.updateCommute();
+        }, self.config.interval);
     },
 
     getStyles: function() {
