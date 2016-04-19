@@ -19,9 +19,13 @@ origin: 'origin_address_here',
 destination: 'destination_address_here'
 ```
 #### Optional
-Mode of transportation, default is driving, can also be walking, bicycling, or transit
+Mode of transportation, default is 'driving', can also be 'walking', 'bicycling', or 'transit'
 ```
 mode: 'driving'
+```
+What kind of traffic estimate you want, default is 'best_guess'. Can also be 'optimistic' or 'pessimistic'.
+```
+traffic_model: 'optimistic'
 ```
 Update interval in milliseconds, default is 300000 (5 minutes)
 ```
@@ -38,7 +42,8 @@ Here is an example of an entry in `config.js`
 		mode: 'driving',
 		origin: '4 Pennsylvania Plaza, New York, NY 10001',
 		destination: '1 MetLife Stadium Dr, East Rutherford, NJ 07073',
-		interval: 120000
+		traffic_model: 'pessimistic',
+		interval: 120000 //2 minutes
 	}
 },
 ```
