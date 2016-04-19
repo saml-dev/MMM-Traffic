@@ -1,5 +1,3 @@
-'use strict';
-
 /* Magic Mirror
  * Module: MMM-Traffic
  *
@@ -7,12 +5,13 @@
  * MIT Licensed.
  */
 
-const NodeHelper = require('node_helper');
+var NodeHelper = require('node_helper');
 var request = require('request');
 
 module.exports = NodeHelper.create({
   start: function () {
     this.url = '';
+    console.log('MMM-Traffic helper started ...');
   },
 
   getCommute: function() {
@@ -22,10 +21,10 @@ module.exports = NodeHelper.create({
         var commute = JSON.parse(body).routes[0].legs[0].duration_in_traffic.text;
         self.sendSocketNotification('TRAFFIC_COMMUTE', commute);
       }
-    })
+    });
   },
 
-  // Subclass socketNotificationReceived received.
+  //Subclass socketNotificationReceived received.
   socketNotificationReceived: function(notification, payload) {
     console.log(notification);
     if (notification === 'TRAFFIC_URL') {

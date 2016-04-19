@@ -12,7 +12,7 @@ Module.register('MMM-Traffic',{
 	defaults: {
 		api_key: '',
 		mode: 'driving',
-		interval: 60,
+		interval: 1000, //all modules use milliseconds
 		origin: '',
 		destination: '',
 		traffic_model: 'best_guess',
@@ -30,12 +30,15 @@ Module.register('MMM-Traffic',{
             'transit': 'fa fa-train'
         };
 
-				//this.updateCommute(this);
-        setInterval(this.updateCommute, this.config.interval * 1000, this);
+		this.updateCommute();
     },
 
-    updateCommute: function(self) {
+    updateCommute: function() {
+    	var self = this;
         self.sendSocketNotification('TRAFFIC_URL', self.url);
+        setTimeout(function() {
+        	self.updateCommute();
+        }, self.config.interval);
     },
 
 	getStyles: function() {
@@ -43,12 +46,13 @@ Module.register('MMM-Traffic',{
 	},
 
 	getDom: function() {
+		var wrapper = document.createElement("div");
+
 		if (!this.loaded) {
-			var wrapper = document.createElement("div");
 			wrapper.innerHTML = "Loading commute...";
 			return wrapper;
 		}
-		var wrapper = document.createElement('div');
+
 		var table = document.createElement("table");
 		table.className = "bright medium";
 		var row = document.createElement("tr");
