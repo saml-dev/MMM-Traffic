@@ -1,5 +1,5 @@
 # MMM-Traffic
-This an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror). It can display commute time between two given addresses by car, walking, or transit. The module uses the Google Maps Directions API to get commute time, which factors in traffic information.
+This a module for the [MagicMirror](https://github.com/MichMich/MagicMirror/tree/v2-beta). It can display commute time between two given addresses by car, walking, or transit. The module uses the Google Maps Directions API to get commute time, which factors in traffic information.
 
 ## Installation
 1. Navigate into your MagicMirror's `modules` folder and execute `git clone https://github.com/SamLewis0602/MMM-Traffic.git`. A new folder will appear, navigate into it.
