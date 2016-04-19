@@ -23,9 +23,9 @@ Mode of transportation, default is driving, can also be walking, bicycling, or t
 ```
 mode: 'driving'
 ```
-Update interval in seconds, default is 60
+Update interval in milliseconds, default is 300000 (5 minutes)
 ```
-interval: 60
+interval: 120000 //2 minutes
 ```
 Here is an example of an entry in `config.js`
 ```
@@ -38,7 +38,7 @@ Here is an example of an entry in `config.js`
 		mode: 'driving',
 		origin: '4 Pennsylvania Plaza, New York, NY 10001',
 		destination: '1 MetLife Stadium Dr, East Rutherford, NJ 07073',
-		interval: 300
+		interval: 120000
 	}
 },
 ```
