@@ -53,7 +53,7 @@ Here is an example of an entry in `config.js`
 {
 	module: 'MMM-Traffic',
 	position: 'top_left',
-	classes: 'bright medium',
+	classes: 'dimmed medium', //optional, default is 'bright medium', only applies to commute info
 	config: {
 		api_key: 'your_apikey_here',
 		mode: 'driving',
