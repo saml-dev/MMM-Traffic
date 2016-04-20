@@ -20,7 +20,7 @@ Module.register('MMM-Traffic', {
         loadingText: 'Loading commute...',
         prependText: 'Current commute is',
         language: config.language,
-        classes: 'bright medium'
+        mainClass: 'bright medium'
     },
 
     start: function() {
@@ -48,7 +48,8 @@ Module.register('MMM-Traffic', {
 
     getDom: function() {
         var wrapper = document.createElement("div");
-        wrapper.className = 'maindiv';
+        wrapper.className = this.config.mainClass + ' maindiv';
+
 
         if (!this.loaded) {
             wrapper.innerHTML = this.config.loadingText;
