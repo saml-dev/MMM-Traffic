@@ -48,6 +48,7 @@ Module.register('MMM-Traffic', {
 
     getDom: function() {
         var wrapper = document.createElement("div");
+        wrapper.className = 'maindiv';
         wrapper.className = this.config.mainClass;
 
 

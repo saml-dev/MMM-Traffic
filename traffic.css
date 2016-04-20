@@ -1,10 +1,13 @@
+.maindiv {
+  width: 100%;
+}
+
 .symbol {
   margin-right: 18px;
 }
 
 .trafficInfo {
   text-align: right;
-  width: 100%;
 }
 
 .routeName {
