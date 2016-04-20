@@ -1,8 +1,8 @@
-.maindiv .symbol {
+.symbol {
   float: left;
 }
 
-.maindiv .trafficInfo {
+.trafficInfo {
   float: right;
 }
 
