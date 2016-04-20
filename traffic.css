@@ -10,3 +10,8 @@ table {
 .trafficInfo {
   text-align: right;
 }
+
+.routeName {
+  width: 100%;
+  text-align: right;
+}
