@@ -10,20 +10,19 @@ var request = require('request');
 
 module.exports = NodeHelper.create({
   start: function () {
-    this.url = '';
     console.log('MMM-Traffic helper started ...');
   },
 
-  getCommute: function() {
+  getCommute: function(api_url) {
     var self = this;
-    request({url: self.url, method: 'GET'}, function(error, response, body) {
+    request({url: api_url, method: 'GET'}, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         if (JSON.parse(body).routes[0].legs[0].duration_in_traffic) {
           var commute = JSON.parse(body).routes[0].legs[0].duration_in_traffic.text;
         } else {
           var commute = JSON.parse(body).routes[0].legs[0].duration.text;
         }
-        self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':commute, 'url':self.url});
+        self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':commute, 'url':api_url});
       }
     });
   },
@@ -32,9 +31,7 @@ module.exports = NodeHelper.create({
   socketNotificationReceived: function(notification, payload) {
     console.log(notification);
     if (notification === 'TRAFFIC_URL') {
-      console.log(payload);
-      this.url = payload;
-      this.getCommute();
+      this.getCommute(payload);
     }
   }
 
