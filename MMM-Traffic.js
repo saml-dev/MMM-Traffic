@@ -19,7 +19,8 @@ Module.register('MMM-Traffic', {
         departure_time: 'now',
         loadingText: 'Loading commute...',
         prependText: 'Current commute is',
-        language: config.language
+        language: config.language,
+        mainClass: 'bright medium'
     },
 
     start: function() {
@@ -48,13 +49,15 @@ Module.register('MMM-Traffic', {
     getDom: function() {
         var wrapper = document.createElement("div");
 
+
         if (!this.loaded) {
             wrapper.innerHTML = this.config.loadingText;
+            wrapper.className = this.config.mainClass;
             return wrapper;
         }
 
         var table = document.createElement("table");
-        table.className = "bright medium";
+        table.className = this.config.mainClass;
         var row = document.createElement("tr");
 
         //symbol

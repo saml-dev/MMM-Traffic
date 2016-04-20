@@ -47,6 +47,12 @@ Define the commute time language.
 ```
 language: 'en' // By default it uses config.language;
 ```
+Set the class used on the table.
+```
+mainClass: 'bright small'
+```
+
+```
 Here is an example of an entry in `config.js`
 ```
 {
