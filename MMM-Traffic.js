@@ -67,9 +67,18 @@ Module.register('MMM-Traffic', {
         trafficInfo.innerHTML = "Current commute is " + this.config.commute;
         row.appendChild(trafficInfo);
 
-        //add to wrapper
+        //add commute to wrapper
         table.appendChild(row);
         wrapper.appendChild(table);
+
+        //routeName
+        if (this.config.route_name) {
+          var routeName = document.createElement('div');
+          routeName.className = 'dim small';
+          routeName.innerHTML = this.config.route_name;
+          wrapper.appendChild(routeName);
+        }
+  
         return wrapper;
     },
 
