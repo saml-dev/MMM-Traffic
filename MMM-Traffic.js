@@ -16,7 +16,10 @@ Module.register('MMM-Traffic', {
         origin: '',
         destination: '',
         traffic_model: 'best_guess',
-        departure_time: 'now'
+        departure_time: 'now',
+        loadingText: 'Loading commute...',
+        prependText: 'Current commute is',
+        language: config.language
     },
 
     start: function() {
@@ -45,7 +48,7 @@ Module.register('MMM-Traffic', {
         var wrapper = document.createElement("div");
 
         if (!this.loaded) {
-            wrapper.innerHTML = "Loading commute...";
+            wrapper.innerHTML = this.config.loadingText;
             return wrapper;
         }
 
@@ -64,7 +67,7 @@ Module.register('MMM-Traffic', {
         //commute time
         var trafficInfo = document.createElement('td');
         trafficInfo.className = 'trafficInfo';
-        trafficInfo.innerHTML = "Current commute is " + this.config.commute;
+        trafficInfo.innerHTML = this.config.prependText + ' ' + this.config.commute;
         row.appendChild(trafficInfo);
 
         //add commute to wrapper
@@ -90,6 +93,7 @@ Module.register('MMM-Traffic', {
         params += '&key=' + this.config.api_key;
         params += '&traffic_model=' + this.config.traffic_model;
         params += '&departure_time=now';
+        params += '&language=' + this.config.language;
         return params;
     },
 
