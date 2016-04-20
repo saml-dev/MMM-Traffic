@@ -35,6 +35,18 @@ Update interval in milliseconds, default is 300000 (5 minutes)
 ```
 interval: 120000 //2 minutes
 ```
+Translate the text used when loading the initial commute time.
+```
+loadingText: 'Loading commute...'
+```
+Translate the text used in front of the commute time.
+```
+prependText: 'Current commute is'
+```
+Define the commute time language.
+```
+language: 'en' // By default it uses config.language;
+```
 Here is an example of an entry in `config.js`
 ```
 {
