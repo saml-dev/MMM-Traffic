@@ -52,7 +52,6 @@ Set the class used on the table.
 mainClass: 'bright small'
 ```
 
-```
 Here is an example of an entry in `config.js`
 ```
 {
