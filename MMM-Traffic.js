@@ -70,7 +70,7 @@ Module.register('MMM-Traffic', {
         //routeName
         if (this.config.route_name) {
           var routeName = document.createElement('div');
-          routeName.className = 'dim small routeName';
+          routeName.className = 'dimmed small routeName';
           routeName.innerHTML = this.config.route_name;
           wrapper.appendChild(routeName);
         }
