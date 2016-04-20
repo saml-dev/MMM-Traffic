@@ -24,6 +24,7 @@ Module.register('MMM-Traffic', {
 
     start: function() {
         Log.info('Starting module: ' + this.name);
+        Log.info(this.data.classes);
         if (this.data.classes = 'MMM-Traffic') {
           this.data.classes = 'bright medium';
         }
