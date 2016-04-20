@@ -24,9 +24,7 @@ Module.register('MMM-Traffic', {
 
     start: function() {
         Log.info('Starting module: ' + this.name);
-        if (typeof this.data.classes === 'string') {
-          this.data.classes = 'bright medium';
-        }
+        console.log(this.data.classes);
         this.loaded = false;
         this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
         this.symbols = {
