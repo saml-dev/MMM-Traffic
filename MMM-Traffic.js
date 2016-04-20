@@ -85,9 +85,9 @@ Module.register('MMM-Traffic', {
     },
 
     socketNotificationReceived: function(notification, payload) {
-        if (notification === 'TRAFFIC_COMMUTE') {
+        if (notification === 'TRAFFIC_COMMUTE' && payload.url === this.url) {
             Log.info('received TRAFFIC_COMMUTE');
-            this.config.commute = payload;
+            this.config.commute = payload.commute;
             this.loaded = true;
             this.updateDom(1000);
         }
