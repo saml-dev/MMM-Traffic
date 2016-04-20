@@ -32,6 +32,7 @@ Module.register('MMM-Traffic', {
             'bicycling': 'fa fa-bicycle',
             'transit': 'fa fa-train'
         };
+        this.commute = '';
         this.updateCommute(this);
     },
 
@@ -67,7 +68,7 @@ Module.register('MMM-Traffic', {
         //commute time
         var trafficInfo = document.createElement('td');
         trafficInfo.className = 'trafficInfo';
-        trafficInfo.innerHTML = this.config.prependText + ' ' + this.config.commute;
+        trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
         row.appendChild(trafficInfo);
 
         //add commute to wrapper
@@ -100,7 +101,7 @@ Module.register('MMM-Traffic', {
     socketNotificationReceived: function(notification, payload) {
         if (notification === 'TRAFFIC_COMMUTE' && payload.url === this.url) {
             Log.info('received TRAFFIC_COMMUTE');
-            this.config.commute = payload.commute;
+            this.commute = payload.commute;
             this.loaded = true;
             this.updateDom(1000);
         }
