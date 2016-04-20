@@ -23,6 +23,10 @@ Mode of transportation, default is 'driving', can also be 'walking', 'bicycling'
 ```
 mode: 'driving'
 ```
+Nickname for the route to help clarify when you have multiple instances of the module, or if you just like the look of it.
+```
+route_name: 'Home to school'
+```
 What kind of traffic estimate you want, default is 'best_guess'. Can also be 'optimistic' or 'pessimistic'.
 ```
 traffic_model: 'optimistic'
@@ -42,6 +46,7 @@ Here is an example of an entry in `config.js`
 		mode: 'driving',
 		origin: '4 Pennsylvania Plaza, New York, NY 10001',
 		destination: '1 MetLife Stadium Dr, East Rutherford, NJ 07073',
+		route_name: 'Home to Work',
 		traffic_model: 'pessimistic',
 		interval: 120000 //2 minutes
 	}
