@@ -19,12 +19,12 @@ Module.register('MMM-Traffic', {
         departure_time: 'now',
         loadingText: 'Loading commute...',
         prependText: 'Current commute is',
-        language: config.language,
-        classes: 'bright medium'
+        language: config.language
     },
 
     start: function() {
         Log.info('Starting module: ' + this.name);
+        this.data.classes: 'bright medium';
         this.loaded = false;
         this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
         this.symbols = {
