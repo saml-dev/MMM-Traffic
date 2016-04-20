@@ -48,35 +48,24 @@ Module.register('MMM-Traffic', {
 
     getDom: function() {
         var wrapper = document.createElement("div");
+        wrapper.className = this.config.mainClass;
 
 
         if (!this.loaded) {
             wrapper.innerHTML = this.config.loadingText;
-            wrapper.className = this.config.mainClass;
             return wrapper;
         }
 
-        var table = document.createElement("table");
-        table.className = this.config.mainClass;
-        var row = document.createElement("tr");
-
         //symbol
-        var symbolWrapper = document.createElement("td");
-        symbolWrapper.className = 'symbol';
         var symbol = document.createElement('span');
         symbol.className = this.symbols[this.config.mode] + ' symbol';
-        symbolWrapper.appendChild(symbol);
-        row.appendChild(symbolWrapper);
+        wrapper.appendChild(symbol);
 
         //commute time
-        var trafficInfo = document.createElement('td');
+        var trafficInfo = document.createElement('span');
         trafficInfo.className = 'trafficInfo';
         trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
-        row.appendChild(trafficInfo);
-
-        //add commute to wrapper
-        table.appendChild(row);
-        wrapper.appendChild(table);
+        wrapper.appendChild(trafficInfo);
 
         //routeName
         if (this.config.route_name) {
