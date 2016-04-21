@@ -55,6 +55,7 @@ Module.register('MMM-Traffic', {
 
     getDom: function() {
         var wrapper = document.createElement("div");
+        var commuteInfo = document.createElement('div'); //support for config.changeColor
 
         if (!this.loaded) {
             wrapper.innerHTML = this.config.loadingText;
@@ -73,11 +74,10 @@ Module.register('MMM-Traffic', {
             symbol.className += ' green';
           }
         }
-        wrapper.appendChild(symbol);
+        commuteInfo.appendChild(symbol);
 
         //commute time
         var trafficInfo = document.createElement('span');
-        trafficInfo.className = 'trafficInfo';
         trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
         if (this.config.changeColor) {
           if (this.trafficComparison >= 1.5) {
@@ -88,7 +88,9 @@ Module.register('MMM-Traffic', {
             trafficInfo.className += ' green';
           }
         }
-        wrapper.appendChild(trafficInfo);
+        commuteInfo.appendChild(trafficInfo);
+
+        wrapper.appendChild(commuteInfo);
 
         //routeName
         if (this.config.route_name) {
