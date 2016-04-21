@@ -22,6 +22,8 @@ module.exports = NodeHelper.create({
           var commute = JSON.parse(body).routes[0].legs[0].duration_in_traffic.text;
           var noTrafficValue = JSON.parse(body).routes[0].legs[0].duration.value;
           var withTrafficValue = JSON.parse(body).routes[0].legs[0].duration_in_traffic.value;
+          trafficComparison = parseInt(withTrafficValue)/parseInt(noTrafficValue);
+          console.log(trafficComparison);
         } else {
           var commute = JSON.parse(body).routes[0].legs[0].duration.text;
         }
