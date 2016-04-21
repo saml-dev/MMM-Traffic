@@ -19,6 +19,8 @@ Module.register('MMM-Traffic', {
         departure_time: 'now',
         loadingText: 'Loading commute...',
         prependText: 'Current commute is',
+        changeColor: false,
+        showGreen: true,
         language: config.language
     },
 
@@ -60,12 +62,30 @@ Module.register('MMM-Traffic', {
         //symbol
         var symbol = document.createElement('span');
         symbol.className = this.symbols[this.config.mode] + ' symbol';
+        if (this.config.changeColor) {
+          if (this.trafficComparison >= 1.5) {
+            symbol.className += ' red';
+          } else if (this.trafficComparison >= 1.2) {
+            symbol.className += ' yellow';
+          } else if (this.config.showGreen) {
+            symbol.className += ' green';
+          }
+        }
         wrapper.appendChild(symbol);
 
         //commute time
         var trafficInfo = document.createElement('span');
         trafficInfo.className = 'trafficInfo';
         trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
+        if (this.config.changeColor) {
+          if (this.trafficComparison >= 1.5) {
+            trafficInfo.className += ' red';
+          } else if (this.trafficComparison >= 1.2) {
+            trafficInfo.className += ' yellow';
+          } else if (this.config.showGreen) {
+            trafficInfo.className += ' green';
+          }
+        }
         wrapper.appendChild(trafficInfo);
 
         //routeName
@@ -95,6 +115,7 @@ Module.register('MMM-Traffic', {
         if (notification === 'TRAFFIC_COMMUTE' && payload.url === this.url) {
             Log.info('received TRAFFIC_COMMUTE');
             this.commute = payload.commute;
+            this.trafficComparison = parseInt(payload.trafficComparison);
             this.loaded = true;
             this.updateDom(1000);
         }
