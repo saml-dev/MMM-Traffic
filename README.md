@@ -35,7 +35,7 @@ When `changeColor` is set to true, the color of the commute info will change bas
 ```
 changeColor: true
 ```
-If you would like the commute info to change to yellow and red based on traffic but remain white instead of green when traffic isn't bad, set `changeColor` to true and `showGreen` to false, like so:
+If you would like the commute info to change to yellow and red based on traffic but otherwise remain white, set `changeColor` to true and `showGreen` to false, like so:
 ```
 changeColor: true,
 showGreen: false
