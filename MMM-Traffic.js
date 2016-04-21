@@ -74,11 +74,11 @@ Module.register('MMM-Traffic', {
         //traffic based color change
         if (this.config.changeColor) {
           if (this.trafficComparison >= 1.5) {
-            commuteDiv.className += ' red';
+            commuteDiv.className = 'red';
           } else if (this.trafficComparison >= 1.2) {
-            commuteDiv.className += ' yellow';
+            commuteDiv.className = 'yellow';
           } else if (this.showGreen) {
-            commuteDiv.className += ' green';
+            commuteDiv.className = 'green';
           }
         }
 
