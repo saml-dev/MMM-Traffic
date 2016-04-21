@@ -69,6 +69,8 @@ Here is an example of an entry in `config.js`
 		origin: '4 Pennsylvania Plaza, New York, NY 10001',
 		destination: '1 MetLife Stadium Dr, East Rutherford, NJ 07073',
 		route_name: 'Home to Work',
+		changeColor: true,
+		showGreen: false,
 		traffic_model: 'pessimistic',
 		interval: 120000 //2 minutes
 	}
