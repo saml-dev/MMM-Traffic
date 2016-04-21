@@ -53,7 +53,6 @@ Module.register('MMM-Traffic', {
 
     getDom: function() {
         var wrapper = document.createElement("div");
-        var commuteDiv = document.createElement('div'); //adds support for config.changeColor
 
         if (!this.loaded) {
             wrapper.innerHTML = this.config.loadingText;
@@ -63,26 +62,31 @@ Module.register('MMM-Traffic', {
         //symbol
         var symbol = document.createElement('span');
         symbol.className = this.symbols[this.config.mode] + ' symbol';
-        commuteDiv.appendChild(symbol);
+        if (this.config.changeColor) {
+          if (this.trafficComparison >= 1.5) {
+            symbol.className += ' red';
+          } else if (this.trafficComparison >= 1.2) {
+            symbol.className += ' yellow';
+          } else if (this.config.showGreen) {
+            symbol.className += ' green';
+          }
+        }
+        wrapper.appendChild(symbol);
 
         //commute time
         var trafficInfo = document.createElement('span');
         trafficInfo.className = 'trafficInfo';
         trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
-        commuteDiv.appendChild(trafficInfo);
-
-        //traffic based color change
         if (this.config.changeColor) {
           if (this.trafficComparison >= 1.5) {
-            commuteDiv.className = 'red';
+            trafficInfo.className += ' red';
           } else if (this.trafficComparison >= 1.2) {
-            commuteDiv.className = 'yellow';
-          } else if (this.showGreen) {
-            commuteDiv.className = 'green';
+            trafficInfo.className += ' yellow';
+          } else if (this.config.showGreen) {
+            trafficInfo.className += ' green';
           }
         }
-
-        wrapper.appendChild(commuteDiv);
+        wrapper.appendChild(trafficInfo);
 
         //routeName
         if (this.config.route_name) {
