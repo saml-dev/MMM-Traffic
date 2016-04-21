@@ -21,7 +21,8 @@ Module.register('MMM-Traffic', {
         prependText: 'Current commute is',
         changeColor: false,
         showGreen: true,
-        language: config.language
+        language: config.language,
+        trafficComparison: 1.1
     },
 
     start: function() {
@@ -78,9 +79,9 @@ Module.register('MMM-Traffic', {
         trafficInfo.className = 'trafficInfo';
         trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
         if (this.config.changeColor) {
-          if (this.trafficComparison >= 1.5) {
+          if (this.config.trafficComparison >= 1.5) {
             trafficInfo.className += ' red';
-          } else if (this.trafficComparison >= 1.2) {
+          } else if (this.config.trafficComparison >= 1.2) {
             trafficInfo.className += ' yellow';
           } else if (this.config.showGreen) {
             trafficInfo.className += ' green';
