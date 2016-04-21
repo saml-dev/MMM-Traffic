@@ -17,12 +17,15 @@ module.exports = NodeHelper.create({
     var self = this;
     request({url: api_url, method: 'GET'}, function(error, response, body) {
       if (!error && response.statusCode == 200) {
+        var trafficComparison = 0;
         if (JSON.parse(body).routes[0].legs[0].duration_in_traffic) {
           var commute = JSON.parse(body).routes[0].legs[0].duration_in_traffic.text;
+          var noTrafficValue = JSON.parse(body).routes[0].legs[0].duration.value;
+          var withTrafficValue = JSON.parse(body).routes[0].legs[0].duration_in_traffic.value;
         } else {
           var commute = JSON.parse(body).routes[0].legs[0].duration.text;
         }
-        self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':commute, 'url':api_url});
+        self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':commute, 'url':api_url, 'trafficComparison': trafficComparison});
       }
     });
   },
