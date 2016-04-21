@@ -20,6 +20,7 @@ Module.register('MMM-Traffic', {
         loadingText: 'Loading commute...',
         prependText: 'Current commute is',
         changeColor: false,
+        showGreen: true,
         language: config.language
     },
 
@@ -66,7 +67,7 @@ Module.register('MMM-Traffic', {
             symbol.className += ' red';
           } else if (this.trafficComparison >= 1.2) {
             symbol.className += ' yellow';
-          } else {
+          } else if (this.config.showGreen) {
             symbol.className += ' green';
           }
         }
