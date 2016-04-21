@@ -65,37 +65,29 @@ Module.register('MMM-Traffic', {
         //symbol
         var symbol = document.createElement('span');
         symbol.className = this.symbols[this.config.mode] + ' symbol';
-        if (this.config.changeColor) {
-          if (this.trafficComparison >= 1.5) {
-            symbol.className += ' red';
-          } else if (this.trafficComparison >= 1.2) {
-            symbol.className += ' yellow';
-          } else if (this.config.showGreen) {
-            symbol.className += ' green';
-          }
-        }
         commuteInfo.appendChild(symbol);
 
         //commute time
         var trafficInfo = document.createElement('span');
         trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
-        if (this.config.changeColor) {
-          if (this.trafficComparison >= 1.5) {
-            trafficInfo.className += ' red';
-          } else if (this.trafficComparison >= 1.2) {
-            trafficInfo.className += ' yellow';
-          } else if (this.config.showGreen) {
-            trafficInfo.className += ' green';
-          }
-        }
         commuteInfo.appendChild(trafficInfo);
 
+        //change color if desired and append
+        if (this.config.changeColor) {
+          if (this.trafficComparison >= 1.5) {
+            commuteInfo.className += ' red';
+          } else if (this.trafficComparison >= 1.2) {
+            commuteInfo.className += ' yellow';
+          } else if (this.config.showGreen) {
+            commuteInfo.className += ' green';
+          }
+        }
         wrapper.appendChild(commuteInfo);
 
         //routeName
         if (this.config.route_name) {
           var routeName = document.createElement('div');
-          routeName.className = 'dimmed small routeName';
+          routeName.className = 'dimmed small';
           if (this.summary.length > 0 && this.config.show_summary){
             routeName.innerHTML = this.config.route_name + ' via ' + this.summary; //todo translatable?
           } else {
