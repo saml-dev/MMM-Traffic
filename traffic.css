@@ -1,11 +1,7 @@
 .symbol {
-  float: left;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
-.trafficInfo {
-  float: right;
-}
 
 .routeName {
   text-align: right;
