@@ -21,7 +21,8 @@ Module.register('MMM-Traffic', {
         prependText: 'Current commute is',
         changeColor: false,
         showGreen: true,
-        language: config.language
+        language: config.language,
+        show_summary: true
     },
 
     start: function() {
@@ -39,6 +40,7 @@ Module.register('MMM-Traffic', {
             'transit': 'fa fa-train'
         };
         this.commute = '';
+        this.summary = '';
         this.updateCommute(this);
     },
 
@@ -92,7 +94,11 @@ Module.register('MMM-Traffic', {
         if (this.config.route_name) {
           var routeName = document.createElement('div');
           routeName.className = 'dimmed small routeName';
-          routeName.innerHTML = this.config.route_name;
+          if (this.summary.length > 0 && this.config.show_summary){
+            routeName.innerHTML = this.config.route_name + ' via ' + this.summary; //todo translatable?
+          } else {
+            routeName.innerHTML = this.config.route_name;
+          }
           wrapper.appendChild(routeName);
         }
 
@@ -115,6 +121,7 @@ Module.register('MMM-Traffic', {
         if (notification === 'TRAFFIC_COMMUTE' && payload.url === this.url) {
             Log.info('received TRAFFIC_COMMUTE');
             this.commute = payload.commute;
+            this.summary = payload.summary;
             this.trafficComparison = parseInt(payload.trafficComparison);
             this.loaded = true;
             this.updateDom(1000);
