@@ -19,6 +19,7 @@ Module.register('MMM-Traffic', {
         departure_time: 'now',
         loadingText: 'Loading commute...',
         prependText: 'Current commute is',
+        changeColor: false,
         language: config.language
     },
 
@@ -51,6 +52,7 @@ Module.register('MMM-Traffic', {
 
     getDom: function() {
         var wrapper = document.createElement("div");
+        var commuteDiv = document.createElement("div"); //to support color change based on traffic conditions
 
         if (!this.loaded) {
             wrapper.innerHTML = this.config.loadingText;
@@ -60,13 +62,15 @@ Module.register('MMM-Traffic', {
         //symbol
         var symbol = document.createElement('span');
         symbol.className = this.symbols[this.config.mode] + ' symbol';
-        wrapper.appendChild(symbol);
+        commuteDiv.appendChild(symbol);
 
         //commute time
         var trafficInfo = document.createElement('span');
         trafficInfo.className = 'trafficInfo';
         trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
-        wrapper.appendChild(trafficInfo);
+        commuteDiv.appendChild(trafficInfo);
+
+        wrapper.appendChild(commuteDiv);
 
         //routeName
         if (this.config.route_name) {
