@@ -26,7 +26,9 @@ module.exports = NodeHelper.create({
         } else {
           var commute = JSON.parse(body).routes[0].legs[0].duration.text;
         }
-        self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':commute, 'url':api_url, 'trafficComparison': trafficComparison});
+        var summary = JSON.parse(body).routes[0].summary;
+
+        self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':commute, 'url':api_url, 'trafficComparison': trafficComparison, 'summary':summary});
       }
     });
   },
