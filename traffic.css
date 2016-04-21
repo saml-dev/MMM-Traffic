@@ -11,3 +11,15 @@
   text-align: right;
   clear: both;
 }
+
+.green {
+  color: green;
+}
+
+.yellow {
+  color: yellow;
+}
+
+.red {
+  color: red;
+}
