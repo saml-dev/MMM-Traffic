@@ -27,6 +27,10 @@ Nickname for the route to help clarify when you have multiple instances of the m
 ```
 route_name: 'Home to school'
 ```
+Show the routes Summary or not, with the nickname.
+```
+show_summary: true
+```
 What kind of traffic estimate you want, default is 'best_guess'. Can also be 'optimistic' or 'pessimistic'.
 ```
 traffic_model: 'optimistic'
