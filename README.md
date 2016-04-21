@@ -31,6 +31,15 @@ What kind of traffic estimate you want, default is 'best_guess'. Can also be 'op
 ```
 traffic_model: 'optimistic'
 ```
+When `changeColor` is set to true, the color of the commute info will change based on traffic. If traffic increases the commute by 20%, the symbol and commute text will be yellow. An increase of 50% will change the color to red. If the traffic doesn't increase the commute by at least 20%, the color will be green. The default value for `changeColor` is false, leaving the symbol/text white.
+```
+changeColor: true
+```
+If you would like the commute info to change to yellow and red based on traffic but remain white instead of green when traffic isn't bad, set `changeColor` to true and `showGreen` to false, like so:
+```
+changeColor: true,
+showGreen: false
+```
 Update interval in milliseconds, default is 300000 (5 minutes)
 ```
 interval: 120000 //2 minutes
