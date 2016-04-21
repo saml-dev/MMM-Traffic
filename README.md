@@ -27,7 +27,7 @@ Nickname for the route to help clarify when you have multiple instances of the m
 ```
 route_name: 'Home to school'
 ```
-Show the route's summary after the nickname, for example "Home to Work <b>via Route 1/Main St</b>".
+Show the route's summary after the nickname, for example "Home to Work <b>via Route 1/Main St</b>". Default is true, but it won't show if you don't have a `route_name` in your config.
 ```
 show_summary: true
 ```
