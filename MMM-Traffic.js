@@ -19,12 +19,18 @@ Module.register('MMM-Traffic', {
         departure_time: 'now',
         loadingText: 'Loading commute...',
         prependText: 'Current commute is',
+        changeColor: false,
+        showGreen: true,
         language: config.language,
-        mainClass: 'bright medium'
+        show_summary: true
     },
 
     start: function() {
         Log.info('Starting module: ' + this.name);
+        Log.info(this.data.classes);
+        if (this.data.classes === 'MMM-Traffic') {
+          this.data.classes = 'bright medium';
+        }
         this.loaded = false;
         this.url = 'https://maps.googleapis.com/maps/api/directions/json' + this.getParams();
         this.symbols = {
@@ -34,6 +40,7 @@ Module.register('MMM-Traffic', {
             'transit': 'fa fa-train'
         };
         this.commute = '';
+        this.summary = '';
         this.updateCommute(this);
     },
 
@@ -48,41 +55,44 @@ Module.register('MMM-Traffic', {
 
     getDom: function() {
         var wrapper = document.createElement("div");
-
+        var commuteInfo = document.createElement('div'); //support for config.changeColor
 
         if (!this.loaded) {
             wrapper.innerHTML = this.config.loadingText;
-            wrapper.className = this.config.mainClass;
             return wrapper;
         }
 
-        var table = document.createElement("table");
-        table.className = this.config.mainClass;
-        var row = document.createElement("tr");
-
         //symbol
-        var symbolWrapper = document.createElement("td");
-        symbolWrapper.className = 'symbol';
         var symbol = document.createElement('span');
         symbol.className = this.symbols[this.config.mode] + ' symbol';
-        symbolWrapper.appendChild(symbol);
-        row.appendChild(symbolWrapper);
+        commuteInfo.appendChild(symbol);
 
         //commute time
-        var trafficInfo = document.createElement('td');
-        trafficInfo.className = 'trafficInfo';
+        var trafficInfo = document.createElement('span');
         trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
-        row.appendChild(trafficInfo);
+        commuteInfo.appendChild(trafficInfo);
 
-        //add commute to wrapper
-        table.appendChild(row);
-        wrapper.appendChild(table);
+        //change color if desired and append
+        if (this.config.changeColor) {
+          if (this.trafficComparison >= 1.5) {
+            commuteInfo.className += ' red';
+          } else if (this.trafficComparison >= 1.2) {
+            commuteInfo.className += ' yellow';
+          } else if (this.config.showGreen) {
+            commuteInfo.className += ' green';
+          }
+        }
+        wrapper.appendChild(commuteInfo);
 
         //routeName
         if (this.config.route_name) {
           var routeName = document.createElement('div');
-          routeName.className = 'dim small routeName';
-          routeName.innerHTML = this.config.route_name;
+          routeName.className = 'dimmed small';
+          if (this.summary.length > 0 && this.config.show_summary){
+            routeName.innerHTML = this.config.route_name + ' via ' + this.summary; //todo translatable?
+          } else {
+            routeName.innerHTML = this.config.route_name;
+          }
           wrapper.appendChild(routeName);
         }
 
@@ -105,6 +115,8 @@ Module.register('MMM-Traffic', {
         if (notification === 'TRAFFIC_COMMUTE' && payload.url === this.url) {
             Log.info('received TRAFFIC_COMMUTE');
             this.commute = payload.commute;
+            this.summary = payload.summary;
+            this.trafficComparison = parseInt(payload.trafficComparison);
             this.loaded = true;
             this.updateDom(1000);
         }

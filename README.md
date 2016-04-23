@@ -27,19 +27,32 @@ Nickname for the route to help clarify when you have multiple instances of the m
 ```
 route_name: 'Home to school'
 ```
+Show the route's summary after the nickname, for example "Home to Work <b>via Route 1/Main St</b>". Default is true, but it won't show if you don't have a `route_name` in your config.
+```
+show_summary: true
+```
 What kind of traffic estimate you want, default is 'best_guess'. Can also be 'optimistic' or 'pessimistic'.
 ```
 traffic_model: 'optimistic'
+```
+When `changeColor` is set to true, the color of the commute info will change based on traffic. If traffic increases the commute by 20%, the symbol and commute text will be yellow. An increase of 50% will change the color to red. If the traffic doesn't increase the commute by at least 20%, the color will be green. The default value for `changeColor` is false, leaving the symbol/text white.
+```
+changeColor: true
+```
+If you would like the commute info to change to yellow and red based on traffic but otherwise remain white, set `changeColor` to true and `showGreen` to false, like so:
+```
+changeColor: true,
+showGreen: false
 ```
 Update interval in milliseconds, default is 300000 (5 minutes)
 ```
 interval: 120000 //2 minutes
 ```
-Translate the text used when loading the initial commute time.
+The text used when loading the initial commute time.
 ```
 loadingText: 'Loading commute...'
 ```
-Translate the text used in front of the commute time.
+The text used in front of the commute time.
 ```
 prependText: 'Current commute is'
 ```
@@ -47,24 +60,21 @@ Define the commute time language.
 ```
 language: 'en' // By default it uses config.language;
 ```
-Set the class used on the table.
-```
-mainClass: 'bright small'
-```
 
-```
 Here is an example of an entry in `config.js`
 ```
 {
 	module: 'MMM-Traffic',
 	position: 'top_left',
-	header: 'Traffic',
+	classes: 'dimmed medium', //optional, default is 'bright medium', only applies to commute info not route_name
 	config: {
 		api_key: 'your_apikey_here',
 		mode: 'driving',
 		origin: '4 Pennsylvania Plaza, New York, NY 10001',
 		destination: '1 MetLife Stadium Dr, East Rutherford, NJ 07073',
 		route_name: 'Home to Work',
+		changeColor: true,
+		showGreen: false,
 		traffic_model: 'pessimistic',
 		interval: 120000 //2 minutes
 	}
