@@ -1,17 +1,15 @@
-table {
-  width: 100%;
-  font-size: 90%;
-}
-
 .symbol {
-  margin-right: 18px;
+  margin-right: 15px;
 }
 
-.trafficInfo {
-  text-align: right;
+.green {
+  color: #83FFB3;
 }
 
-.routeName {
-  width: 100%;
-  text-align: right;
+.yellow {
+  color: yellow;
+}
+
+.red {
+  color: #FF4C4C;
 }
