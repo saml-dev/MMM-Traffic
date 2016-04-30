@@ -44,7 +44,7 @@ If you would like the commute info to change to yellow and red based on traffic 
 changeColor: true,
 showGreen: false
 ```
-Thresholds for Yellow and Red are set with the percentage traffic as a whole number. Defaults are yellow = 20%, red = 50%
+The thresholds for yellow and red can be set to the percentage traffic time as a whole number. Defaults are yellow = 20%, red = 50%
 ```
 limitYellow: 20,
 limitRed: 50
