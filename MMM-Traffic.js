@@ -76,9 +76,9 @@ Module.register('MMM-Traffic', {
 
         //change color if desired and append
         if (this.config.changeColor) {
-          if (this.trafficComparison >= 1.5) {
+          if (this.trafficComparison >= 1 + (this.config.limitRed / 100)) {
             commuteInfo.className += ' red';
-          } else if (this.trafficComparison >= 1.2) {
+          } else if (this.trafficComparison >= 1 + (this.config.limitYellow / 100)) {
             commuteInfo.className += ' yellow';
           } else if (this.config.showGreen) {
             commuteInfo.className += ' green';
