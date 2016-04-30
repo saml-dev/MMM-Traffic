@@ -63,6 +63,7 @@ Module.register('MMM-Traffic', {
 
         //symbol
         var symbol = document.createElement('span');
+        console.log(this.symbols[this.config.mode]);
         symbol.className = this.symbols[this.config.mode] + ' symbol';
         commuteInfo.appendChild(symbol);
 
@@ -73,8 +74,6 @@ Module.register('MMM-Traffic', {
 
         //change color if desired and append
         if (this.config.changeColor) {
-          console.log(this.trafficComparison);
-          console.log(typeof(this.trafficComparison));
           if (this.trafficComparison >= 1.5) {
             commuteInfo.className += ' red';
           } else if (this.trafficComparison >= 1.2) {
