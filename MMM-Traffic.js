@@ -73,6 +73,8 @@ Module.register('MMM-Traffic', {
 
         //change color if desired and append
         if (this.config.changeColor) {
+          console.log(this.trafficComparison);
+          console.log(typeof(this.trafficComparison));
           if (this.trafficComparison >= 1.5) {
             commuteInfo.className += ' red';
           } else if (this.trafficComparison >= 1.2) {
@@ -116,7 +118,6 @@ Module.register('MMM-Traffic', {
             this.commute = payload.commute;
             this.summary = payload.summary;
             this.trafficComparison = payload.trafficComparison;
-            console.log(this.trafficComparison);
             this.loaded = true;
             this.updateDom(1000);
         }
