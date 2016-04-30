@@ -27,7 +27,6 @@ Module.register('MMM-Traffic', {
 
     start: function() {
         Log.info('Starting module: ' + this.name);
-        Log.info(this.data.classes);
         if (this.data.classes === 'MMM-Traffic') {
           this.data.classes = 'bright medium';
         }
@@ -118,7 +117,7 @@ Module.register('MMM-Traffic', {
             this.commute = payload.commute;
             this.summary = payload.summary;
             this.trafficComparison = parseInt(payload.trafficComparison);
-            console.log(payload.trafficComparison);
+            console.log(this.trafficComparison);
             this.loaded = true;
             this.updateDom(1000);
         }
