@@ -73,7 +73,6 @@ Module.register('MMM-Traffic', {
         commuteInfo.appendChild(trafficInfo);
 
         //change color if desired and append
-        Log.info(this.trafficComparison);
         if (this.config.changeColor) {
           if (this.trafficComparison >= 1.5) {
             commuteInfo.className += ' red';
@@ -118,6 +117,7 @@ Module.register('MMM-Traffic', {
             this.commute = payload.commute;
             this.summary = payload.summary;
             this.trafficComparison = parseInt(payload.trafficComparison);
+            console.log(payload.trafficComparison);
             this.loaded = true;
             this.updateDom(1000);
         }
