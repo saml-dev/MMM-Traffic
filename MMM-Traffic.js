@@ -63,7 +63,6 @@ Module.register('MMM-Traffic', {
 
         //symbol
         var symbol = document.createElement('span');
-        console.log(this.symbols[this.config.mode]);
         symbol.className = this.symbols[this.config.mode] + ' symbol';
         commuteInfo.appendChild(symbol);
 
