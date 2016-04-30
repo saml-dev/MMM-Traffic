@@ -49,7 +49,7 @@ Module.register('MMM-Traffic', {
     },
 
     getStyles: function() {
-        return ['traffic.css'];
+        return ['traffic.css', 'font-awesome.css'];
     },
 
     getDom: function() {
