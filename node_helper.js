@@ -27,7 +27,8 @@ module.exports = NodeHelper.create({
           var commute = JSON.parse(body).routes[0].legs[0].duration.text;
         }
         var summary = JSON.parse(body).routes[0].summary;
-
+        console.log(trafficComparison);
+        console.log(api_url);
         self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':commute, 'url':api_url, 'trafficComparison': trafficComparison, 'summary':summary});
       }
     });
