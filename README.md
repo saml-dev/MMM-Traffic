@@ -44,6 +44,12 @@ If you would like the commute info to change to yellow and red based on traffic 
 changeColor: true,
 showGreen: false
 ```
+Thresholds for Yellow and Red are set with the percentage traffic as a whole number. Defaults are yellow = 20%, red = 50%
+```
+limitYellow: 20,
+limitRed: 50
+```
+
 Update interval in milliseconds, default is 300000 (5 minutes)
 ```
 interval: 120000 //2 minutes
