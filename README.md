@@ -81,6 +81,8 @@ Here is an example of an entry in `config.js`
 		route_name: 'Home to Work',
 		changeColor: true,
 		showGreen: false,
+		limitYellow: 5, //Greater than 5% of journey time due to traffic
+		limitRed: 20, //Greater than 20% of journey time due to traffic
 		traffic_model: 'pessimistic',
 		interval: 120000 //2 minutes
 	}
