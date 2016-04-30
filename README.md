@@ -47,7 +47,7 @@ showGreen: false
 The thresholds for yellow and red can be set to the percentage traffic time as a whole number. Defaults are yellow = 20%, red = 50%
 ```
 limitYellow: 20,
-limitRed: 50
+limitRed: 50,
 ```
 
 Update interval in milliseconds, default is 300000 (5 minutes)
