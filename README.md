@@ -35,9 +35,11 @@ What kind of traffic estimate you want, default is 'best_guess'. Can also be 'op
 ```
 traffic_model: 'optimistic'
 ```
-When `changeColor` is set to true, the color of the commute info will change based on traffic. If traffic increases the commute by 20%, the symbol and commute text will be yellow. An increase of 50% will change the color to red. If the traffic doesn't increase the commute by at least 20%, the color will be green. The default value for `changeColor` is false, leaving the symbol/text white.
+When `changeColor` is set to true, the color of the commute info will change based on traffic. If traffic increases the commute by `limitYellow`, the symbol and commute text will be yellow. An increase of `limitRed` will change the color to red. If the traffic doesn't increase the commute by at least `limitYellow`, the color will be green. The default value for `changeColor` is false, leaving the symbol/text white. The thresholds for yellow and red can be set to the percentage traffic time as a whole number. Defaults are yellow = 20%, red = 50%
 ```
-changeColor: true
+changeColor: true,
+limitYellow: 20,
+limitRed: 50
 ```
 If you would like the commute info to change to yellow and red based on traffic but otherwise remain white, set `changeColor` to true and `showGreen` to false, like so:
 ```
@@ -75,6 +77,8 @@ Here is an example of an entry in `config.js`
 		route_name: 'Home to Work',
 		changeColor: true,
 		showGreen: false,
+		limitYellow: 5, //Greater than 5% of journey time due to traffic
+		limitRed: 20, //Greater than 20% of journey time due to traffic
 		traffic_model: 'pessimistic',
 		interval: 120000 //2 minutes
 	}
