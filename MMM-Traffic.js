@@ -20,8 +20,8 @@ Module.register('MMM-Traffic', {
         loadingText: 'Loading commute...',
         prependText: 'Current commute is',
         changeColor: false,
-        limitYellow: 20,
-        limitRed: 50,
+        limitYellow: 10,
+        limitRed: 30,
         showGreen: true,
         language: config.language,
         show_summary: true
