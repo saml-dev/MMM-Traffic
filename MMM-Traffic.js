@@ -107,7 +107,7 @@ Module.register('MMM-Traffic', {
       } else {
         //leave-by time
         var trafficInfo = document.createElement('span');
-        trafficInfo.innerHTML = "Leave By " + this.leaveBy;
+        trafficInfo.innerHTML = "Leave by " + this.leaveBy;
         commuteInfo.appendChild(trafficInfo);
 	      wrapper.appendChild(commuteInfo);
 
@@ -116,9 +116,9 @@ Module.register('MMM-Traffic', {
           var routeName = document.createElement('div');
           routeName.className = 'dimmed small';
           if (this.summary.length > 0 && this.config.show_summary){
-            routeName.innerHTML = this.config.route_name + ' via ' + this.summary; //todo translatable?
+            routeName.innerHTML = this.config.route_name + ' via ' + this.summary + " to arrive by " + this.config.arrival_time;
           } else {
-            routeName.innerHTML = this.config.route_name;
+            routeName.innerHTML = this.config.route_name + " to arrive by " + this.config.arrival_time;
           }
           wrapper.appendChild(routeName);
         }
