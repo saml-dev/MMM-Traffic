@@ -2,6 +2,7 @@
  * Module: MMM-Traffic
  *
  * By Sam Lewis https://github.com/SamLewis0602
+ * Edited by Lucas Moch https://github.com/Mochman
  * MIT Licensed.
  */
 
@@ -38,14 +39,19 @@ module.exports = NodeHelper.create({
     request({url: api_url + "&departure_time=now", method: 'GET'}, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         var durationValue = JSON.parse(body).routes[0].legs[0].duration.value;
-        newTiming = timeSub(arrivalTime, durationValue, 0);
-        }
+        newTiming = self.timeSub(arrivalTime, durationValue, 0);
+	self.getTimingFinal(api_url, newTiming, arrivalTime);
+      }
     });
+  },
+
+  getTimingFinal: function(api_url, newTiming, arrivalTime) {
+    var self = this;
     request({url: api_url + "&departure_time=" + newTiming, method: 'GET'}, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         var trafficValue = JSON.parse(body).routes[0].legs[0].duration_in_traffic.value;
         var summary = JSON.parse(body).routes[0].summary;
-        var finalTime = timeSub(arrivalTime, trafficValue, 1);
+        var finalTime = self.timeSub(arrivalTime, trafficValue, 1);
         self.sendSocketNotification('TRAFFIC_TIMING', {'commute':finalTime,'summary':summary});
       }
     });
@@ -68,11 +74,12 @@ module.exports = NodeHelper.create({
     var nowH = arrivalTime.substr(0,2);
     var nowMin = arrivalTime.substring(2,4);
     var testDate = new Date(nowY + "-" + nowM + "-" + nowD + " " + nowH + ":" + nowMin + ":00");
-    if (lookPretty == 1) {
+    if (lookPretty == 0) {
       if (requestedDate >= testDate) {
-        var goodDate = new Date (testDate.getTime() + 86400000); // Next day
+        var goodDate = new Date (testDate.getTime() + 86400000 - (durationValue*1000)); // Next day minus uncalibrated duration
         return Math.floor(goodDate / 1000);
       } else {
+	var goodDate = new Date (testDate.getTime() - (durationValue*1000)); // Minus uncalibrated duration
         return Math.floor(testDate / 1000);
       }
     } else {
@@ -82,7 +89,7 @@ module.exports = NodeHelper.create({
       if (finalHours.length == 1) {
         finalHours = "0" + finalHours;
       }
-      var finalMins = finalDate.getHours();
+      var finalMins = finalDate.getMinutes();
       finalMins = finalMins.toString();
       if (finalMins.length == 1) {
         finalMins = "0" + finalMins;
@@ -93,10 +100,9 @@ module.exports = NodeHelper.create({
 
   //Subclass socketNotificationReceived received.
   socketNotificationReceived: function(notification, payload) {
-    // console.log(notification);
     if (notification === 'TRAFFIC_URL') {
       this.getCommute(payload);
-    } else if (notification === 'WHEN_DO_I_LEAVE') {
+    } else if (notification === 'LEAVE_BY') {
       this.getTiming(payload.url, payload.arrival);
     }
   }

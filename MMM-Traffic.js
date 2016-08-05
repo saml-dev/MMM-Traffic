@@ -4,6 +4,7 @@
  * Module: MMM-Traffic
  *
  * By Sam Lewis https://github.com/SamLewis0602
+ * Edited by Luke Moch https://github.com/Mochman
  * MIT Licensed.
  */
 
@@ -17,7 +18,7 @@ Module.register('MMM-Traffic', {
         destination: '',
         traffic_model: 'best_guess',
         departure_time: 'now',
-        arrival_time: '0800',
+        arrival_time: '0700',
         loadingText: 'Loading commute...',
         prependText: 'Current commute is',
         changeColor: false,
@@ -48,8 +49,8 @@ Module.register('MMM-Traffic', {
     },
 
     updateCommute: function(self) {
-        if (arrival_time.length == 4) {
-          self.sendSocketNotification('WHEN_DO_I_LEAVE', {'url':self.url, 'arrival':self.config.arrival_time});
+        if (this.config.arrival_time.length == 4) {
+          self.sendSocketNotification('LEAVE_BY', {'url':self.url, 'arrival':self.config.arrival_time});
         } else {
           self.sendSocketNotification('TRAFFIC_URL', self.url);
         }
@@ -106,8 +107,9 @@ Module.register('MMM-Traffic', {
       } else {
         //leave-by time
         var trafficInfo = document.createElement('span');
-        trafficInfo.innerHTML = "Leave by " + this.commute;
+        trafficInfo.innerHTML = "Leave By " + this.leaveBy;
         commuteInfo.appendChild(trafficInfo);
+	wrapper.appendChild(commuteInfo);
 
         //routeName
         if (this.config.route_name) {
