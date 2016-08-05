@@ -76,53 +76,53 @@ Module.register('MMM-Traffic', {
         commuteInfo.appendChild(symbol);
 
         if (this.leaveBy == '') {
-        //commute time
-        var trafficInfo = document.createElement('span');
-        trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
-        commuteInfo.appendChild(trafficInfo);
+          //commute time
+          var trafficInfo = document.createElement('span');
+          trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
+          commuteInfo.appendChild(trafficInfo);
 
-        //change color if desired and append
-        if (this.config.changeColor) {
-          if (this.trafficComparison >= 1 + (this.config.limitRed / 100)) {
-            commuteInfo.className += ' red';
-          } else if (this.trafficComparison >= 1 + (this.config.limitYellow / 100)) {
-            commuteInfo.className += ' yellow';
-          } else if (this.config.showGreen) {
-            commuteInfo.className += ' green';
+          //change color if desired and append
+          if (this.config.changeColor) {
+            if (this.trafficComparison >= 1 + (this.config.limitRed / 100)) {
+              commuteInfo.className += ' red';
+            } else if (this.trafficComparison >= 1 + (this.config.limitYellow / 100)) {
+              commuteInfo.className += ' yellow';
+            } else if (this.config.showGreen) {
+              commuteInfo.className += ' green';
+            }
+          }
+          wrapper.appendChild(commuteInfo);
+
+          //routeName
+          if (this.config.route_name) {
+            var routeName = document.createElement('div');
+            routeName.className = 'dimmed small';
+            if (this.summary.length > 0 && this.config.show_summary){
+              routeName.innerHTML = this.config.route_name + ' via ' + this.summary; //todo translatable?
+            } else {
+              routeName.innerHTML = this.config.route_name;
+            }
+            wrapper.appendChild(routeName);
+          }
+        } else {
+          //leave-by time
+          var trafficInfo = document.createElement('span');
+          trafficInfo.innerHTML = "Leave by " + this.leaveBy;
+          commuteInfo.appendChild(trafficInfo);
+  	      wrapper.appendChild(commuteInfo);
+
+          //routeName
+          if (this.config.route_name) {
+            var routeName = document.createElement('div');
+            routeName.className = 'dimmed small';
+            if (this.summary.length > 0 && this.config.show_summary){
+              routeName.innerHTML = this.config.route_name + ' via ' + this.summary + " to arrive by " + this.config.arrival_time;
+            } else {
+              routeName.innerHTML = this.config.route_name + " to arrive by " + this.config.arrival_time;
+            }
+            wrapper.appendChild(routeName);
           }
         }
-        wrapper.appendChild(commuteInfo);
-
-        //routeName
-        if (this.config.route_name) {
-          var routeName = document.createElement('div');
-          routeName.className = 'dimmed small';
-          if (this.summary.length > 0 && this.config.show_summary){
-            routeName.innerHTML = this.config.route_name + ' via ' + this.summary; //todo translatable?
-          } else {
-            routeName.innerHTML = this.config.route_name;
-          }
-          wrapper.appendChild(routeName);
-        }
-      } else {
-        //leave-by time
-        var trafficInfo = document.createElement('span');
-        trafficInfo.innerHTML = "Leave by " + this.leaveBy;
-        commuteInfo.appendChild(trafficInfo);
-	      wrapper.appendChild(commuteInfo);
-
-        //routeName
-        if (this.config.route_name) {
-          var routeName = document.createElement('div');
-          routeName.className = 'dimmed small';
-          if (this.summary.length > 0 && this.config.show_summary){
-            routeName.innerHTML = this.config.route_name + ' via ' + this.summary + " to arrive by " + this.config.arrival_time;
-          } else {
-            routeName.innerHTML = this.config.route_name + " to arrive by " + this.config.arrival_time;
-          }
-          wrapper.appendChild(routeName);
-        }
-      }
         return wrapper;
     },
 
