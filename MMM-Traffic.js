@@ -18,7 +18,7 @@ Module.register('MMM-Traffic', {
         destination: '',
         traffic_model: 'best_guess',
         departure_time: 'now',
-        arrival_time: '0700',
+        arrival_time: '',
         loadingText: 'Loading commute...',
         prependText: 'Current commute is',
         changeColor: false,
