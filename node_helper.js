@@ -40,7 +40,7 @@ module.exports = NodeHelper.create({
       if (!error && response.statusCode == 200) {
         var durationValue = JSON.parse(body).routes[0].legs[0].duration.value;
         newTiming = self.timeSub(arrivalTime, durationValue, 0);
-	self.getTimingFinal(api_url, newTiming, arrivalTime);
+	      self.getTimingFinal(api_url, newTiming, arrivalTime);
       }
     });
   },
@@ -79,7 +79,7 @@ module.exports = NodeHelper.create({
         var goodDate = new Date (testDate.getTime() + 86400000 - (durationValue*1000)); // Next day minus uncalibrated duration
         return Math.floor(goodDate / 1000);
       } else {
-	var goodDate = new Date (testDate.getTime() - (durationValue*1000)); // Minus uncalibrated duration
+	      var goodDate = new Date (testDate.getTime() - (durationValue*1000)); // Minus uncalibrated duration
         return Math.floor(testDate / 1000);
       }
     } else {

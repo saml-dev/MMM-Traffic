@@ -109,7 +109,7 @@ Module.register('MMM-Traffic', {
         var trafficInfo = document.createElement('span');
         trafficInfo.innerHTML = "Leave By " + this.leaveBy;
         commuteInfo.appendChild(trafficInfo);
-	wrapper.appendChild(commuteInfo);
+	      wrapper.appendChild(commuteInfo);
 
         //routeName
         if (this.config.route_name) {
