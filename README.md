@@ -11,9 +11,10 @@ The entry in `config.js` can include the following options:
 
 |Option|Description|
 |---|---|
-|`apiKey`|The API key, which can be obtained [here](https://developers.google.com/maps/documentation/directions/).<br><br>**Type:** `string`<br>This value is **REQUIRED**|
+|`api_key`|The API key, which can be obtained [here](https://developers.google.com/maps/documentation/directions/).<br><br>**Type:** `string`<br>This value is **REQUIRED**|
 |`origin`|The start location as the address or name of a location.<br>**Example:** `'Yankee Stadium'` or `'500 Main Street New York NY'`<br><br>This value is **REQUIRED**|
 |`destination`|The end location as the address or name of a location.<br>**Example:** `'PNC Arena'` or `'1000 Main Street New York NY'`<br><br>This value is **REQUIRED**|
+|`arrival_time`|If you want the module to give you a departure time, put a 24 hour formatted time that you would like to arrive.<br>**Example:** '1445'|
 |`mode`|Mode of transportation.<br><br>**Default value:** `'driving'`<br>**Other Options:**`'walking' 'bicycling' 'transit'`|
 |`route_name`|A nickname for the route that will appear below the route when set.<br><br>**Example:** `'Home to school'`<br>**Default value:** None|
 |`show_summary`|Show the route's summary after the nickname.<br><br>**Default value:** `true` but won't show unless `route_name` is set<br>**Effect** (in bold): 'Home to school **via Route 1/Main St**'|
@@ -38,6 +39,7 @@ Here is an example of an entry in `config.js`
 		mode: 'driving',
 		origin: '4 Pennsylvania Plaza, New York, NY 10001',
 		destination: '1 MetLife Stadium Dr, East Rutherford, NJ 07073',
+		arrival_time: '0800', //optional, but needs to be in 24 hour time if used.
 		route_name: 'Home to Work',
 		changeColor: true,
 		showGreen: false,
