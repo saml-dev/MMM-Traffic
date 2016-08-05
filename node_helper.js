@@ -60,7 +60,6 @@ module.exports = NodeHelper.create({
 
   timeSub: function(arrivalTime, durationValue, lookPretty) {
     var currentDate = new Date();
-    var requestedDate = new Date (currentDate.getTime() - 3600000); // Minus an Hour
     var nowY = currentDate.getFullYear();
     var nowM = (currentDate.getMonth() + 1).toString();
     if (nowM.length == 1) {
@@ -75,7 +74,7 @@ module.exports = NodeHelper.create({
     var nowMin = arrivalTime.substring(2,4);
     var testDate = new Date(nowY + "-" + nowM + "-" + nowD + " " + nowH + ":" + nowMin + ":00");
     if (lookPretty == 0) {
-      if (requestedDate >= testDate) {
+      if (currentDate >= testDate) {
         var goodDate = new Date (testDate.getTime() + 86400000 - (durationValue*1000)); // Next day minus uncalibrated duration
         return Math.floor(goodDate / 1000);
       } else {
