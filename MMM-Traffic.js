@@ -115,9 +115,10 @@ Module.register('MMM-Traffic', {
             var routeName = document.createElement('div');
             routeName.className = 'dimmed small';
             if (this.summary.length > 0 && this.config.show_summary){
-              routeName.innerHTML = this.config.route_name + ' via ' + this.summary + " to arrive by " + this.config.arrival_time;
+              routeName.innerHTML = this.config.route_name + ' via ' + this.summary + " to arrive by " + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
             } else {
-              routeName.innerHTML = this.config.route_name + " to arrive by " + this.config.arrival_time;
+	      console.log(typeof this.config.arrival_time );
+              routeName.innerHTML = this.config.route_name + " to arrive by " + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
             }
             wrapper.appendChild(routeName);
           }
