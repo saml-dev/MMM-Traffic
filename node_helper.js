@@ -2,7 +2,6 @@
  * Module: MMM-Traffic
  *
  * By Sam Lewis https://github.com/SamLewis0602
- * Edited by Lucas Moch https://github.com/Mochman
  * MIT Licensed.
  */
 
@@ -52,7 +51,7 @@ module.exports = NodeHelper.create({
         var trafficValue = JSON.parse(body).routes[0].legs[0].duration_in_traffic.value;
         var summary = JSON.parse(body).routes[0].summary;
         var finalTime = self.timeSub(arrivalTime, trafficValue, 1);
-        self.sendSocketNotification('TRAFFIC_TIMING', {'commute':finalTime,'summary':summary});
+        self.sendSocketNotification('TRAFFIC_TIMING', {'commute':finalTime,'summary':summary, 'url':api_url});
       }
     });
 
