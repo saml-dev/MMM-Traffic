@@ -92,7 +92,7 @@ module.exports = NodeHelper.create({
       if (finalMins.length == 1) {
         finalMins = "0" + finalMins;
       }
-      return finalHours + finalMins;
+      return finalHours + ":" + finalMins;
     }
   },
 
