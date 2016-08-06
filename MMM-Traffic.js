@@ -4,7 +4,6 @@
  * Module: MMM-Traffic
  *
  * By Sam Lewis https://github.com/SamLewis0602
- * Edited by Luke Moch https://github.com/Mochman
  * MIT Licensed.
  */
 
