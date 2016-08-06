@@ -48,11 +48,15 @@ Module.register('MMM-Traffic', {
     },
 
     updateCommute: function(self) {
-        if (this.config.arrival_time.length == 4) {
-          self.sendSocketNotification('LEAVE_BY', {'url':self.url, 'arrival':self.config.arrival_time});
-        } else {
-          self.sendSocketNotification('TRAFFIC_URL', self.url);
-        }
+	if (this.config.arrival_time !== null) {
+        	if (this.config.arrival_time.length == 4) {
+          		self.sendSocketNotification('LEAVE_BY', {'url':self.url, 'arrival':self.config.arrival_time});
+        	} else {
+          		self.sendSocketNotification('TRAFFIC_URL', self.url);
+        	}
+	} else {
+		self.sendSocketNotification('TRAFFIC_URL', self.url);
+	}
         setTimeout(self.updateCommute, self.config.interval, self);
     },
 
