@@ -75,7 +75,7 @@ Module.register('MMM-Traffic', {
         symbol.className = this.symbols[this.config.mode] + ' symbol';
         commuteInfo.appendChild(symbol);
 
-        if (this.leaveBy == '') {
+        if (this.config.arrival_time == '') {
           //commute time
           var trafficInfo = document.createElement('span');
           trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
