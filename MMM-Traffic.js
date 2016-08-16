@@ -48,7 +48,7 @@ Module.register('MMM-Traffic', {
     },
 
     updateCommute: function(self) {
-        if (this.config.arrival_time.length == 4) {
+        if (self.config.arrival_time.length == 4) {
           self.sendSocketNotification('LEAVE_BY', {'url':self.url, 'arrival':self.config.arrival_time});
         } else {
           self.sendSocketNotification('TRAFFIC_URL', self.url);
