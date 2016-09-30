@@ -18,6 +18,12 @@ module.exports = NodeHelper.create({
     request({url: api_url + "&departure_time=now", method: 'GET'}, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         var trafficComparison = 0;
+	if((JSON.parse(body).status)=='OVER_QUERY_LIMIT')
+	{
+		console.log("API-Call Quote reached for today -> no more calls until 0:00 PST");
+	}
+	else
+	{
         if (JSON.parse(body).routes[0].legs[0].duration_in_traffic) {
           var commute = JSON.parse(body).routes[0].legs[0].duration_in_traffic.text;
           var noTrafficValue = JSON.parse(body).routes[0].legs[0].duration.value;
@@ -29,6 +35,7 @@ module.exports = NodeHelper.create({
         var summary = JSON.parse(body).routes[0].summary;
         self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':commute, 'url':api_url, 'trafficComparison': trafficComparison, 'summary':summary});
       }
+	}
     });
   },
 
