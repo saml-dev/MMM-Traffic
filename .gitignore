@@ -11,8 +11,8 @@ coverage
 .grunt
 .lock-wscript
 build/Release
-node_modules
-jspm_modules
+node_modules/
+jspm_modules/
 .npm
 .node_repl_history
 
@@ -28,8 +28,8 @@ $RECYCLE.BIN/
 *.lnk
 
 # Various OSX ignoramuses.
-.DS_Store
-.AppleDouble
+.DS_Store/
+.AppleDouble/
 .LSOverride
 Icon
 ._*
@@ -49,4 +49,4 @@ Temporary Items
 
 .fuse_hidden*
 .directory
-.Trash-*
+.Trash-
