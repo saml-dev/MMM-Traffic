@@ -4,7 +4,7 @@
   "description": "Google Maps Traffic module for the Magic Mirror.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nigel-daniels/MMM-Traffic"
+    "url": "git+https://github.com/SamLewis0602/MMM-Traffic/"
   },
   "keywords": [
     "magic mirror",
