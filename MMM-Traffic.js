@@ -146,7 +146,7 @@ Module.register('MMM-Traffic', {
             this.trafficComparison = payload.trafficComparison;
             this.loaded = true;
             this.updateDom(1000);
-        } else if (notification === 'TRAFFIC_TIMING') {
+        } else if (notification === 'TRAFFIC_TIMING' && payload.url === this.url) {
             Log.info('received TRAFFIC_TIMING');
             this.leaveBy = payload.commute;
             this.summary = payload.summary;
