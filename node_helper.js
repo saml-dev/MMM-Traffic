@@ -55,7 +55,7 @@ module.exports = NodeHelper.create({
     var self = this;
     request({url: api_url + "&departure_time=" + newTiming, method: 'GET'}, function(error, response, body) {
       if (!error && response.statusCode == 200) {
-        if (JSON.parse(body).routes[0].legs[0].duration_in_traffic.value) {
+        if (JSON.parse(body).routes[0].legs[0].duration_in_traffic) {
           var trafficValue = JSON.parse(body).routes[0].legs[0].duration_in_traffic.value;
         } else {
           var trafficValue = JSON.parse(body).routes[0].legs[0].duration.value;
