@@ -25,7 +25,8 @@ Module.register('MMM-Traffic', {
         limitRed: 30,
         showGreen: true,
         language: config.language,
-        show_summary: true
+        show_summary: true,
+        avoid:''
     },
 
     start: function() {
@@ -134,6 +135,9 @@ Module.register('MMM-Traffic', {
         params += '&key=' + this.config.api_key;
         params += '&traffic_model=' + this.config.traffic_model;
         params += '&language=' + this.config.language;
+        if (this.config.avoid.length > 0) {
+          params += '&avoid=' + this.config.avoid;
+        }
         return params;
     },
 
