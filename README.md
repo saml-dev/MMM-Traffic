@@ -31,7 +31,7 @@ The entry in `config.js` can include the following options:
 |`showWeekend`|A boolean flag used to set if the commute time is requested at the weekend.<br><br>**Default value:** `true`|
 |`allTime`|A boolean flag used to set if the commute time is requested 24hrs a day. If this is set to `false` then the `startHr` and `endHr` are used to set when the times are displayed.<br><br>**Default value:** `true`|
 |`startHr`|An integer used to set the hour when the commute times are first requested if `allTime` is `false`.<br>The range is `0` to `23`.<br><br>**Default value:** `7`|
-|`endHr`|An integer used to set the hour when the commute times are last requested if `allTime` is `false`.<br>The range is `0` to `23`.<br><br>**Default value:** `10`|
+|`endHr`|An integer used to set the hour when the commute times are last requested if `allTime` is `false`.<br>The range is `0` to `23`.<br><br>**Default value:** `22`|
 
 Here is an example of an entry in `config.js`
 ```
