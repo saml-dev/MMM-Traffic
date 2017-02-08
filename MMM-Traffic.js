@@ -26,6 +26,10 @@ Module.register('MMM-Traffic', {
         showGreen: true,
         language: config.language,
         show_summary: true,
+        showWeekend: true,
+        allTime: true,
+        startHr: 7,
+        endHr: 10
         avoid:''
     },
 
@@ -49,10 +53,17 @@ Module.register('MMM-Traffic', {
     },
 
     updateCommute: function(self) {
+        timeConfig = {
+          showWeekend:    self.config.showWeekend,
+          allTime:        self.config.allTime,
+          startHr:        self.config.startHr,
+          endHr:          self.config.endHr
+        };
+
         if (self.config.arrival_time.length == 4) {
-          self.sendSocketNotification('LEAVE_BY', {'url':self.url, 'arrival':self.config.arrival_time});
+          self.sendSocketNotification('LEAVE_BY', {'url':self.url, 'arrival':self.config.arrival_time, 'timeConfig':timeConfig});
         } else {
-          self.sendSocketNotification('TRAFFIC_URL', self.url);
+          self.sendSocketNotification('TRAFFIC_URL', {'url':self.url, 'timeConfig':timeConfig});
         }
         setTimeout(self.updateCommute, self.config.interval, self);
     },
