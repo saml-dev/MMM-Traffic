@@ -30,6 +30,7 @@ Module.register('MMM-Traffic', {
         allTime: true,
         startHr: 7,
         endHr: 10
+        avoid:''
     },
 
     start: function() {
@@ -145,6 +146,9 @@ Module.register('MMM-Traffic', {
         params += '&key=' + this.config.api_key;
         params += '&traffic_model=' + this.config.traffic_model;
         params += '&language=' + this.config.language;
+        if (this.config.avoid.length > 0) {
+          params += '&avoid=' + this.config.avoid;
+        }
         return params;
     },
 
@@ -157,7 +161,7 @@ Module.register('MMM-Traffic', {
             this.trafficComparison = payload.trafficComparison;
             this.loaded = true;
             this.updateDom(1000);
-        } else if (notification === 'TRAFFIC_TIMING') {
+        } else if (notification === 'TRAFFIC_TIMING' && payload.url === this.url) {
             Log.info('received TRAFFIC_TIMING');
             this.leaveBy = payload.commute;
             this.summary = payload.summary;
