@@ -29,7 +29,7 @@ Module.register('MMM-Traffic', {
         showWeekend: true,
         allTime: true,
         startHr: 7,
-        endHr: 10
+        endHr: 10,
         avoid:''
     },
 
