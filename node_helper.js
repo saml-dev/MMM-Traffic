@@ -42,7 +42,7 @@ module.exports = NodeHelper.create({
     	  }
       });
     } else {
-      self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':'-- mins', 'url':api_url, 'trafficComparison': 0.0, 'summary': '--'});
+      self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':'--', 'url':api_url, 'trafficComparison': 0.0, 'summary': '--'});
     }
   },
 
@@ -58,7 +58,7 @@ module.exports = NodeHelper.create({
         }
       });
   } else {
-    self.sendSocketNotification('TRAFFIC_TIMING', {'commute':'-- mins','summary':'--', 'url':api_url});
+    self.sendSocketNotification('TRAFFIC_TIMING', {'commute':'--','summary':'--', 'url':api_url});
   }
   },
 
