@@ -66,8 +66,12 @@ module.exports = NodeHelper.create({
     var self = this;
     request({url: api_url + "&departure_time=" + newTiming, method: 'GET'}, function(error, response, body) {
       if (!error && response.statusCode == 200) {
-        var trafficValue = JSON.parse(body).routes[0].legs[0].duration_in_traffic.value;
-        var summary = JSON.parse(body).routes[0].summary;
+	if (JSON.parse(body).routes[0].legs[0].duration_in_traffic) {
+          var trafficValue = JSON.parse(body).routes[0].legs[0].duration_in_traffic.value;
+        } else {
+          var trafficValue = JSON.parse(body).routes[0].legs[0].duration.value;
+	}
+	var summary = JSON.parse(body).routes[0].summary;
         var finalTime = self.timeSub(arrivalTime, trafficValue, 1);
         self.sendSocketNotification('TRAFFIC_TIMING', {'commute':finalTime,'summary':summary, 'url':api_url});
       }
