@@ -31,9 +31,9 @@ Module.register('MMM-Traffic', {
         startHr: 7,
         endHr: 22,
         avoid:'',
-	summaryText:'via',
-	leaveByText:'Leave by',
-	arriveByText:'to arrive by'
+	      summaryText:'via',
+	      leaveByText:'Leave by',
+	      arriveByText:'to arrive by'
     },
 
     start: function() {
