@@ -27,9 +27,9 @@ The entry in `config.js` can include the following options:
 |`interval`|How often the traffic is updated.<br><br>**Default value:** `300000 //5 minutes`|
 |`loadingText`|The text used when loading the initial commute time.<br><br>**Default value:** `'Loading commute...'`|
 |`prependText`|The text used in front of the commute time.<br><br>**Default value:** `'Current commute is'`|
-|`prependText`|The text used in front of the summary.<br><br>**Default value:** `'via'`|
-|`prependText`|The text used in the route name when `arrival_time` is set.<br><br>**Default value:** `'to arrive by'`|
-|`prependText`|The text used in front of the commute time when `arrival_time` is set.<br><br>**Default value:** `'Leave by'`|
+|`summaryText`|The text used in front of the summary.<br><br>**Default value:** `'via'`|
+|`arriveByText`|The text used in the route name when `arrival_time` is set.<br><br>**Default value:** `'to arrive by'`|
+|`leaveByText`|The text used in front of the commute time when `arrival_time` is set.<br><br>**Default value:** `'Leave by'`|
 |`language`|Define the commute time language.<br><br>**Example:** `en`<br>**Default value:** `config.language`|
 
 Here is an example of an entry in `config.js`
