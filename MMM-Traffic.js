@@ -30,7 +30,10 @@ Module.register('MMM-Traffic', {
         allTime: true,
         startHr: 7,
         endHr: 22,
-        avoid:''
+        avoid:'',
+	summaryText:'via',
+	leaveByText:'Leave by',
+	arriveByText:'to arrive by'
     },
 
     start: function() {
@@ -109,7 +112,7 @@ Module.register('MMM-Traffic', {
             var routeName = document.createElement('div');
             routeName.className = 'dimmed small';
             if (this.summary.length > 0 && this.config.show_summary){
-              routeName.innerHTML = this.config.route_name + ' via ' + this.summary; //todo translatable?
+              routeName.innerHTML = this.config.route_name + ' ' + this.config.summaryText + ' ' + this.summary;
             } else {
               routeName.innerHTML = this.config.route_name;
             }
@@ -118,7 +121,7 @@ Module.register('MMM-Traffic', {
         } else {
           //leave-by time
           var trafficInfo = document.createElement('span');
-          trafficInfo.innerHTML = "Leave by " + this.leaveBy;
+          trafficInfo.innerHTML = this.config.leaveByText + ' ' + this.leaveBy;
           commuteInfo.appendChild(trafficInfo);
   	      wrapper.appendChild(commuteInfo);
 
@@ -127,10 +130,10 @@ Module.register('MMM-Traffic', {
             var routeName = document.createElement('div');
             routeName.className = 'dimmed small';
             if (this.summary.length > 0 && this.config.show_summary){
-              routeName.innerHTML = this.config.route_name + ' via ' + this.summary + " to arrive by " + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
+              routeName.innerHTML = this.config.route_name + ' ' + this.config.summaryText + ' ' + this.summary + ' ' + this.config.arriveByText + ' ' + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
             } else {
 	      console.log(typeof this.config.arrival_time );
-              routeName.innerHTML = this.config.route_name + " to arrive by " + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
+              routeName.innerHTML = this.config.route_name + ' ' + this.config.arriveByText + ' ' + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
             }
             wrapper.appendChild(routeName);
           }
