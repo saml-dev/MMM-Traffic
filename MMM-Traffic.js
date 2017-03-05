@@ -85,7 +85,7 @@ Module.register('MMM-Traffic', {
             return wrapper;
         }
 
-        if (this.commute == '' && this.hideOffHours && !this.allTime) {
+        if (this.commute == '' && this.config.hideOffHours && !this.config.allTime) {
             wrapper.innerHTML = '';
             return wrapper;
         }
