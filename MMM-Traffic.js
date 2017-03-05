@@ -33,7 +33,8 @@ Module.register('MMM-Traffic', {
         avoid:'',
 	      summaryText:'via',
 	      leaveByText:'Leave by',
-	      arriveByText:'to arrive by'
+	      arriveByText:'to arrive by',
+        hideOffHours: false
     },
 
     start: function() {
@@ -81,6 +82,11 @@ Module.register('MMM-Traffic', {
 
         if (!this.loaded) {
             wrapper.innerHTML = this.config.loadingText;
+            return wrapper;
+        }
+
+        if (this.commute = '' && !this.allTime) {
+            wrapper.innerHTML = '';
             return wrapper;
         }
 
