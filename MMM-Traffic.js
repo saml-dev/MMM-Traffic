@@ -78,7 +78,8 @@ Module.register('MMM-Traffic', {
 
     getDom: function() {
         var wrapper = document.createElement("div");
-        var commuteInfo = document.createElement('div'); //support for config.changeColor
+        var commuteInfo = document.createElement('div');
+        var routeName = document.createElement('div');
 
         if (!this.loaded) {
             wrapper.innerHTML = this.config.loadingText;
@@ -101,39 +102,23 @@ Module.register('MMM-Traffic', {
           trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
           commuteInfo.appendChild(trafficInfo);
 
-          //change color if desired and append
-          if (this.config.changeColor) {
-            if (this.trafficComparison >= 1 + (this.config.limitRed / 100)) {
-              commuteInfo.className += ' red';
-            } else if (this.trafficComparison >= 1 + (this.config.limitYellow / 100)) {
-              commuteInfo.className += ' yellow';
-            } else if (this.config.showGreen) {
-              commuteInfo.className += ' green';
-            }
-          }
-          wrapper.appendChild(commuteInfo);
-
           //routeName
           if (this.config.route_name) {
-            var routeName = document.createElement('div');
             routeName.className = 'dimmed small';
             if (this.summary.length > 0 && this.config.show_summary){
               routeName.innerHTML = this.config.route_name + ' ' + this.config.summaryText + ' ' + this.summary;
             } else {
               routeName.innerHTML = this.config.route_name;
             }
-            wrapper.appendChild(routeName);
           }
         } else {
           //leave-by time
           var trafficInfo = document.createElement('span');
           trafficInfo.innerHTML = this.config.leaveByText + ' ' + this.leaveBy;
           commuteInfo.appendChild(trafficInfo);
-  	      wrapper.appendChild(commuteInfo);
 
           //routeName
           if (this.config.route_name) {
-            var routeName = document.createElement('div');
             routeName.className = 'dimmed small';
             if (this.summary.length > 0 && this.config.show_summary){
               routeName.innerHTML = this.config.route_name + ' ' + this.config.summaryText + ' ' + this.summary + ' ' + this.config.arriveByText + ' ' + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
@@ -141,9 +126,22 @@ Module.register('MMM-Traffic', {
 	      console.log(typeof this.config.arrival_time );
               routeName.innerHTML = this.config.route_name + ' ' + this.config.arriveByText + ' ' + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
             }
-            wrapper.appendChild(routeName);
           }
         }
+
+        //change color if desired
+        if (this.config.changeColor) {
+          if (this.trafficComparison >= 1 + (this.config.limitRed / 100)) {
+            commuteInfo.className += ' red';
+          } else if (this.trafficComparison >= 1 + (this.config.limitYellow / 100)) {
+            commuteInfo.className += ' yellow';
+          } else if (this.config.showGreen) {
+            commuteInfo.className += ' green';
+          }
+        }
+
+        wrapper.appendChild(commuteInfo);
+        wrapper.appendChild(routeName);
         return wrapper;
     },
 
