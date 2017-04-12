@@ -185,7 +185,6 @@ Module.register('MMM-Traffic', {
           default:
             //to handle Sat and Sun (GoogleAPI may raise error if no destination set)   
             todays_destination = this.config.destination; 
-            break;
         }
 
         if(todays_destination === ""){ //if no weekday destinations defined in config.js, set to default
