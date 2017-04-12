@@ -154,7 +154,7 @@ Module.register('MMM-Traffic', {
         var params = '?';
         params += 'mode=' + this.config.mode;
         params += '&origin=' + this.config.origin;
-        params += '&destination=' + getTodaysDestination();
+        params += '&destination=' + this.getTodaysDestination();
         params += '&key=' + this.config.api_key;
         params += '&traffic_model=' + this.config.traffic_model;
         params += '&language=' + this.config.language;
@@ -188,7 +188,7 @@ Module.register('MMM-Traffic', {
             break;
         }
 
-        if(todays_destination == ""){ //if no weekday destinations defined in config.js, set to default
+        if(todays_destination === ""){ //if no weekday destinations defined in config.js, set to default
             todays_destination = this.config.destination;           
         }
 
