@@ -14,7 +14,7 @@ Module.register('MMM-Traffic', {
         mode: 'driving',
         interval: 300000, //all modules use milliseconds
         origin: '',
-        defaultDestination: '',
+        destination: '',
         mon_destination: '',
         tues_destination: '',
         wed_destination: '',
@@ -154,30 +154,7 @@ Module.register('MMM-Traffic', {
         var params = '?';
         params += 'mode=' + this.config.mode;
         params += '&origin=' + this.config.origin;
-        
-        var destination = ""
-        switch (new Date().getDay()) {
-          case 1:
-            destination = this.config.mon_destination;
-            break;
-          case 2:
-            destination = this.config.tues_destination;
-            break;
-          case 3:
-            destination = this.config.wed_destination; 
-            break;
-          case 4:
-            destination = this.config.thurs_destination;
-            break;
-          case 5:
-            destination = this.config.fri_destination;
-            break;
-          default:
-            //to handle Sat and Sun. GoogleAPI may raise error if no destination set       
-            destination = this.config.defaultDestination; 
-            break;
-        }
-        params += '&destination=' + destination;
+        params += '&destination=' + getTodaysDestination();
         params += '&key=' + this.config.api_key;
         params += '&traffic_model=' + this.config.traffic_model;
         params += '&language=' + this.config.language;
@@ -185,6 +162,37 @@ Module.register('MMM-Traffic', {
           params += '&avoid=' + this.config.avoid;
         }
         return params;
+    },
+
+    getTodaysDestination: function() {
+        var todays_destination = "";
+        switch (new Date().getDay()) {
+          case 1:
+            todays_destination = this.config.mon_destination;
+            break;
+          case 2:
+            todays_destination = this.config.tues_destination;
+            break;
+          case 3:
+            todays_destination = this.config.wed_destination; 
+            break;
+          case 4:
+            todays_destination = this.config.thurs_destination;
+            break;
+          case 5:
+            todays_destination = this.config.fri_destination;
+            break;
+          default:
+            //to handle Sat and Sun (GoogleAPI may raise error if no destination set)   
+            todays_destination = this.config.destination; 
+            break;
+        }
+
+        if(todays_destination == ""){ //if no weekday destinations defined in config.js, set to default
+            todays_destination = this.config.destination;           
+        }
+
+        return todays_destination;
     },
 
     socketNotificationReceived: function(notification, payload) {
