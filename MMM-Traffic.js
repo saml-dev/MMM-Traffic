@@ -171,6 +171,7 @@ Module.register('MMM-Traffic', {
         } else if (notification === 'TRAFFIC_TIMING' && payload.url === this.url) {
             Log.info('received TRAFFIC_TIMING');
             this.leaveBy = payload.commute;
+	    this.commute = payload.commute; //support for hideOffHours
             this.summary = payload.summary;
             this.loaded = true;
             this.updateDom(1000);
