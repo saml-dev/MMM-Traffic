@@ -39,7 +39,9 @@ Module.register('MMM-Traffic', {
 	      summaryText:'via',
 	      leaveByText:'Leave by',
 	      arriveByText:'to arrive by',
-        hideOffHours: false
+        hideOffHours: false,
+        showAddress: false,
+        showAddressText: 'From {origin}<br>To {destination}'
     },
 
     start: function() {
@@ -85,6 +87,7 @@ Module.register('MMM-Traffic', {
         var wrapper = document.createElement("div");
         var commuteInfo = document.createElement('div');
         var routeName = document.createElement('div');
+        var addressDiv = document.createElement('div');
 
         if (!this.loaded) {
             wrapper.innerHTML = this.config.loadingText;
@@ -128,10 +131,18 @@ Module.register('MMM-Traffic', {
             if (this.summary.length > 0 && this.config.show_summary){
               routeName.innerHTML = this.config.route_name + ' ' + this.config.summaryText + ' ' + this.summary + ' ' + this.config.arriveByText + ' ' + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
             } else {
-	      console.log(typeof this.config.arrival_time );
               routeName.innerHTML = this.config.route_name + ' ' + this.config.arriveByText + ' ' + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
             }
           }
+        }
+
+        //show address
+        if (this.config.showAddress) {
+          addressDiv.className = 'dimmed small';
+          addressText = this.config.showAddressText
+                                    .replace('{origin}', this.config.origin)
+                                    .replace('{destination}', this.getTodaysDestination());
+          addressDiv.innerHTML = addressText;
         }
 
         //change color if desired
@@ -147,6 +158,7 @@ Module.register('MMM-Traffic', {
 
         wrapper.appendChild(commuteInfo);
         wrapper.appendChild(routeName);
+        wrapper.appendChild(addressDiv);
         return wrapper;
     },
 
@@ -206,7 +218,7 @@ Module.register('MMM-Traffic', {
         } else if (notification === 'TRAFFIC_TIMING' && payload.url === this.url) {
             Log.info('received TRAFFIC_TIMING');
             this.leaveBy = payload.commute;
-	    this.commute = payload.commute; //support for hideOffHours
+	          this.commute = payload.commute; //support for hideOffHours
             this.summary = payload.summary;
             this.loaded = true;
             this.updateDom(1000);

@@ -37,6 +37,8 @@ The entry in `config.js` can include the following options:
 |`startHr`|An integer used to set the hour when the commute times are first requested if `allTime` is `false`.<br>The range is `0` to `23`.<br><br>**Default value:** `7`|
 |`endHr`|An integer used to set the hour when the commute times are last requested if `allTime` is `false`.<br>The range is `0` to `23`.<br><br>**Default value:** `22`|
 |`hideOffHours`|A boolean flag used to set if the module will be hidden when outside the days/times designated in the above 4 parameters.<br><br>**Default value:** `false`|
+|`showAddress`|A boolean flag used to set if the address will be shown underneath the commute time.<br><br>**Default value:** `false`|
+|`showAddressText`|A string used to customize the address below the commute time. `{origin}` and `{destination}` will be replaced with the actual values, and `<br>` can be used to insert a line break.<br><br>**Default value:** `'From {origin}<br>To {destination}'`|
 
 Here is an example of an entry in `config.js`
 ```
@@ -58,9 +60,7 @@ Here is an example of an entry in `config.js`
 		limitYellow: 5, //Greater than 5% of journey time due to traffic
 		limitRed: 20, //Greater than 20% of journey time due to traffic
 		traffic_model: 'pessimistic',
-		interval: 120000, //2 minutes
-		showWeekend: false,
-		allTime: false
+		interval: 120000 //2 minutes
 	}
 },
 ```
