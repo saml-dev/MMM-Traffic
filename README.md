@@ -19,6 +19,7 @@ The entry in `config.js` can include the following options:
 |`mode`|Mode of transportation.<br><br>**Default value:** `'driving'`<br>**Other Options:**`'walking' 'bicycling' 'transit'`|
 |`avoid`|Set to 'tolls','highways', or 'ferries' to avoid them in the route<br><br>**Default value:** None|
 |`route_name`|A nickname for the route that will appear below the route when set.<br><br>**Example:** `'Home to school'`<br>**Default value:** None|
+|`mon_route_name`|If you want to specify a different route_name for every Monday, use this. This Option exists for all of the other days of the week as well: `tues_route_name`, `wed_route_name`, `thurs_route_name`, `fri_route_name`, `sat_route_name`, `sun_route_name`<br><br>**Default value:** None|
 |`show_summary`|Show the route's summary after the nickname.<br><br>**Default value:** `true` but won't show unless `route_name` is set<br>**Effect** (in bold): 'Home to school **via Route 1/Main St**'|
 |`traffic_model`|Model for traffic estimation.<br><br>**Default value:** `'best_guess'`<br>**Other Options:**`'optimistic' 'pessimistic'`|
 |`changeColor`|When `changeColor` is set to true, the color of the commute info will change based on traffic. If traffic increases the commute by `limitYellow`, the symbol and commute text will be yellow. An increase of `limitRed` will change the color to red. If the traffic doesn't increase the commute by at least `limitYellow`, the color will be green.<br><br>**Default value:** `false`|

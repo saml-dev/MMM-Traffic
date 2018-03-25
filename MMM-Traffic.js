@@ -22,6 +22,13 @@ Module.register('MMM-Traffic', {
         fri_destination: '',
         sat_destination: '',
         sun_destination: '',
+        mon_route_name: '',
+        tues_route_name: '',
+        wed_route_name: '',
+        thurs_route_name: '',
+        fri_route_name: '',
+        sat_route_name: '',
+        sun_route_name: '',
         traffic_model: 'best_guess',
         departure_time: 'now',
         arrival_time: '',
@@ -113,12 +120,12 @@ Module.register('MMM-Traffic', {
           commuteInfo.appendChild(trafficInfo);
 
           //routeName
-          if (this.config.route_name) {
+          if (this.getTodaysRouteName()) {
             routeName.className = 'dimmed small';
             if (this.summary.length > 0 && this.config.show_summary){
-              routeName.innerHTML = this.config.route_name + ' ' + this.config.summaryText + ' ' + this.summary;
+              routeName.innerHTML = this.getTodaysRouteName() + ' ' + this.config.summaryText + ' ' + this.summary;
             } else {
-              routeName.innerHTML = this.config.route_name;
+              routeName.innerHTML = this.getTodaysRouteName();
             }
           }
         } else {
@@ -128,12 +135,12 @@ Module.register('MMM-Traffic', {
           commuteInfo.appendChild(trafficInfo);
 
           //routeName
-          if (this.config.route_name) {
+          if (this.getTodaysRouteName()) {
             routeName.className = 'dimmed small';
             if (this.summary.length > 0 && this.config.show_summary){
-              routeName.innerHTML = this.config.route_name + ' ' + this.config.summaryText + ' ' + this.summary + ' ' + this.config.arriveByText + ' ' + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
+              routeName.innerHTML = this.getTodaysRouteName() + ' ' + this.config.summaryText + ' ' + this.summary + ' ' + this.config.arriveByText + ' ' + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
             } else {
-              routeName.innerHTML = this.config.route_name + ' ' + this.config.arriveByText + ' ' + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
+              routeName.innerHTML = this.getTodaysRouteName() + ' ' + this.config.arriveByText + ' ' + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
             }
           }
         }
@@ -181,6 +188,9 @@ Module.register('MMM-Traffic', {
     getTodaysDestination: function() {
         var todays_destination = "";
         switch (new Date().getDay()) {
+          case 0:
+            todays_destination = this.config.sun_destination;
+            break;
           case 1:
             todays_destination = this.config.mon_destination;
             break;
@@ -199,16 +209,46 @@ Module.register('MMM-Traffic', {
           case 6:
             todays_destination = this.config.sat_destination;
             break;
-          case 7:
-            todays_destination = this.config.sun_destination;
-            break;
         }
 
-        if(todays_destination === ""){ //if no weekday destinations defined in config.js, set to default
+        if (todays_destination === ""){ //if no weekday destinations defined in config.js, set to default
             todays_destination = this.config.destination;           
         }
 
         return todays_destination;
+    },
+
+    getTodaysRouteName: function() {
+        var todays_route_name = "";
+        switch (new Date().getDay()) {
+          case 0:
+            todays_route_name = this.config.sun_route_name;
+            break;
+          case 1:
+            todays_route_name = this.config.mon_route_name;
+            break;
+          case 2:
+            todays_route_name = this.config.tues_route_name;
+            break;
+          case 3:
+            todays_route_name = this.config.wed_route_name; 
+            break;
+          case 4:
+            todays_route_name = this.config.thurs_route_name;
+            break;
+          case 5:
+            todays_route_name = this.config.fri_route_name;
+            break;
+          case 6:
+            todays_route_name = this.config.sat_route_name;
+            break;
+        }
+
+        if (todays_route_name === "" && this.config.route_name){ //if no weekday route_names defined in config.js, set to default
+            todays_route_name = this.config.route_name;
+        } 
+
+        return todays_route_name;
     },
 
     socketNotificationReceived: function(notification, payload) {
