@@ -20,6 +20,8 @@ Module.register('MMM-Traffic', {
         wed_destination: '',
         thurs_destination: '',
         fri_destination: '',
+        sat_destination: '',
+        sun_destination: '',
         traffic_model: 'best_guess',
         departure_time: 'now',
         arrival_time: '',
@@ -194,9 +196,12 @@ Module.register('MMM-Traffic', {
           case 5:
             todays_destination = this.config.fri_destination;
             break;
-          default:
-            //to handle Sat and Sun (GoogleAPI may raise error if no destination set)   
-            todays_destination = this.config.destination; 
+          case 6:
+            todays_destination = this.config.sat_destination;
+            break;
+          case 7:
+            todays_destination = this.config.sun_destination;
+            break;
         }
 
         if(todays_destination === ""){ //if no weekday destinations defined in config.js, set to default

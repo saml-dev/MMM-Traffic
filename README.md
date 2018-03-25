@@ -14,7 +14,7 @@ The entry in `config.js` can include the following options:
 |`api_key`|The API key, which can be obtained [here](https://developers.google.com/maps/documentation/directions/).<br><br>**Type:** `string`<br>This value is **REQUIRED**|
 |`origin`|The start location as the address or name of a location.<br>**Example:** `'Yankee Stadium'` or `'500 Main Street New York NY'`<br><br>This value is **REQUIRED**|
 |`destination`|The end location as the address or name of a location.<br>**Example:** `'PNC Arena'` or `'1000 Main Street New York NY'`<br><br>This value is **REQUIRED**|
-|`mon_destination`|If you want to specify a different destination for every Monday, use this. This Option exists for all of the other weekdays as well: `tues_destination`, `wed_destination`, `thurs_destination`, `fri_destination`<br><br>**Example:** `'PNC Arena'` or `'1000 Main Street New York NY'`
+|`mon_destination`|If you want to specify a different destination for every Monday, use this. This Option exists for all of the other days of the week as well: `tues_destination`, `wed_destination`, `thurs_destination`, `fri_destination`, `sat_destination`, `sun_destination`<br><br>**Example:** `'PNC Arena'` or `'1000 Main Street New York NY'`
 |`arrival_time`|If you want the module to give you a departure time, put a 24 hour formatted time that you would like to arrive.<br>**Example:** `'1445'`|
 |`mode`|Mode of transportation.<br><br>**Default value:** `'driving'`<br>**Other Options:**`'walking' 'bicycling' 'transit'`|
 |`avoid`|Set to 'tolls','highways', or 'ferries' to avoid them in the route<br><br>**Default value:** None|
