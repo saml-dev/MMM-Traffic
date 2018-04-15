@@ -17,10 +17,11 @@ The entry in `config.js` can include the following options:
 |`mon_destination`|If you want to specify a different destination for every Monday, use this. This Option exists for all of the other days of the week as well: `tues_destination`, `wed_destination`, `thurs_destination`, `fri_destination`, `sat_destination`, `sun_destination`<br><br>**Example:** `'PNC Arena'` or `'1000 Main Street New York NY'`
 |`arrival_time`|If you want the module to give you a departure time, put a 24 hour formatted time that you would like to arrive.<br>**Example:** `'1445'`|
 |`mode`|Mode of transportation.<br><br>**Default value:** `'driving'`<br>**Other Options:**`'walking' 'bicycling' 'transit'`|
-|`avoid`|Set to 'tolls','highways', or 'ferries' to avoid them in the route<br><br>**Default value:** None|
-|`route_name`|A nickname for the route that will appear below the route when set.<br><br>**Example:** `'Home to school'`<br>**Default value:** None|
+|`avoid`|Set to 'tolls','highways', or 'ferries' to avoid them in the route.<br><br>**Default value:** `false`|
+|`showRouteInfo`|Set to true to show info about your route below the commute time.<br><br>**Default value:** None|
+|`showRouteInfoText`|Text that determines what route info is shown. The following token values will be replaced with their actual values:<br>`{routeName}`<br>`{summary}` (not supported when mode is 'transit')<br>`{arrivalTime}`<br>`{detailedSummary}` (recommended to have this at the end of the string)<br><br>**Default value:** `'{routeName} via {summary}'`|
+|`route_name`|A nickname for the route that can appear in the route info line below the commute.<br><br>**Example:** `'Home to school'`<br>**Default value:** None|
 |`mon_route_name`|If you want to specify a different route_name for every Monday, use this. This Option exists for all of the other days of the week as well: `tues_route_name`, `wed_route_name`, `thurs_route_name`, `fri_route_name`, `sat_route_name`, `sun_route_name`<br><br>**Default value:** None|
-|`show_summary`|Show the route's summary after the nickname.<br><br>**Default value:** `true` but won't show unless `route_name` is set<br>**Effect** (in bold): 'Home to school **via Route 1/Main St**'|
 |`traffic_model`|Model for traffic estimation.<br><br>**Default value:** `'best_guess'`<br>**Other Options:**`'optimistic' 'pessimistic'`|
 |`changeColor`|When `changeColor` is set to true, the color of the commute info will change based on traffic. If traffic increases the commute by `limitYellow`, the symbol and commute text will be yellow. An increase of `limitRed` will change the color to red. If the traffic doesn't increase the commute by at least `limitYellow`, the color will be green.<br><br>**Default value:** `false`|
 |`limitYellow`|Percentage increase in commute time due to traffic to turn commute text yellow.<br><br>**Default value:** `10`|
@@ -29,9 +30,7 @@ The entry in `config.js` can include the following options:
 |`interval`|How often the traffic is updated.<br><br>**Default value:** `300000 //5 minutes`|
 |`loadingText`|The text used when loading the initial commute time.<br><br>**Default value:** `'Loading commute...'`|
 |`prependText`|The text used in front of the commute time.<br><br>**Default value:** `'Current commute is'`|
-|`summaryText`|The text used in between the route name and the route summary.<br><br>**Default value:** `'via'`|
 |`arriveByText`|The text used in the route summary when `arrival_time` is set.<br><br>**Default value:** `'to arrive by'`|
-|`leaveByText`|The text used in front of the time to leave when `arrival_time` is set.<br><br>**Default value:** `'Leave by'`|
 |`language`|Define the commute time language.<br><br>**Example:** `en`<br>**Default value:** `config.language`|
 |`showWeekend`|A boolean flag used to set if the commute time is requested at the weekend.<br><br>**Default value:** `true`|
 |`allTime`|A boolean flag used to set if the commute time is requested 24hrs a day. If this is set to `false` then the `startHr` and `endHr` are used to set when the times are displayed.<br><br>**Default value:** `true`|

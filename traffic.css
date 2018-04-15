@@ -13,3 +13,7 @@
 .red {
   color: #FF4C4C;
 }
+
+#detailedSummary td {
+  padding-right: 10px;
+}

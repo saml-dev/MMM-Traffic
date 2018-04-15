@@ -15,26 +15,14 @@ Module.register('MMM-Traffic', {
         interval: 300000, //all modules use milliseconds
         origin: '',
         destination: '',
-        mon_destination: '',
-        tues_destination: '',
-        wed_destination: '',
-        thurs_destination: '',
-        fri_destination: '',
-        sat_destination: '',
-        sun_destination: '',
-        mon_route_name: '',
-        tues_route_name: '',
-        wed_route_name: '',
-        thurs_route_name: '',
-        fri_route_name: '',
-        sat_route_name: '',
-        sun_route_name: '',
         traffic_model: 'best_guess',
         departure_time: 'now',
         arrival_time: '',
         loadingText: 'Loading commute...',
         prependText: 'Current commute is',
         changeColor: false,
+        showRouteInfo: false,
+        showRouteInfoText: '{routeName} via {summary}',
         limitYellow: 10,
         limitRed: 30,
         showGreen: true,
@@ -45,9 +33,7 @@ Module.register('MMM-Traffic', {
         startHr: 7,
         endHr: 22,
         avoid:'',
-	      summaryText:'via',
 	      leaveByText:'Leave by',
-	      arriveByText:'to arrive by',
         hideOffHours: false,
         showAddress: false,
         showAddressText: 'From {origin}<br>To {destination}'
@@ -81,7 +67,7 @@ Module.register('MMM-Traffic', {
         };
 
         if (self.config.arrival_time.length == 4) {
-          self.sendSocketNotification('LEAVE_BY', {'url':self.url, 'arrival':self.config.arrival_time, 'timeConfig':timeConfig});
+          self.sendSocketNotification('LEAVE_BY', {'url':self.url, 'arrival':self.getTodaysArrivalTime(), 'timeConfig':timeConfig});
         } else {
           self.sendSocketNotification('TRAFFIC_URL', {'url':self.url, 'timeConfig':timeConfig});
         }
@@ -95,7 +81,7 @@ Module.register('MMM-Traffic', {
     getDom: function() {
         var wrapper = document.createElement("div");
         var commuteInfo = document.createElement('div');
-        var routeName = document.createElement('div');
+        var routeInfo = document.createElement('div');
         var addressDiv = document.createElement('div');
 
         if (!this.loaded) {
@@ -113,36 +99,27 @@ Module.register('MMM-Traffic', {
         symbol.className = this.symbols[this.config.mode] + ' symbol';
         commuteInfo.appendChild(symbol);
 
-        if (this.config.arrival_time == '') {
+        //commute
+        var trafficInfo = document.createElement('span');
+        if (!this.config.arrival_time) {
           //commute time
-          var trafficInfo = document.createElement('span');
           trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
-          commuteInfo.appendChild(trafficInfo);
-
-          //routeName
-          if (this.getTodaysRouteName()) {
-            routeName.className = 'dimmed small';
-            if (this.summary.length > 0 && this.config.show_summary){
-              routeName.innerHTML = this.getTodaysRouteName() + ' ' + this.config.summaryText + ' ' + this.summary;
-            } else {
-              routeName.innerHTML = this.getTodaysRouteName();
-            }
-          }
         } else {
           //leave-by time
-          var trafficInfo = document.createElement('span');
           trafficInfo.innerHTML = this.config.leaveByText + ' ' + this.leaveBy;
-          commuteInfo.appendChild(trafficInfo);
+        }
+        commuteInfo.appendChild(trafficInfo);
 
-          //routeName
-          if (this.getTodaysRouteName()) {
-            routeName.className = 'dimmed small';
-            if (this.summary.length > 0 && this.config.show_summary){
-              routeName.innerHTML = this.getTodaysRouteName() + ' ' + this.config.summaryText + ' ' + this.summary + ' ' + this.config.arriveByText + ' ' + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
-            } else {
-              routeName.innerHTML = this.getTodaysRouteName() + ' ' + this.config.arriveByText + ' ' + this.config.arrival_time.substring(0,2) + ":" + this.config.arrival_time.substring(2,4);
-            }
-          }
+        //routeInfo
+        if (this.config.showRouteInfo) {
+          routeInfo.className = 'dimmed small';
+          var time = this.getTodaysArrivalTime();
+          var routeInfoText = this.config.showRouteInfoText
+                                      .replace('{summary}', this.summary)
+                                      .replace('{detailedSummary}', this.detailedSummary)
+                                      .replace('{routeName}', this.getTodaysRouteName())
+                                      .replace('{arrivalTime}', time.substring(0,2) + ':' + time.substring(2,4));
+          routeInfo.innerHTML = routeInfoText;
         }
 
         //show address
@@ -166,7 +143,7 @@ Module.register('MMM-Traffic', {
         }
 
         wrapper.appendChild(commuteInfo);
-        wrapper.appendChild(routeName);
+        wrapper.appendChild(routeInfo);
         wrapper.appendChild(addressDiv);
         return wrapper;
     },
@@ -211,7 +188,7 @@ Module.register('MMM-Traffic', {
             break;
         }
 
-        if (todays_destination === ""){ //if no weekday destinations defined in config.js, set to default
+        if (!todays_destination){ //if no weekday destinations defined in config.js, set to default
             todays_destination = this.config.destination;           
         }
 
@@ -244,11 +221,44 @@ Module.register('MMM-Traffic', {
             break;
         }
 
-        if (todays_route_name === "" && this.config.route_name){ //if no weekday route_names defined in config.js, set to default
+        if (!todays_route_name && this.config.route_name){ //if no weekday route_names defined in config.js, set to default
             todays_route_name = this.config.route_name;
         } 
 
         return todays_route_name;
+    },
+
+    getTodaysArrivalTime: function() {
+      var final_arrival_time = "";
+      switch (new Date().getDay()) {
+        case 0:
+          final_arrival_time = this.config.sun_arrival_time;
+          break;
+        case 1:
+          final_arrival_time = this.config.mon_arrival_time;
+          break;
+        case 2:
+          final_arrival_time = this.config.tues_arrival_time;
+          break;
+        case 3:
+          final_arrival_time = this.config.wed_arrival_time; 
+          break;
+        case 4:
+          final_arrival_time = this.config.thurs_arrival_time;
+          break;
+        case 5:
+          final_arrival_time = this.config.fri_arrival_time;
+          break;
+        case 6:
+          final_arrival_time = this.config.sat_arrival_time;
+          break;
+      }
+
+      if (!final_arrival_time){ //if no weekday arrival_times defined in config.js, set to default
+          final_arrival_time = this.config.arrival_time;           
+      }
+
+      return final_arrival_time;
     },
 
     socketNotificationReceived: function(notification, payload) {
@@ -257,6 +267,7 @@ Module.register('MMM-Traffic', {
             Log.info('received TRAFFIC_COMMUTE');
             this.commute = payload.commute;
             this.summary = payload.summary;
+            this.detailedSummary = payload.detailedSummary;
             this.trafficComparison = payload.trafficComparison;
             this.loaded = true;
             this.updateDom(1000);
@@ -265,6 +276,7 @@ Module.register('MMM-Traffic', {
             this.leaveBy = payload.commute;
 	          this.commute = payload.commute; //support for hideOffHours
             this.summary = payload.summary;
+            this.detailedSummary = payload.detailedSummary;
             this.loaded = true;
             this.updateDom(1000);
         }

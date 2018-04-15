@@ -24,7 +24,7 @@ module.exports = NodeHelper.create({
             var trafficComparison = 0;
     	    if((JSON.parse(body).status)=='OVER_QUERY_LIMIT')
     	      {
-    	  	  console.log("API-Call Quote reached for today -> no more calls until 0:00 PST");
+    	  	  console.log("Google Maps API-Call Quota reached for today -> no more calls until 0:00 PST");
     	      }
     	    else
     	      {
@@ -37,7 +37,8 @@ module.exports = NodeHelper.create({
                 var commute = JSON.parse(body).routes[0].legs[0].duration.text;
               }
               var summary = JSON.parse(body).routes[0].summary;
-              self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':commute, 'url':api_url, 'trafficComparison': trafficComparison, 'summary':summary});
+              var detailedSummary = self.getDetailedSummary(body);
+              self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':commute, 'url':api_url, 'trafficComparison': trafficComparison, 'summary':summary, 'detailedSummary':detailedSummary});
             }
     	  }
       });
@@ -66,17 +67,32 @@ module.exports = NodeHelper.create({
     var self = this;
     request({url: api_url + "&departure_time=" + newTiming, method: 'GET'}, function(error, response, body) {
       if (!error && response.statusCode == 200) {
-	if (JSON.parse(body).routes[0].legs[0].duration_in_traffic) {
+        if (JSON.parse(body).routes[0].legs[0].duration_in_traffic) {
           var trafficValue = JSON.parse(body).routes[0].legs[0].duration_in_traffic.value;
         } else {
           var trafficValue = JSON.parse(body).routes[0].legs[0].duration.value;
-	}
-	var summary = JSON.parse(body).routes[0].summary;
+        }
+        var summary = JSON.parse(body).routes[0].summary;
+        var detailedSummary = self.getDetailedSummary(body);
         var finalTime = self.timeSub(arrivalTime, trafficValue, 1);
-        self.sendSocketNotification('TRAFFIC_TIMING', {'commute':finalTime,'summary':summary, 'url':api_url});
+        self.sendSocketNotification('TRAFFIC_TIMING', {'commute':finalTime,'summary':summary,'detailedSummary':detailedSummary,'url':api_url});
       }
     });
 
+  },
+
+  getDetailedSummary: function(body) {
+    steps = JSON.parse(body).routes[0].legs[0].steps;
+    summaryString = '<table id="detailedSummary">';
+    for (var i = 0; i < steps.length; i++) {
+      var html_instructions = steps[i].html_instructions.replace(/<div(.*?)<\/div>/g,'').replace(/<\/?b>/g,'');
+      summaryString += '<tr><td>';
+      summaryString += steps[i].duration.text + '</td><td>' + steps[i].distance.text + '</td><td>' + html_instructions;
+      summaryString += '</td></tr>';
+    }
+    summaryString += '</table>';
+    console.log(summaryString);
+    return summaryString;
   },
 
   timeSub: function(arrivalTime, durationValue, lookPretty) {
@@ -135,9 +151,14 @@ module.exports = NodeHelper.create({
     }
   },
 
+  getURLParamter: function(param, url) {
+    return decodeURIComponent((new RegExp('[?|&]' + param + '=' + '([^&;]+?)(&|#|;|$)').exec(url) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+  },
+
   //Subclass socketNotificationReceived received.
   socketNotificationReceived: function(notification, payload) {
     this.setTimeConfig(payload.timeConfig);
+    this.mode = this.getURLParamter('mode', payload.url);
 
     if (notification === 'TRAFFIC_URL') {
       this.getCommute(payload.url);
