@@ -91,7 +91,6 @@ module.exports = NodeHelper.create({
       summaryString += '</td></tr>';
     }
     summaryString += '</table>';
-    console.log(summaryString);
     return summaryString;
   },
 
