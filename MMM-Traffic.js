@@ -32,7 +32,6 @@ Module.register('MMM-Traffic', {
         allTime: true,
         startHr: 7,
         endHr: 22,
-        avoid:'',
 	      leaveByText:'Leave by',
         hideOffHours: false,
         showAddress: false,
@@ -156,8 +155,15 @@ Module.register('MMM-Traffic', {
         params += '&key=' + this.config.api_key;
         params += '&traffic_model=' + this.config.traffic_model;
         params += '&language=' + this.config.language;
-        if (this.config.avoid.length > 0) {
+        if (this.config.avoid) {
           params += '&avoid=' + this.config.avoid;
+        }
+        if (this.config.waypoints) {
+          var waypointsArray = this.config.waypoints.split(',');
+          for (var i = 0; i < waypointsArray.length; i++) {
+            waypointsArray[i] = 'via:' + waypointsArray[i].trim();
+          }
+          params += '&waypoints=' + waypointsArray.join('|');
         }
         return params;
     },
