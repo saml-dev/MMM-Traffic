@@ -17,7 +17,7 @@ The entry in `config.js` can include the following options:
 |`mon_destination`|If you want to specify a different destination for every Monday, use this. This Option exists for all of the other days of the week as well: `tues_destination`, `wed_destination`, `thurs_destination`, `fri_destination`, `sat_destination`, `sun_destination`<br><br>**Example:** `'PNC Arena'` or `'1000 Main Street New York NY'`
 |`arrival_time`|If you want the module to give you a departure time, put a 24 hour formatted time that you would like to arrive.<br>**Example:** `'1445'`|
 |`mon_arrival_time`|If you want to set different arrival times to match your day-specific destinations, use this option. It exists for all other days of the week as well: `tues_arrival_time`, `wed_arrival_time`, `thurs_arrival_time`, `fri_arrival_time`, `sat_arrival_time`, `sun_arrival_time`<br>**Example:** `'1445'`|
-|`waypoints`|A string containing a comma separated list of locations that you want your route to pass through.<br><br>**Example:** `'PNC Arena, 1000 Main Street New York NY'`|
+|`waypoints`|A string containing a pipe separated list of locations that you want your route to pass through.<br><br>**Example:** `'PNC Arena|1000 Main Street New York NY'`|
 |`mode`|Mode of transportation.<br><br>**Default value:** `'driving'`<br>**Other Options:**`'walking' 'bicycling' 'transit'`|
 |`avoid`|Set to 'tolls','highways', or 'ferries' to avoid them in the route.<br><br>**Default value:** `false`|
 |`showRouteInfo`|Set to true to show info about your route below the commute time.<br><br>**Default value:** None|

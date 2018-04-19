@@ -159,7 +159,7 @@ Module.register('MMM-Traffic', {
           params += '&avoid=' + this.config.avoid;
         }
         if (this.config.waypoints) {
-          var waypointsArray = this.config.waypoints.split(',');
+          var waypointsArray = this.config.waypoints.split('|');
           for (var i = 0; i < waypointsArray.length; i++) {
             waypointsArray[i] = 'via:' + waypointsArray[i].trim();
           }
