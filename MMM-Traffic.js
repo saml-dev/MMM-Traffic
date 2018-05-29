@@ -45,7 +45,6 @@ Module.register('MMM-Traffic', {
         }
         this.loaded = false;
         this.leaveBy = '';
-        this.url = encodeURI('https://maps.googleapis.com/maps/api/directions/json' + this.getParams());
         this.symbols = {
             'driving': 'fa fa-car',
             'walking': 'fa fa-odnoklassniki',
@@ -64,6 +63,7 @@ Module.register('MMM-Traffic', {
           startHr:        self.config.startHr,
           endHr:          self.config.endHr
         };
+	self.url = encodeURI('https://maps.googleapis.com/maps/api/directions/json' + self.getParams());
 
         if (self.config.arrival_time.length == 4) {
           self.sendSocketNotification('LEAVE_BY', {'url':self.url, 'arrival':self.getTodaysArrivalTime(), 'timeConfig':timeConfig});
