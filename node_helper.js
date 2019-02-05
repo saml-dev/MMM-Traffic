@@ -28,6 +28,13 @@ module.exports = NodeHelper.create({
     	      }
     	    else
     	      {
+              if (JSON.parse(body).hasOwnProperty('error_message')) {
+                console.log('ERROR: Google Maps API returned an error message:')
+                console.log(JSON.parse(body))
+                return
+              } else {
+                console.log('nope')
+              }
               if (JSON.parse(body).routes[0].legs[0].duration_in_traffic) {
                 var commute = JSON.parse(body).routes[0].legs[0].duration_in_traffic.text;
                 var noTrafficValue = JSON.parse(body).routes[0].legs[0].duration.value;
@@ -52,6 +59,11 @@ module.exports = NodeHelper.create({
     var newTiming = 0;
     if (this.showWeekend && this.allTime) {
       request({url: api_url + "&departure_time=now", method: 'GET'}, function(error, response, body) {
+        if (JSON.parse(body).hasOwnProperty('error_message')) {
+          console.log('ERROR: Google Maps API returned an error message:')
+          console.log(JSON.parse(body))
+          return
+        }
         if (!error && response.statusCode == 200) {
           var durationValue = JSON.parse(body).routes[0].legs[0].duration.value;
           newTiming = self.timeSub(arrivalTime, durationValue, 0);
