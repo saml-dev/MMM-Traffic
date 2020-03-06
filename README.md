@@ -39,7 +39,7 @@ Use these config options to translate the module's various text to your language
 ### Waypoints/Stops
 |Option|Description|Type|Example|
 |---|---|---|---|
-|`waypoints`|A pipe separated list of locations that you want your route to pass through.|string|`'Disneyworld|Universal Studios'`
+|`waypoints`|A pipe separated list of locations that you want your route to pass through.|string|<code>'Disneyworld&#124;Universal Studios'</code>
 
 ### Show Route Information
 |Option|Description|Type|Default Value|Supported Options|
@@ -81,11 +81,11 @@ Use these options to only update your commute information when you need it. This
 |`hideOffHours`|Used to set if the module will be hidden when outside the days/times designated in the above 4 parameters.|boolean|`false`|
 
 Here is an example of an entry in `config.js`
-```json
+```js
 {
 	module: "MMM-Traffic",
 	position: "top_left",
-	classes: "dimmed medium", //optional, default is "bright medium", only applies to commute info not route_name
+	classes: "dimmed medium",  //optional, default is "bright medium", only applies to commute info not route_name
 	config: {
 		api_key: "your_apikey_here",
 		mode: "driving",
@@ -93,14 +93,14 @@ Here is an example of an entry in `config.js`
 		destination: "1 MetLife Stadium Dr, East Rutherford, NJ 07073",
 		mon_destination: "116th St & Broadway, New York, NY 10027",
 		fri_destination: "1 E 161st St, Bronx, NY 10451",
-		arrival_time: "0800", //optional, but needs to be in 24 hour time if used.
+		arrival_time: "0800",  // optional, but needs to be in 24 hour time if used.
 		route_name: "Home to Work",
 		changeColor: true,
 		showGreen: false,
-		limitYellow: 5, //Greater than 5% of journey time due to traffic
-		limitRed: 20, //Greater than 20% of journey time due to traffic
+		limitYellow: 5,  // Greater than 5% of journey time due to traffic
+		limitRed: 20,  // Greater than 20% of journey time due to traffic
 		traffic_model: "pessimistic",
-		interval: 120000 //2 minutes
+		interval: 120000  // 2 minutes
 	}
 },
 ```
