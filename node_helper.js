@@ -15,89 +15,104 @@ module.exports = NodeHelper.create({
     console.log('MMM-Traffic helper started ...');
   },
 
-  getCommute: function(api_url) {
+  getCommute: function (api_url) {
     var self = this;
 
     if (this.showWeekend && this.allTime) {
-        request({url: api_url + "&departure_time=now", method: 'GET'}, function(error, response, body) {
-          if (!error && response.statusCode == 200) {
-            var trafficComparison = 0;
-    	    if((JSON.parse(body).status)=='OVER_QUERY_LIMIT')
-    	      {
-    	  	  console.log("Google Maps API-Call Quota reached for today -> no more calls until 0:00 PST");
-    	      }
-    	    else
-    	      {
-              if (JSON.parse(body).hasOwnProperty('error_message')) {
-                console.log('ERROR: Google Maps API returned an error message:')
-                console.log(JSON.parse(body))
-                return
-              } else {
-                console.log('nope')
-              }
-              if (JSON.parse(body).routes[0].legs[0].duration_in_traffic) {
-                var commute = JSON.parse(body).routes[0].legs[0].duration_in_traffic.text;
-                var noTrafficValue = JSON.parse(body).routes[0].legs[0].duration.value;
-                var withTrafficValue = JSON.parse(body).routes[0].legs[0].duration_in_traffic.value;
-                trafficComparison = parseInt(withTrafficValue)/parseInt(noTrafficValue);
-              } else {
-                var commute = JSON.parse(body).routes[0].legs[0].duration.text;
-              }
-              var summary = JSON.parse(body).routes[0].summary;
-              var detailedSummary = self.getDetailedSummary(body);
-              self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':commute, 'url':api_url, 'trafficComparison': trafficComparison, 'summary':summary, 'detailedSummary':detailedSummary});
-            }
-    	  }
+      request({
+        url: api_url + "&departure_time=now",
+        method: 'GET'
+      }, function (error, response, body) {
+        body = JSON.parse(body);
+        if (!self.checkForErrors(error, body, api_url)) {
+          var trafficComparison = 0;
+          var leg = body.routes[0].legs[0]
+          if (leg.duration_in_traffic) {
+            var commute = leg.duration_in_traffic.text;
+            var noTrafficValue = leg.duration.value;
+            var withTrafficValue = leg.duration_in_traffic.value;
+            trafficComparison = parseInt(withTrafficValue) / parseInt(noTrafficValue);
+          } else {
+            var commute = leg.duration.text;
+          }
+          var summary = body.routes[0].summary;
+          var detailedSummary = self.getDetailedSummary(body);
+          self.sendSocketNotification('TRAFFIC_COMMUTE', {
+            'commute': commute,
+            'url': api_url,
+            'trafficComparison': trafficComparison,
+            'summary': summary,
+            'detailedSummary': detailedSummary
+          });
+        }
       });
     } else {
-      self.sendSocketNotification('TRAFFIC_COMMUTE', {'commute':'--', 'url':api_url, 'trafficComparison': 0.0, 'summary': '--'});
+      self.sendSocketNotification('TRAFFIC_COMMUTE', {
+        'commute': '--',
+        'url': api_url,
+        'trafficComparison': 0.0,
+        'summary': '--'
+      });
     }
   },
 
-  getTiming: function(api_url, arrivalTime) {
+  getTiming: function (api_url, arrivalTime) {
     var self = this;
     var newTiming = 0;
     if (this.showWeekend && this.allTime) {
-      request({url: api_url + "&departure_time=now", method: 'GET'}, function(error, response, body) {
-        if (JSON.parse(body).hasOwnProperty('error_message')) {
-          console.log('ERROR: Google Maps API returned an error message:')
-          console.log(JSON.parse(body))
-          return
-        }
-        if (!error && response.statusCode == 200) {
-          var durationValue = JSON.parse(body).routes[0].legs[0].duration.value;
+      request({
+        url: api_url + "&departure_time=now",
+        method: 'GET'
+      }, function (error, response, body) {
+        body = JSON.parse(body);
+        if (!self.checkForErrors(error, body, api_url)) {
+          var durationValue = body.routes[0].legs[0].duration.value;
           newTiming = self.timeSub(arrivalTime, durationValue, 0);
-	      self.getTimingFinal(api_url, newTiming, arrivalTime);
+          self.getTimingFinal(api_url, newTiming, arrivalTime);
         }
       });
-  } else {
-    self.sendSocketNotification('TRAFFIC_TIMING', {'commute':'--','summary':'--', 'url':api_url});
-  }
+    } else {
+      self.sendSocketNotification('TRAFFIC_TIMING', {
+        'commute': '--',
+        'summary': '--',
+        'url': api_url
+      });
+    }
   },
 
-  getTimingFinal: function(api_url, newTiming, arrivalTime) {
+  getTimingFinal: function (api_url, newTiming, arrivalTime) {
     var self = this;
-    request({url: api_url + "&departure_time=" + newTiming, method: 'GET'}, function(error, response, body) {
-      if (!error && response.statusCode == 200) {
-        if (JSON.parse(body).routes[0].legs[0].duration_in_traffic) {
-          var trafficValue = JSON.parse(body).routes[0].legs[0].duration_in_traffic.value;
+    request({
+      url: api_url + "&departure_time=" + newTiming,
+      method: 'GET'
+    }, function (error, response, body) {
+      body = JSON.parse(body);
+      if (!self.checkForErrors(error, body, api_url)) {
+        leg = body.routes[0].legs[0];
+        if (leg.duration_in_traffic) {
+          var trafficValue = leg.duration_in_traffic.value;
         } else {
-          var trafficValue = JSON.parse(body).routes[0].legs[0].duration.value;
+          var trafficValue = leg.duration.value;
         }
-        var summary = JSON.parse(body).routes[0].summary;
+        var summary = body.routes[0].summary;
         var detailedSummary = self.getDetailedSummary(body);
         var finalTime = self.timeSub(arrivalTime, trafficValue, 1);
-        self.sendSocketNotification('TRAFFIC_TIMING', {'commute':finalTime,'summary':summary,'detailedSummary':detailedSummary,'url':api_url});
+        self.sendSocketNotification('TRAFFIC_TIMING', {
+          'commute': finalTime,
+          'summary': summary,
+          'detailedSummary': detailedSummary,
+          'url': api_url
+        });
       }
     });
 
   },
 
-  getDetailedSummary: function(body) {
-    steps = JSON.parse(body).routes[0].legs[0].steps;
+  getDetailedSummary: function (body) {
+    steps = body.routes[0].legs[0].steps;
     summaryString = '<table id="detailedSummary">';
     for (var i = 0; i < steps.length; i++) {
-      var html_instructions = steps[i].html_instructions.replace(/<div(.*?)<\/div>/g,'').replace(/<\/?b>/g,'');
+      var html_instructions = steps[i].html_instructions.replace(/<div(.*?)<\/div>/g, '').replace(/<\/?b>/g, '');
       summaryString += '<tr><td>';
       summaryString += steps[i].duration.text + '</td><td>' + steps[i].distance.text + '</td><td>' + html_instructions;
       summaryString += '</td></tr>';
@@ -106,7 +121,7 @@ module.exports = NodeHelper.create({
     return summaryString;
   },
 
-  timeSub: function(arrivalTime, durationValue, lookPretty) {
+  timeSub: function (arrivalTime, durationValue, lookPretty) {
     var currentDate = new Date();
     var nowY = currentDate.getFullYear();
     var nowM = (currentDate.getMonth() + 1).toString();
@@ -118,19 +133,19 @@ module.exports = NodeHelper.create({
     if (nowD.length == 1) {
       nowD = "0" + nowD;
     }
-    var nowH = arrivalTime.substr(0,2);
-    var nowMin = arrivalTime.substring(2,4);
+    var nowH = arrivalTime.substr(0, 2);
+    var nowMin = arrivalTime.substring(2, 4);
     var testDate = new Date(nowY + "-" + nowM + "-" + nowD + " " + nowH + ":" + nowMin + ":00");
     if (lookPretty == 0) {
       if (currentDate >= testDate) {
-        var goodDate = new Date (testDate.getTime() + 86400000 - (durationValue*1000)); // Next day minus uncalibrated duration
+        var goodDate = new Date(testDate.getTime() + 86400000 - (durationValue * 1000)); // Next day minus uncalibrated duration
         return Math.floor(goodDate / 1000);
       } else {
-	      var goodDate = new Date (testDate.getTime() - (durationValue*1000)); // Minus uncalibrated duration
+        var goodDate = new Date(testDate.getTime() - (durationValue * 1000)); // Minus uncalibrated duration
         return Math.floor(testDate / 1000);
       }
     } else {
-      var finalDate = new Date (testDate.getTime() - (durationValue * 1000));
+      var finalDate = new Date(testDate.getTime() - (durationValue * 1000));
       var finalHours = finalDate.getHours();
       finalHours = finalHours.toString();
       if (finalHours.length == 1) {
@@ -145,7 +160,7 @@ module.exports = NodeHelper.create({
     }
   },
 
-  setTimeConfig: function(timeConfig) {
+  setTimeConfig: function (timeConfig) {
     var date = new Date;
 
     this.showWeekend = timeConfig.showWeekend;
@@ -162,12 +177,40 @@ module.exports = NodeHelper.create({
     }
   },
 
-  getURLParamter: function(param, url) {
+  getURLParamter: function (param, url) {
     return decodeURIComponent((new RegExp('[?|&]' + param + '=' + '([^&;]+?)(&|#|;|$)').exec(url) || [null, ''])[1].replace(/\+/g, '%20')) || null;
   },
 
+  checkForErrors: function(error, body, api_url) {
+    // general api error
+    if (body.error_message) {
+      this.showErrorMessage(body.error_message, api_url);
+      return true;
+    } 
+    // too many calls per second/day for a single api key
+    else if (body.status == 'OVER_QUERY_LIMIT') { 
+      console.error("Google Maps API-Call Quota reached for today -> no more calls until 0:00 PST");
+      this.showErrorMessage('API Error: Google Maps OVER_QUERY_LIMIT', api_url);
+      return true;
+    }
+    else if (error) {
+      console.error(error);
+      this.showErrorMessage('Error. See server logs', api_url);
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  showErrorMessage: function (error, api_url) {
+    this.sendSocketNotification('MMM_TRAFFIC_ERROR', {
+      'error_message': error,
+      'url': api_url
+    });
+  },
+
   //Subclass socketNotificationReceived received.
-  socketNotificationReceived: function(notification, payload) {
+  socketNotificationReceived: function (notification, payload) {
     this.setTimeConfig(payload.timeConfig);
     this.mode = this.getURLParamter('mode', payload.url);
 
