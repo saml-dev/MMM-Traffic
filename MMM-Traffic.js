@@ -21,6 +21,7 @@ Module.register('MMM-Traffic', {
     loadingText: 'Loading commute...',
     prependText: 'Current commute is',
     changeColor: false,
+    colorOnlySymbol: false,
     showRouteInfo: false,
     showRouteInfoText: '{routeName} via {summary}',
     limitYellow: 10,
@@ -147,12 +148,18 @@ Module.register('MMM-Traffic', {
 
     //change color if desired
     if (this.config.changeColor) {
+      var colorClass = ''
       if (this.trafficComparison >= 1 + (this.config.limitRed / 100)) {
-        commuteInfo.className += ' red';
+        colorClass = ' red';
       } else if (this.trafficComparison >= 1 + (this.config.limitYellow / 100)) {
-        commuteInfo.className += ' yellow';
+        colorClass += ' yellow';
       } else if (this.config.showGreen) {
-        commuteInfo.className += ' green';
+        colorClass += ' green';
+      }
+      if (this.config.colorOnlySymbol) {
+        symbol.className += colorClass
+      } else {
+        commuteInfo.className += colorClass
       }
     }
 
