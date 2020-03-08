@@ -1,6 +1,23 @@
 # MMM-Traffic
 This a module for the [MagicMirror](https://github.com/MichMich/MagicMirror/tree/develop). It can display commute time between two given addresses by car, walking, bicycling, or transit. The module uses the Google Maps Directions API to get commute time, which factors in traffic information.
 
+Table of Contents
+=================
+
+   * [MMM-Traffic](#mmm-traffic)
+      * [Installation](#installation)
+      * [Dependencies](#dependencies)
+      * [Configuration](#configuration)
+         * [Required](#required)
+         * [Basic Options](#basic-options)
+         * [Translation](#translation)
+         * [Waypoints/Stops](#waypointsstops)
+         * [Show Route Information](#show-route-information)
+         * [Show Departure Time](#show-departure-time)
+         * [Per-Day Customization](#per-day-customization)
+         * [Change Color based on Traffic](#change-color-based-on-traffic)
+         * [Sleep Hours](#sleep-hours)
+
 ## Installation
 Navigate into your MagicMirror's `modules` folder and execute these commands:
 ```shell
@@ -8,6 +25,9 @@ git clone https://github.com/SamLewis0602/MMM-Traffic.git
 cd MMM-Traffic
 npm install
 ```
+
+## Dependencies
+- [request](https://www.npmjs.com/package/request) (installed via `npm install`)
 
 ## Configuration
 
@@ -104,13 +124,3 @@ Here is an example of an entry in `config.js`
 	}
 },
 ```
-
-## Dependencies
-- [request](https://www.npmjs.com/package/request) (installed via `npm install`)
-
-## Important Notes
-- This is my first project using Node, so feel free to submit pull requests or post on the issues/wiki and I will do my best to improve the project.
-
-## Special Thanks
-- [Michael Teeuw](https://github.com/MichMich) for creating the awesome [MagicMirror2](https://github.com/MichMich/MagicMirror/tree/develop) project that made this module possible.
-- [Paul-Vincent Roll](https://github.com/paviro) for creating the [Wunderlist](https://github.com/paviro/MMM-Wunderlist) module that I used as guidance in creating this module.
