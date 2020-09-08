@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/SamLewis0602/MMM-Traffic#readme",
   "dependencies": {
-    "request": "latest"
+    "moment": "^2.27.0",
+    "node-fetch": "^2.6.1"
   }
 }

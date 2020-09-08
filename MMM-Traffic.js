@@ -1,5 +1,3 @@
-/* global Module */
-
 /* Magic Mirror
  * Module: MMM-Traffic
  *
@@ -8,314 +6,133 @@
  */
 
 Module.register('MMM-Traffic', {
-
   defaults: {
-    api_key: '',
-    mode: 'driving',
     interval: 300000, //all modules use milliseconds
-    origin: '',
-    destination: '',
-    traffic_model: 'best_guess',
-    departure_time: 'now',
-    arrival_time: '',
-    loadingText: 'Loading commute...',
-    prependText: 'Current commute is',
-    changeColor: false,
-    colorOnlySymbol: false,
-    showRouteInfo: false,
-    showRouteInfoText: '{routeName} via {summary}',
-    limitYellow: 10,
-    limitRed: 30,
-    showGreen: true,
+    showSymbol: true,
+    firstLine: 'Current duration is {duration} mins',
+    loadingText: 'Loading...',
     language: config.language,
-    show_summary: true,
-    showWeekend: true,
-    allTime: true,
-    startHr: 7,
-    endHr: 22,
-    leaveByText: 'Leave by',
-    hideOffHours: false,
-    showAddress: false,
-    showAddressText: 'From {origin}<br>To {destination}'
+    days: [0, 1, 2, 3, 4, 5, 6],
+    hoursStart: '00:00',
+    hoursEnd: '23:59'
   },
 
   start: function () {
-    Log.info('Starting module: ' + this.name);
+    console.log('Starting module: ' + this.name);
+    // default to bright medium
     if (this.data.classes === 'MMM-Traffic') {
       this.data.classes = 'bright medium';
     }
-    this.loaded = false;
-    this.leaveBy = '';
-    this.symbols = {
-      'driving': 'fa fa-car',
-      'walking': 'fa fa-odnoklassniki',
-      'bicycling': 'fa fa-bicycle',
-      'transit': 'fa fa-train'
-    };
-    this.commute = '';
-    this.summary = '';
-    this.per_day_destinations = [this.config.sun_destination, this.config.mon_destination, this.config.tues_destination, this.config.wed_destination, this.config.thurs_destination, this.config.fri_destination, this.config.sat_destination]
-    this.per_day_arrival_times = [this.config.sun_arrival_time, this.config.mon_arrival_time, this.config.tues_arrival_time, this.config.wed_arrival_time, this.config.thurs_arrival_time, this.config.fri_arrival_time, this.config.sat_arrival_time]
-    this.per_day_route_names = [this.config.sun_route_name, this.config.mon_route_name, this.config.tues_route_name, this.config.wed_route_name, this.config.thurs_route_name, this.config.fri_route_name, this.config.sat_route_name]
-    this.updateCommute(this);
+    this.loading = true;
+    this.hidden = false;
+    this.errorMessage = undefined;
+    this.errorDescription = undefined;
+    if ([this.config.originCoords, this.config.destinationCoords, this.config.accessToken].includes(undefined)) {
+      this.errorMessage = 'Config error';
+      this.errorDescription = 'You must set originCoords, destinationCoords, and accessToken in your config';
+      this.updateDom();
+    } else {
+      this.updateCommute(this);
+    }
   },
 
   updateCommute: function (self) {
-    timeConfig = {
-      showWeekend: self.config.showWeekend,
-      allTime: self.config.allTime,
-      startHr: self.config.startHr,
-      endHr: self.config.endHr
-    };
-    self.url = encodeURI('https://maps.googleapis.com/maps/api/directions/json' + self.getParams());
+    self.url = encodeURI(`https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${self.config.originCoords};${self.config.destinationCoords}?access_token=${self.config.accessToken}`);
 
-    if (self.config.arrival_time.length == 4) {
-      self.sendSocketNotification('LEAVE_BY', {
-        'url': self.url,
-        'arrival': self.getTodaysArrivalTime(),
-        'timeConfig': timeConfig
-      });
-    } else {
-      self.sendSocketNotification('TRAFFIC_URL', {
-        'url': self.url,
-        'timeConfig': timeConfig
-      });
+    // only run getDom once at the start of a hidden period to remove the module from the screen, then just wait until time to unhide to run again
+    if (self.shouldHide() && !self.hidden) {
+      console.log('Hiding MMM-Traffic');
+      self.hidden = true;
+      self.updateDom();
+    } else if (!self.shouldHide()) {
+      self.hidden = false;
+      self.sendSocketNotification('TRAFFIC_URL', { 'url': self.url });
     }
-    setTimeout(self.updateCommute, self.config.interval, self);
+    // no network requests are made when the module is hidden, so check every 30 seconds during hidden
+    // period to see if it's time to unhide yet
+    setTimeout(self.updateCommute, self.hidden ? 3000 : self.config.interval, self);
   },
 
   getStyles: function () {
     return ['traffic.css', 'font-awesome.css'];
   },
 
+  getScripts: function () {
+    return ['moment.js'];
+  },
+
   getDom: function () {
     var wrapper = document.createElement("div");
-    var commuteInfo = document.createElement('div');
-    var routeInfo = document.createElement('div');
-    var addressDiv = document.createElement('div');
 
-    if (!this.loaded) {
-      wrapper.innerHTML = this.config.loadingText;
+    // hide when desired (called once on first update during hidden period)
+    if (this.hidden) return wrapper;
+
+    // base divs
+    var firstLineDiv = document.createElement('div');
+    var secondLineDiv = document.createElement('div');
+    secondLineDiv.className = 'dimmed small';
+
+    // display any errors
+    if (this.errorMessage) {
+      firstLineDiv.innerHTML = this.errorMessage;
+      secondLineDiv.innerHTML = this.errorDescription;
+      wrapper.append(firstLineDiv);
+      wrapper.append(secondLineDiv);
       return wrapper;
     }
 
-    if ((this.commute == '' || this.commute == '--') && this.config.hideOffHours && !this.config.allTime) {
-      wrapper.innerHTML = '';
-      return wrapper;
+    // symbol
+    if (this.config.showSymbol) {
+      var symbol = document.createElement('span');
+      symbol.className = 'fa fa-car symbol';
+      firstLineDiv.appendChild(symbol);
     }
 
-    if (this.commute.includes('API Error')) {
-      wrapper.innerHTML = this.commute;
-      return wrapper;
+    // first line
+    var firstLineText = document.createElement('span');
+    firstLineText.innerHTML = this.loading ? this.config.loadingText : this.replaceTokens(this.config.firstLine)
+    firstLineDiv.appendChild(firstLineText);
+    wrapper.appendChild(firstLineDiv);
+    if (this.loading) return wrapper;
+
+    // second line
+    if (this.config.secondLine) {
+      secondLineDiv.innerHTML = this.replaceTokens(this.config.secondLine);
+      wrapper.appendChild(secondLineDiv);
     }
 
-    //symbol
-    var symbol = document.createElement('span');
-    symbol.className = this.symbols[this.config.mode] + ' symbol';
-    commuteInfo.appendChild(symbol);
-
-    //commute
-    var trafficInfo = document.createElement('span');
-    if (!this.config.arrival_time) {
-      //commute time
-      trafficInfo.innerHTML = this.config.prependText + ' ' + this.commute;
-    } else {
-      //leave-by time
-      trafficInfo.innerHTML = this.config.leaveByText + ' ' + this.leaveBy;
-    }
-    commuteInfo.appendChild(trafficInfo);
-
-    //routeInfo
-    if (this.config.showRouteInfo) {
-      routeInfo.className = 'dimmed small';
-      var time = this.getTodaysArrivalTime();
-      var routeInfoText = this.config.showRouteInfoText
-        .replace('{summary}', this.summary)
-        .replace('{detailedSummary}', this.detailedSummary)
-        .replace('{routeName}', this.getTodaysRouteName())
-        .replace('{origin}', this.config.origin)
-        .replace('{destination}', this.getTodaysDestination())
-        .replace('{arrivalTime}', time.substring(0, 2) + ':' + time.substring(2, 4));
-      routeInfo.innerHTML = routeInfoText;
-    }
-
-    //show address
-    if (this.config.showAddress) {
-      addressDiv.className = 'dimmed small';
-      addressText = 'showAddress is deprecated. Use routeInfoText instead';
-      addressDiv.innerHTML = addressText;
-    }
-
-    //change color if desired
-    if (this.config.changeColor) {
-      var colorClass = ''
-      if (this.trafficComparison >= 1 + (this.config.limitRed / 100)) {
-        colorClass = ' red';
-      } else if (this.trafficComparison >= 1 + (this.config.limitYellow / 100)) {
-        colorClass += ' yellow';
-      } else if (this.config.showGreen) {
-        colorClass += ' green';
-      }
-      if (this.config.colorOnlySymbol) {
-        symbol.className += colorClass
-      } else {
-        commuteInfo.className += colorClass
-      }
-    }
-
-    wrapper.appendChild(commuteInfo);
-    wrapper.appendChild(routeInfo);
-    wrapper.appendChild(addressDiv);
     return wrapper;
   },
 
-  getParams: function () {
-    var params = '?';
-    params += 'mode=' + this.config.mode;
-    params += '&origin=' + this.config.origin;
-    params += '&destination=' + this.getTodaysDestination();
-    params += '&key=' + this.config.api_key;
-    params += '&traffic_model=' + this.config.traffic_model;
-    params += '&language=' + this.config.language;
-    if (this.config.avoid) {
-      params += '&avoid=' + this.config.avoid;
-    }
-    if (this.config.waypoints) {
-      var waypointsArray = this.config.waypoints.split('|');
-      for (var i = 0; i < waypointsArray.length; i++) {
-        waypointsArray[i] = 'via:' + waypointsArray[i].trim();
-      }
-      params += '&waypoints=' + waypointsArray.join('|');
-    }
-    return params;
+  replaceTokens: function (text) {
+    return text.replace('{duration}', this.duration);
   },
 
-  getTodaysDestination: function () {
-    dow = new Date().getDay();
-    return this.per_day_destinations[dow] || this.config.destination;
-    var todays_destination = "";
-    switch (new Date().getDay()) {
-      case 0:
-        todays_destination = this.config.sun_destination;
-        break;
-      case 1:
-        todays_destination = this.config.mon_destination;
-        break;
-      case 2:
-        todays_destination = this.config.tues_destination;
-        break;
-      case 3:
-        todays_destination = this.config.wed_destination;
-        break;
-      case 4:
-        todays_destination = this.config.thurs_destination;
-        break;
-      case 5:
-        todays_destination = this.config.fri_destination;
-        break;
-      case 6:
-        todays_destination = this.config.sat_destination;
-        break;
+  shouldHide: function () {
+    let hide = true;
+    let now = moment();
+    if (this.config.days.includes(now.day()) &&
+      moment(this.config.hoursStart, 'HH:mm').isBefore(now) &&
+      moment(this.config.hoursEnd, 'HH:mm').isAfter(now)
+    ) {
+      hide = false;
     }
-
-    if (!todays_destination) { //if no weekday destinations defined in config.js, set to default
-      todays_destination = this.config.destination;
-    }
-
-    return todays_destination;
-  },
-
-  getTodaysRouteName: function () {
-    dow = new Date().getDay();
-    return this.per_day_route_names[dow] || this.config.route_name;
-    var todays_route_name = "";
-    switch (new Date().getDay()) {
-      case 0:
-        todays_route_name = this.config.sun_route_name;
-        break;
-      case 1:
-        todays_route_name = this.config.mon_route_name;
-        break;
-      case 2:
-        todays_route_name = this.config.tues_route_name;
-        break;
-      case 3:
-        todays_route_name = this.config.wed_route_name;
-        break;
-      case 4:
-        todays_route_name = this.config.thurs_route_name;
-        break;
-      case 5:
-        todays_route_name = this.config.fri_route_name;
-        break;
-      case 6:
-        todays_route_name = this.config.sat_route_name;
-        break;
-    }
-
-    if (!todays_route_name && this.config.route_name) { //if no weekday route_names defined in config.js, set to default
-      todays_route_name = this.config.route_name;
-    }
-
-    return todays_route_name;
-  },
-
-  getTodaysArrivalTime: function () {
-    var final_arrival_time = "";
-    dow = new Date().getDay();
-    return this.per_day_arrival_times[dow] || this.config.arrival_time;
-    switch (new Date().getDay()) {
-      case 0:
-        final_arrival_time = this.config.sun_arrival_time;
-        break;
-      case 1:
-        final_arrival_time = this.config.mon_arrival_time;
-        break;
-      case 2:
-        final_arrival_time = this.config.tues_arrival_time;
-        break;
-      case 3:
-        final_arrival_time = this.config.wed_arrival_time;
-        break;
-      case 4:
-        final_arrival_time = this.config.thurs_arrival_time;
-        break;
-      case 5:
-        final_arrival_time = this.config.fri_arrival_time;
-        break;
-      case 6:
-        final_arrival_time = this.config.sat_arrival_time;
-        break;
-    }
-
-    if (!final_arrival_time) { //if no weekday arrival_times defined in config.js, set to default
-      final_arrival_time = this.config.arrival_time;
-    }
-
-    return final_arrival_time;
+    return hide;
   },
 
   socketNotificationReceived: function (notification, payload) {
     this.leaveBy = '';
-    if (notification === 'TRAFFIC_COMMUTE' && payload.url === this.url) {
-      Log.info('received TRAFFIC_COMMUTE');
-      this.commute = payload.commute;
-      this.summary = payload.summary;
-      this.detailedSummary = payload.detailedSummary;
-      this.trafficComparison = payload.trafficComparison;
-      this.loaded = true;
-      this.updateDom(1000);
-    } else if (notification === 'TRAFFIC_TIMING' && payload.url === this.url) {
-      Log.info('received TRAFFIC_TIMING');
-      this.leaveBy = payload.commute;
-      this.commute = payload.commute; //support for hideOffHours
-      this.summary = payload.summary;
-      this.detailedSummary = payload.detailedSummary;
-      this.loaded = true;
+    if (notification === 'MMM_TRAFFIC_DURATION' && payload.url === this.url) {
+      console.log('received MMM_TRAFFIC_DURATION');
+      this.duration = payload.duration;
+      this.errorMessage = this.errorDescription = undefined;
+      this.loading = false;
       this.updateDom(1000);
     } else if (notification === 'MMM_TRAFFIC_ERROR' && payload.url === this.url) {
-      this.commute = 'API Error: ' + payload.error_message;
-      this.loaded = true;
+      console.log('received MMM_TRAFFIC_ERROR');
+      this.errorMessage = payload.error.message;
+      this.errorDescription = payload.error.description;
+      this.loading = false;
       this.updateDom(1000);
     }
   }
