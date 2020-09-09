@@ -20,6 +20,7 @@ This a module for the [MagicMirror](https://github.com/MichMich/MagicMirror/tree
   - [Multiple Routes](#multiple-routes)
   - [Per day customization](#per-day-customization)
 - [Dependencies](#dependencies)
+- [Legacy](#Legacy)
 
 ## Installation
 
@@ -214,3 +215,9 @@ be completely hidden on weekends.
 
 - [node-fetch](https://www.npmjs.com/package/node-fetch)
 - [moment](https://www.npmjs.com/package/moment)
+
+## Legacy
+
+If you want to continue using the old version with Google Maps and more customization, use the [1.0-not-supported](https://github.com/SamLewis0602/MMM-Traffic/tree/1.0-not-supported) branch.
+
+<b>NOTE</b>: this version is no longer supported, please do not open issues on the repo if you run into issues with this version.
