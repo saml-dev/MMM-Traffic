@@ -7,7 +7,7 @@
 
 Module.register('MMM-Traffic', {
   defaults: {
-    interval: 300000, //all modules use milliseconds
+    interval: 300000,
     showSymbol: true,
     firstLine: 'Current duration is {duration} mins',
     loadingText: 'Loading...',
