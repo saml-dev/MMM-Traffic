@@ -41,6 +41,9 @@ npm install
 
 ### Required
 
+See [here](https://support.google.com/maps/answer/18539)
+for instructions on how to use Google Maps webpage/app to get coordinates for your origin/destination.
+
 | Option              | Description                                  | Type   | Example                   |
 | ------------------- | -------------------------------------------- | ------ | ------------------------- |
 | `accessToken`       | Mapbox access token                          | string | -                         |
