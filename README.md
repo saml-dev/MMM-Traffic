@@ -36,6 +36,7 @@ npm install
 
 1. Create an account at [Mapbox](https://account.mapbox.com/)
 2. Copy the access token visible after account creation (go [here](https://account.mapbox.com/) if you don't see it)
+	- _Note: Google maps coordinates are `latitude,longitude`, but Mapbox uses `longitude,latitude` so be sure to reverse what you copy from Google._
 
 ## Configuration
 
