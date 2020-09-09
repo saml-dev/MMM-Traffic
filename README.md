@@ -1,126 +1,216 @@
 # MMM-Traffic
-This a module for the [MagicMirror](https://github.com/MichMich/MagicMirror/tree/develop). It can display commute time between two given addresses by car, walking, bicycling, or transit. The module uses the Google Maps Directions API to get commute time, which factors in traffic information.
 
-Table of Contents
-=================
+![module screenshot](screenshots/04-multiple.png)
 
-   * [MMM-Traffic](#mmm-traffic)
-      * [Installation](#installation)
-      * [Dependencies](#dependencies)
-      * [Configuration](#configuration)
-         * [Required](#required)
-         * [Basic Options](#basic-options)
-         * [Translation](#translation)
-         * [Waypoints/Stops](#waypointsstops)
-         * [Show Route Information](#show-route-information)
-         * [Show Departure Time](#show-departure-time)
-         * [Per-Day Customization](#per-day-customization)
-         * [Change Color based on Traffic](#change-color-based-on-traffic)
-         * [Sleep Hours](#sleep-hours)
+This a module for the [MagicMirror](https://github.com/MichMich/MagicMirror/tree/develop). It displays travel time between two locations, using the Mapbox directions API to factor in current traffic conditions.
+
+# Table of Contents
+
+- [Installation](#installation)
+- [Mapbox Access Token](#mapbox-access-token)
+- [Configuration](#configuration)
+  - [Required](#required)
+  - [Basic Options](#basic-options)
+  - [Translation/Display](#translationdisplay)
+  - [Per Day/Time Customization](#per-daytime-customization)
+- [Examples](#examples)
+  - [Simplest Config](#simplest-config)
+  - [Minimal Look](#minimal-look)
+  - [Use both lines](#use-both-lines)
+  - [Multiple Routes](#multiple-routes)
+  - [Per day customization](#per-day-customization)
+- [Dependencies](#dependencies)
 
 ## Installation
+
 Navigate into your MagicMirror's `modules` folder and execute these commands:
+
 ```shell
 git clone https://github.com/SamLewis0602/MMM-Traffic.git
 cd MMM-Traffic
 npm install
 ```
 
-## Dependencies
-- [request](https://www.npmjs.com/package/request) (installed via `npm install`)
+## Mapbox Access Token
+
+1. Create an account at [Mapbox](https://account.mapbox.com/)
+2. Copy the access token visible after account creation (go [here](https://account.mapbox.com/) if you don't see it)
 
 ## Configuration
 
 ### Required
-This module has a LOT of customization, don't let that intimidate you! All that's required to get up and running are these three config options:
 
-|Option|Description|Type|
-|---|---|---|
-|`api_key`|The API key, which can be obtained [here](https://developers.google.com/maps/documentation/directions/).|string|
-|`origin`|The name or address of the starting location.|string|
-|`destination`|The name or address of the destination location.|string|
+| Option              | Description                                  | Type   | Example                   |
+| ------------------- | -------------------------------------------- | ------ | ------------------------- |
+| `accessToken`       | Mapbox access token                          | string | -                         |
+| `originCoords`      | `longitude,latitude` of the origin location. | string | `'-84.504259, 33.882107'` |
+| `destinationCoords` | `longitude,latitude` of the origin location. | string | `'-84.504259, 33.882107'` |
 
 ### Basic Options
-|Option|Description|Type|Default Value|Supported Options|
-|---|---|---|---|---|
-|`language`|Define the commute time language.|string|`config.language`| Any language string
-|`mode`|Mode of transportation.|string|`'driving'`| `'driving'`<br>`'walking'`<br>`'bicycling'`<br>`'transit'`|
-|`avoid`|Avoid certain types of transportation on the route.|string|`''`|`'tolls'`<br>`'highways'`<br>`'ferries'`|
-|`traffic_model`|Model for traffic estimation.|string|`'best_guess'`|`'best_guess'`<br>`'optimistic'`<br>`'pessimistic'`|
-|`interval`|How often the traffic is updated in milliseconds.|integer|`300000`<br>(5 minutes)||
 
-### Translation
-Use these config options to translate the module's various text to your language.
-|Option|Description|Type|Default Value|
-|---|---|---|---|
-|`loadingText`|The text used when loading the initial commute time.|string|`'Loading commute...'`|
-|`prependText`|The text used in front of the commute time.|string|`'Current commute is'`|
+| Option       | Description                                       | Type    | Default Value           | Supported Options   |
+| ------------ | ------------------------------------------------- | ------- | ----------------------- | ------------------- |
+| `language`   | Define the commute time language.                 | string  | `config.language`       | Any language string |
+| `interval`   | How often the traffic is updated in milliseconds. | integer | `300000`<br>(5 minutes) |                     |
+| `showSymbol` | Whether to show the car symbol or not.            | boolean | true                    |                     |
 
-### Waypoints/Stops
-|Option|Description|Type|Example|
-|---|---|---|---|
-|`waypoints`|A pipe separated list of locations that you want your route to pass through.|string|<code>'Disneyworld&#124;Universal Studios'</code>
+### Translation/Display
 
-### Show Route Information
-|Option|Description|Type|Default Value|Supported Options|
-|---|---|---|---|---|
-|`showRouteInfo`|Set to true to show info about your route below the commute time.|boolean|`false`|`true`<br>`false`|
-|`showRouteInfoText`|Text displayed when `showRouteInfo` is `true`. Supports token replacement.|string|`'{routeName} via {summary}'`|Supported tokens: <br>`{routeName}`<br>`{summary}`<br>`{arrivalTime}`<br>`{origin}`<br>`{destination}`<br>`{detailedSummary}`<br><br>`{summary}` not supported when `mode == 'transit'`
-|`route_name`|A nickname for the route used in combination with `showRouteInfoText`|string|None|any string i.e. `'Home to Work'`|
+Use these options to customize/translate the module's text.
 
-### Show Departure Time
-Use this option to show what time you need to leave to arrive on time, rather than the duration.
-|Option|Description|Type|Example|
-|---|---|---|---|
-|`arrival_time`|24 hour formatted arrival time with no separator|string|`'0930'`|
-### Per-Day Customization
-|Option|Description|Type|
-|---|---|---|
-|`mon_destination`<br>`tues_destination`<br>`wed_destination`<br>`thurs_destination`<br>`fri_destination`<br>`sat_destination`<br>`sun_destination`|Used to specify a different destination for particular days of the week.|string|None|
-|`mon_arrival_time`<br>`tues_arrival_time`<br>`wed_arrival_time`<br>`thurs_arrival_time`<br>`fri_arrival_time`<br>`sat_arrival_time`<br>`sun_arrival_time`|Used to set different arrival times to match your day-specific destinations.|string|`'1445'`|
-|`mon_route_name`<br>`tues_route_name`<br>`wed_route_name`<br>`thurs_route_name`<br>`fri_route_name`<br>`sat_route_name`<br>`sun_route_name`|Used to set route names to match your day-specific destinations.|string
+_\*Note: See tokens below to see what tokens will be replaced with real values
+in firstLine/secondLine._
 
-### Change Color based on Traffic
-|Option|Description|Type|Default
-|---|---|---|---|
-|`changeColor`|Set to `true` to change the color of the module based on traffic. See other options for customization.|boolean|`false`
-|`limitYellow`|Percentage increase in commute time due to traffic to turn commute text yellow.|integer|`10`|
-|`limitRed`|Percentage increase in commute time due to traffic to turn commute text red.|integer|`30`|
-|`showGreen`|Set to `false` to leave the module white when there's no traffic.|boolean|`true`|
-|`colorOnlySymbol`|Set to `true` to only apply the color change to the symbol, leaving the text white.|boolean|`false`|
+| Option        | Description                                                                         | Type   | Default Value                           | Token Replacement  |
+| ------------- | ----------------------------------------------------------------------------------- | ------ | --------------------------------------- | ------------------ |
+| `loadingText` | The text used when loading the initial duration.                                    | string | `'Loading...'`                          | :x:                |
+| `firstLine`   | The main line of the module                                                         | string | `'Current duration is {duration} mins'` | :heavy_check_mark: |
+| `secondLine`  | The second line of the module, appears below the first line in smaller, dimmer text | string | `undefined`                             | :heavy_check_mark: |
 
-### Sleep Hours
-Use these options to only update your commute information when you need it. This saves bandwidth and API calls.
+#### Tokens
 
-|Option|Description|Type|Default
-|---|---|---|---|
-|`showWeekend`|Used to set if the commute time is requested at the weekend.|boolean|`true`|
-|`allTime`|Used to set if the commute time is requested 24hrs a day. If this is set to `false` then the `startHr` and `endHr` are used to set when the times are displayed.|boolean|`true`|
-|`startHr`|Used to set the hour when the commute times are first requested if `allTime` is `false`.<br>The range is `0` to `23`.|integer|`7`|
-|`endHr`|Used to set the hour when the commute times are last requested if `allTime` is `false`.<br>The range is `0` to `23`.|integer|`22`|
-|`hideOffHours`|Used to set if the module will be hidden when outside the days/times designated in the above 4 parameters.|boolean|`false`|
+| Token        | Value                                         |
+| ------------ | --------------------------------------------- |
+| `{duration}` | The driving time returned from the mapbox API |
 
-Here is an example of an entry in `config.js`
-```js
+### Per Day/Time Customization
+
+Using these options to hide the module when you're not using it will save API calls,
+allowing you to have a shorter interval or more MMM-Traffic modules without getting
+rate limited.
+
+| Option       | Description                                                              | Type       | Default                 |
+| ------------ | ------------------------------------------------------------------------ | ---------- | ----------------------- |
+| `days`       | Which days of the week to show the traffic module, with 0 being Monday   | Array[int] | `[0, 1, 2, 3, 4, 5, 6]` |
+| `hoursStart` | What time to begin showing the module on the days it shows, 24 hour time | Array[int] | `00:00`                 |
+| `hoursEnd`   | What time to stop showing the module on the days it shows, 24 hour time  | Array[int] | `23:59`                 |
+
+## Examples
+
+### Simplest Config
+
+```json
 {
 	module: "MMM-Traffic",
 	position: "top_left",
-	classes: "dimmed medium",  //optional, default is "bright medium", only applies to commute info not route_name
 	config: {
-		api_key: "your_apikey_here",
-		mode: "driving",
-		origin: "4 Pennsylvania Plaza, New York, NY 10001",
-		destination: "1 MetLife Stadium Dr, East Rutherford, NJ 07073",
-		mon_destination: "116th St & Broadway, New York, NY 10027",
-		fri_destination: "1 E 161st St, Bronx, NY 10451",
-		arrival_time: "0800",  // optional, but needs to be in 24 hour time if used.
-		route_name: "Home to Work",
-		changeColor: true,
-		showGreen: false,
-		limitYellow: 5,  // Greater than 5% of journey time due to traffic
-		limitRed: 20,  // Greater than 20% of journey time due to traffic
-		traffic_model: "pessimistic",
-		interval: 120000  // 2 minutes
+		accessToken: "your_key_here",
+		originCoords: "-84.398848,33.755165",
+		destinationCoords: "-84.504259,33.88210",
 	}
 },
 ```
+
+![simple config screenshot](screenshots/01-simple_config.png)
+
+### Minimal Look
+
+```json
+{
+	module: "MMM-Traffic",
+	position: "top_left",
+	config: {
+		accessToken: "your_key_here",
+		originCoords: "-84.398848,33.755165",
+		destinationCoords: "-84.504259,33.88210",
+		showSymbol: false
+		firstLine:
+	}
+},
+```
+
+![minimal screenshot](screenshots/02-minimal_look.png)
+
+### Use both lines
+
+```json
+{
+	module: "MMM-Traffic",
+	position: "top_left",
+	config: {
+		accessToken: "your_key_here",
+		originCoords: "-84.398848,33.755165",
+		destinationCoords: "-84.504259,33.88210",
+		firstLine: "{duration} mins",
+		secondLine: "Coffee Run"
+	}
+},
+```
+
+![both lines custom screenshot](screenshots/03-both_lines.png)
+
+### Multiple Routes
+
+```json
+{
+	module: "MMM-Traffic",
+	position: "top_left",
+	config: {
+		accessToken: "your_key_here",
+		originCoords: "-84.398848,33.755165",
+		destinationCoords: "-84.504259,33.88210",
+		firstLine: "{duration} mins",
+		secondLine: "Home To School",
+	}
+},
+{
+	module: "MMM-Traffic",
+	position: "top_left",
+	config: {
+		accessToken: "your_key_here",
+		originCoords: "-84.398848,33.755165",
+		destinationCoords: "-84.504259,33.88210",
+		firstLine: "{duration} mins",
+		secondLine: "Home To Work"
+	}
+},
+```
+
+![multiple routes screenshot](screenshots/04-multiple.png)
+
+### Per day customization
+
+This setup would show one route for Monday, Wednesday, and Friday, and another for
+Tuesday and Thursday. It would only show between 07:00 and 09:00 each day. It would
+be completely hidden on weekends.
+
+```json
+{
+	module: "MMM-Traffic",
+	position: "top_left",
+	config: {
+		accessToken: "your_key_here",
+		originCoords: "-84.398848,33.755165",
+		destinationCoords: "-84.504259,33.88210",
+		firstLine: "{duration} mins",
+		secondLine: "School",
+		days: [0,2,4]
+		hoursStart: "07:00",
+		hoursEnd: "09:00"
+	}
+},
+{
+	module: "MMM-Traffic",
+	position: "top_left",
+	config: {
+		accessToken: "your_key_here",
+		originCoords: "-84.398848,33.755165",
+		destinationCoords: "-84.504259,33.88210",
+		firstLine: "{duration} mins",
+		secondLine: "Work"
+		days: [1,3]
+		hoursStart: "07:00",
+		hoursEnd: "09:00"
+	}
+},
+```
+
+| Day         | View                                           |
+| ----------- | ---------------------------------------------- |
+| Mon/Wed/Fri | ![minimal screenshot](screenshots/05-mwf.png)  |
+| Tu/Th       | ![minimal screenshot](screenshots/05-tuth.png) |
+
+## Dependencies
+
+- [node-fetch](https://www.npmjs.com/package/node-fetch)
+- [moment](https://www.npmjs.com/package/moment)

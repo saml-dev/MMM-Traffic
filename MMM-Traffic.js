@@ -70,7 +70,7 @@ Module.register('MMM-Traffic', {
     // base divs
     var firstLineDiv = document.createElement('div');
     var secondLineDiv = document.createElement('div');
-    secondLineDiv.className = 'dimmed small';
+    secondLineDiv.className = 'normal small';
 
     // display any errors
     if (this.errorMessage) {
