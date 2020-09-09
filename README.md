@@ -89,7 +89,7 @@ rate limited.
 
 ### Simplest Config
 
-```json
+```js
 {
 	module: "MMM-Traffic",
 	position: "top_left",
@@ -105,7 +105,7 @@ rate limited.
 
 ### Minimal Look
 
-```json
+```js
 {
 	module: "MMM-Traffic",
 	position: "top_left",
@@ -123,7 +123,7 @@ rate limited.
 
 ### Use both lines
 
-```json
+```js
 {
 	module: "MMM-Traffic",
 	position: "top_left",
@@ -141,7 +141,7 @@ rate limited.
 
 ### Multiple Routes
 
-```json
+```js
 {
 	module: "MMM-Traffic",
 	position: "top_left",
@@ -174,7 +174,7 @@ This setup would show one route for Monday, Wednesday, and Friday, and another f
 Tuesday and Thursday. It would only show between 07:00 and 09:00 each day. It would
 be completely hidden on weekends.
 
-```json
+```js
 {
 	module: "MMM-Traffic",
 	position: "top_left",
