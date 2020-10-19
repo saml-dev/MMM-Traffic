@@ -45,8 +45,8 @@ npm install
 | Option              | Description                                  | Type   | Example                   |
 | ------------------- | -------------------------------------------- | ------ | ------------------------- |
 | `accessToken`       | Mapbox access token                          | string | -                         |
-| `originCoords`      | `longitude,latitude` of the origin location. | string | `'-84.504259, 33.882107'` |
-| `destinationCoords` | `longitude,latitude` of the origin location. | string | `'-84.504259, 33.882107'` |
+| `originCoords`      | `longitude,latitude` of the origin location. | string | `'-84.504259,33.882107'` |
+| `destinationCoords` | `longitude,latitude` of the origin location. | string | `'-84.504259,33.882107'` |
 
 ### Basic Options
 
