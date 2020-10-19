@@ -199,7 +199,7 @@ be completely hidden on weekends.
 		originCoords: "-84.398848,33.755165",
 		destinationCoords: "-84.504259,33.88210",
 		firstLine: "{duration} mins",
-		secondLine: "Work"
+		secondLine: "Work",
 		days: [1,3],
 		hoursStart: "07:00",
 		hoursEnd: "09:00"
