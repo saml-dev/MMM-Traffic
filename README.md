@@ -84,8 +84,8 @@ rate limited.
 | Option       | Description                                                              | Type       | Default                 |
 | ------------ | ------------------------------------------------------------------------ | ---------- | ----------------------- |
 | `days`       | Which days of the week to show the traffic module, with 0 being Monday   | Array[int] | `[0, 1, 2, 3, 4, 5, 6]` |
-| `hoursStart` | What time to begin showing the module on the days it shows, 24 hour time | Array[int] | `00:00`                 |
-| `hoursEnd`   | What time to stop showing the module on the days it shows, 24 hour time  | Array[int] | `23:59`                 |
+| `hoursStart` | What time to begin showing the module on the days it shows, 24 hour time | String | `"00:00"`                 |
+| `hoursEnd`   | What time to stop showing the module on the days it shows, 24 hour time  | String | `"23:59"`                 |
 
 ## Examples
 
