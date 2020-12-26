@@ -50,11 +50,12 @@ npm install
 
 ### Basic Options
 
-| Option       | Description                                       | Type    | Default Value           | Supported Options   |
-| ------------ | ------------------------------------------------- | ------- | ----------------------- | ------------------- |
-| `language`   | Define the commute time language.                 | string  | `config.language`       | Any language string |
-| `interval`   | How often the traffic is updated in milliseconds. | integer | `300000`<br>(5 minutes) |                     |
-| `showSymbol` | Whether to show the car symbol or not.            | boolean | true                    |                     |
+| Option                  | Description                                                               | Type            | Default Value           | Supported Options   |
+| ----------------------- | ------------------------------------------------------------------------- | --------------- | ----------------------- | ------------------- |
+| `language`              | Define the commute time language.                                         | string          | `config.language`       | Any language string |
+| `intermediateWaypoints` | A list (up to 23 elements) of intermediate points to be visited in order. | array of string | `undefined`             |                     |
+| `interval`              | How often the traffic is updated in milliseconds.                         | integer         | `300000`<br>(5 minutes) |                     |
+| `showSymbol`            | Whether to show the car symbol or not.                                    | boolean         | true                    |                     |
 
 ### Translation/Display
 
@@ -169,6 +170,38 @@ rate limited.
 ```
 
 ![multiple routes screenshot](screenshots/04-multiple.png)
+
+### Route passing by fixed points.
+
+You may have multiple usual paths to reach the same destination. A simple way to calculate
+time is to insert a point to be visited. You can insert up to 23 intermediate waypoints.
+
+```js
+{
+        module: "MMM-Traffic",
+        position: "top_left",
+        config: {
+                accessToken: "your_key_here",
+                originCoords: "-84.398848,33.755165",
+                intermediateWaypoints: ["-84.504259,33.80100"],
+                destinationCoords: "-84.504259,33.88210",
+                firstLine: "{duration} mins",
+                secondLine: "Work via highway",
+        }
+},
+{
+        module: "MMM-Traffic",
+        position: "top_left",
+        config: {
+                accessToken: "your_key_here",
+                originCoords: "-84.398848,33.755165",
+                intermediateWaypoints: ["-84.504259,33.84150"],
+                destinationCoords: "-84.504259,33.88210",
+                firstLine: "{duration} mins",
+                secondLine: "Work via city",
+        }
+},
+```
 
 ### Per day customization
 

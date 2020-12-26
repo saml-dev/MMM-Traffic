@@ -5,6 +5,17 @@
  * MIT Licensed.
  */
 
+function buildMapboxUrl (self) {
+  let url =`https://api.mapbox.com/directions/v5/mapbox/driving-traffic/`
+  let coords = [self.config.originCoords];
+  if (self.config.intermediateWaypoints) {
+    coords = coords.concat(self.config.intermediateWaypoints);
+  }
+  coords.push(self.config.destinationCoords);
+  url += `${coords.join(";")}?access_token=${self.config.accessToken}`
+  return url;
+}
+
 Module.register('MMM-Traffic', {
   defaults: {
     interval: 300000,
@@ -37,7 +48,7 @@ Module.register('MMM-Traffic', {
   },
 
   updateCommute: function (self) {
-    self.url = encodeURI(`https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${self.config.originCoords};${self.config.destinationCoords}?access_token=${self.config.accessToken}`);
+    self.url = encodeURI(buildMapboxUrl(self));
 
     // only run getDom once at the start of a hidden period to remove the module from the screen, then just wait until time to unhide to run again
     if (self.shouldHide() && !self.hidden) {
