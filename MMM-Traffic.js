@@ -21,6 +21,7 @@ Module.register('MMM-Traffic', {
     console.log('Starting module: ' + this.name);
     this.loading = true;
     this.hidden = false;
+    this.firstResume = true;
     this.errorMessage = undefined;
     this.errorDescription = undefined;
     if ([this.config.originCoords, this.config.destinationCoords, this.config.accessToken].includes(undefined)) {
@@ -29,6 +30,17 @@ Module.register('MMM-Traffic', {
       this.updateDom();
     } else {
       this.updateCommute(this);
+    }
+  },
+
+  resume: function () {
+    // Added to fix issue when used with MMM-Pages where updateDom was called
+    // while MMM-Traffic was suspended. This is due to receiving traffic info
+    // from node_helper while suspended. Could probably strip out the node_helper
+    // entirely but this works for now.
+    if (this.firstResume) {
+      this.firstResume = false;
+      this.updateDom(1000);
     }
   },
 
