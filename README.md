@@ -36,6 +36,7 @@ npm install
 
 1. Create an account at [Mapbox](https://account.mapbox.com/)
 2. Copy the access token visible after account creation (go [here](https://account.mapbox.com/) if you don't see it)
+	- _Note: Google maps coordinates are `latitude,longitude`, but Mapbox uses `longitude,latitude` so be sure to reverse what you copy from Google._
 
 ## Configuration
 
@@ -47,8 +48,8 @@ for instructions on how to use Google Maps webpage/app to get coordinates for yo
 | Option              | Description                                  | Type   | Example                   |
 | ------------------- | -------------------------------------------- | ------ | ------------------------- |
 | `accessToken`       | Mapbox access token                          | string | -                         |
-| `originCoords`      | `longitude,latitude` of the origin location. | string | `'-84.504259, 33.882107'` |
-| `destinationCoords` | `longitude,latitude` of the origin location. | string | `'-84.504259, 33.882107'` |
+| `originCoords`      | `longitude,latitude` of the origin location. | string | `'-84.504259,33.882107'` |
+| `destinationCoords` | `longitude,latitude` of the origin location. | string | `'-84.504259,33.882107'` |
 
 ### Basic Options
 
@@ -86,8 +87,8 @@ rate limited.
 | Option       | Description                                                              | Type       | Default                 |
 | ------------ | ------------------------------------------------------------------------ | ---------- | ----------------------- |
 | `days`       | Which days of the week to show the traffic module, with 0 being Monday   | Array[int] | `[0, 1, 2, 3, 4, 5, 6]` |
-| `hoursStart` | What time to begin showing the module on the days it shows, 24 hour time | Array[int] | `00:00`                 |
-| `hoursEnd`   | What time to stop showing the module on the days it shows, 24 hour time  | Array[int] | `23:59`                 |
+| `hoursStart` | What time to begin showing the module on the days it shows, 24 hour time | String | `"00:00"`                 |
+| `hoursEnd`   | What time to stop showing the module on the days it shows, 24 hour time  | String | `"23:59"`                 |
 
 ## Examples
 
@@ -117,8 +118,8 @@ rate limited.
 		accessToken: "your_key_here",
 		originCoords: "-84.398848,33.755165",
 		destinationCoords: "-84.504259,33.88210",
-		showSymbol: false
-		firstLine:
+		showSymbol: false,
+		firstLine: "{duration} mins"
 	}
 },
 ```
@@ -188,7 +189,7 @@ be completely hidden on weekends.
 		destinationCoords: "-84.504259,33.88210",
 		firstLine: "{duration} mins",
 		secondLine: "School",
-		days: [0,2,4]
+		days: [0,2,4],
 		hoursStart: "07:00",
 		hoursEnd: "09:00"
 	}
@@ -201,8 +202,8 @@ be completely hidden on weekends.
 		originCoords: "-84.398848,33.755165",
 		destinationCoords: "-84.504259,33.88210",
 		firstLine: "{duration} mins",
-		secondLine: "Work"
-		days: [1,3]
+		secondLine: "Work",
+		days: [1,3],
 		hoursStart: "07:00",
 		hoursEnd: "09:00"
 	}
