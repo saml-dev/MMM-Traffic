@@ -19,10 +19,6 @@ Module.register('MMM-Traffic', {
 
   start: function () {
     console.log('Starting module: ' + this.name);
-    // default to bright medium
-    if (this.data.classes === 'MMM-Traffic') {
-      this.data.classes = 'bright medium';
-    }
     this.loading = true;
     this.hidden = false;
     this.errorMessage = undefined;
@@ -69,6 +65,7 @@ Module.register('MMM-Traffic', {
 
     // base divs
     var firstLineDiv = document.createElement('div');
+    firstLineDiv.className = 'bright medium';
     var secondLineDiv = document.createElement('div');
     secondLineDiv.className = 'normal small';
 
