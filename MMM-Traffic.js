@@ -18,7 +18,9 @@ Module.register('MMM-Traffic', {
   },
 
   start: function () {
-    console.log('Starting module: ' + this.name);
+    try {
+      console.log('Starting module: ' + this.name);
+    } catch { }
     this.loading = true;
     this.hidden = false;
     this.firstResume = true;
@@ -49,7 +51,9 @@ Module.register('MMM-Traffic', {
 
     // only run getDom once at the start of a hidden period to remove the module from the screen, then just wait until time to unhide to run again
     if (self.shouldHide() && !self.hidden) {
-      console.log('Hiding MMM-Traffic');
+      try {
+        console.log('Hiding MMM-Traffic');
+      } catch { }
       self.hidden = true;
       self.updateDom();
     } else if (!self.shouldHide()) {
@@ -132,13 +136,17 @@ Module.register('MMM-Traffic', {
   socketNotificationReceived: function (notification, payload) {
     this.leaveBy = '';
     if (notification === 'MMM_TRAFFIC_DURATION' && payload.url === this.url) {
-      console.log('received MMM_TRAFFIC_DURATION');
+      try {
+        console.log('received MMM_TRAFFIC_DURATION');
+      } catch { }
       this.duration = payload.duration;
       this.errorMessage = this.errorDescription = undefined;
       this.loading = false;
       this.updateDom(1000);
     } else if (notification === 'MMM_TRAFFIC_ERROR' && payload.url === this.url) {
-      console.log('received MMM_TRAFFIC_ERROR');
+      try {
+        console.log('received MMM_TRAFFIC_ERROR');
+      } catch { }
       this.errorMessage = payload.error.message;
       this.errorDescription = payload.error.description;
       this.loading = false;
