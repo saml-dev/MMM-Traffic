@@ -20,7 +20,7 @@ This a module for the [MagicMirror](https://github.com/MichMich/MagicMirror/tree
   - [Multiple Routes](#multiple-routes)
   - [Per day customization](#per-day-customization)
 - [Dependencies](#dependencies)
-- [Legacy](#Legacy)
+- [Legacy](#legacy)
 
 ## Installation
 
@@ -36,7 +36,6 @@ npm install
 
 1. Create an account at [Mapbox](https://account.mapbox.com/)
 2. Copy the access token visible after account creation (go [here](https://account.mapbox.com/) if you don't see it)
-	- _Note: Google maps coordinates are `latitude,longitude`, but Mapbox uses `longitude,latitude` so be sure to reverse what you copy from Google._
 
 ## Configuration
 
@@ -44,6 +43,8 @@ npm install
 
 See [here](https://support.google.com/maps/answer/18539)
 for instructions on how to use Google Maps webpage/app to get coordinates for your origin/destination.
+
+_Note: Google maps coordinates are `latitude,longitude`, but Mapbox uses `longitude,latitude` so be sure to reverse what you copy from Google._
 
 | Option              | Description                                  | Type   | Example                   |
 | ------------------- | -------------------------------------------- | ------ | ------------------------- |
