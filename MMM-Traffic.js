@@ -12,6 +12,7 @@ Module.register('MMM-Traffic', {
     firstLine: 'Current duration is {duration} mins',
     loadingText: 'Loading...',
     language: config.language,
+    mode: 'driving',
     days: [0, 1, 2, 3, 4, 5, 6],
     hoursStart: '00:00',
     hoursEnd: '23:59'
@@ -45,7 +46,8 @@ Module.register('MMM-Traffic', {
   },
 
   updateCommute: function (self) {
-    self.url = encodeURI(`https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${self.config.originCoords};${self.config.destinationCoords}?access_token=${self.config.accessToken}`);
+    let mode = self.config.mode == 'driving' ? 'driving-traffic' : self.config.mode;
+    self.url = encodeURI(`https://api.mapbox.com/directions/v5/mapbox/${mode}/${self.config.originCoords};${self.config.destinationCoords}?access_token=${self.config.accessToken}`);
 
     // only run getDom once at the start of a hidden period to remove the module from the screen, then just wait until time to unhide to run again
     if (self.shouldHide() && !self.hidden) {

@@ -54,11 +54,12 @@ _Note: Google maps coordinates are `latitude,longitude`, but Mapbox uses `longit
 
 ### Basic Options
 
-| Option       | Description                                       | Type    | Default Value           | Supported Options   |
-| ------------ | ------------------------------------------------- | ------- | ----------------------- | ------------------- |
-| `language`   | Define the commute time language.                 | string  | `config.language`       | Any language string |
-| `interval`   | How often the traffic is updated in milliseconds. | integer | `300000`<br>(5 minutes) |                     |
-| `showSymbol` | Whether to show the car symbol or not.            | boolean | true                    |                     |
+| Option       | Description                                       | Type    | Default Value           | Supported Options    |
+| ------------ | ------------------------------------------------- | ------- | ----------------------- | -------------------  |
+| `mode`       | Change the module to cycling or walking.          | string  | `'driving'`             | `'walking' 'cycling'`|
+| `language`   | Define the commute time language.                 | string  | `config.language`       | Any language string  |
+| `interval`   | How often the traffic is updated in milliseconds. | integer | `300000`<br>(5 minutes) |                      |
+| `showSymbol` | Whether to show the car symbol or not.            | boolean | true                    |                      |
 
 ### Translation/Display
 
