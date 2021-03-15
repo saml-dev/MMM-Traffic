@@ -92,10 +92,14 @@ Module.register('MMM-Traffic', {
       return wrapper;
     }
 
+    let symbolString = 'car';
+    if (this.config.mode == 'cycling') symbolString = 'bicycle';
+    if (this.config.mode == 'walking') symbolString = 'walking';
+
     // symbol
     if (this.config.showSymbol) {
       var symbol = document.createElement('span');
-      symbol.className = 'fa fa-car symbol';
+      symbol.className = `fa fa-${symbolString} symbol`;
       firstLineDiv.appendChild(symbol);
     }
 
