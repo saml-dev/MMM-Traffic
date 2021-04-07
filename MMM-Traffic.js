@@ -30,37 +30,66 @@ Module.register('MMM-Traffic', {
       this.errorDescription = 'You must set originCoords, destinationCoords, and accessToken in your config';
       this.updateDom();
     } else {
-      this.updateCommute(this);
+      this.updateCommute();
     }
   },
 
-  resume: function () {
-    // Added to fix issue when used with MMM-Pages where updateDom was called
-    // while MMM-Traffic was suspended. This is due to receiving traffic info
-    // from node_helper while suspended. Could probably strip out the node_helper
-    // entirely but this works for now.
-    if (this.firstResume) {
-      this.firstResume = false;
-      this.updateDom(1000);
-    }
-  },
+  // resume: function () {
+  //   // Added to fix issue when used with MMM-Pages where updateDom was called
+  //   // while MMM-Traffic was suspended. This is due to receiving traffic info
+  //   // from node_helper while suspended. Could probably strip out the node_helper
+  //   // entirely but this works for now.
+  //   if (this.firstResume) {
+  //     this.firstResume = false;
+  //     this.updateDom(1000);
+  //   }
+  // },
 
-  updateCommute: function (self) {
-    let mode = self.config.mode == 'driving' ? 'driving-traffic' : self.config.mode;
-    self.url = encodeURI(`https://api.mapbox.com/directions/v5/mapbox/${mode}/${self.config.originCoords};${self.config.destinationCoords}?access_token=${self.config.accessToken}`);
+  updateCommute: async function () {
+    let mode = this.config.mode == 'driving' ? 'driving-traffic' : this.config.mode;
+    this.url = encodeURI(`https://api.mapbox.com/directions/v5/mapbox/${mode}/${this.config.originCoords};${this.config.destinationCoords}?access_token=${this.config.accessToken}`);
 
     // only run getDom once at the start of a hidden period to remove the module from the screen, then just wait until time to unhide to run again
-    if (self.shouldHide() && !self.hidden) {
+    if (this.shouldHide() && !this.hidden) {
       console.log('Hiding MMM-Traffic');
-      self.hidden = true;
-      self.updateDom();
-    } else if (!self.shouldHide()) {
-      self.hidden = false;
-      self.sendSocketNotification('TRAFFIC_URL', { 'url': self.url });
+      this.hidden = true;
+      this.updateDom();
+    } else if (!this.shouldHide()) {
+      this.hidden = false;
+      this.getCommute(this.url);
     }
     // no network requests are made when the module is hidden, so check every 30 seconds during hidden
     // period to see if it's time to unhide yet
-    setTimeout(self.updateCommute, self.hidden ? 3000 : self.config.interval, self);
+    setTimeout(this.updateCommute, this.hidden ? 3000 : this.config.interval);
+  },
+
+  getCommute: function (api_url) {
+    var self = this;
+    fetch(api_url)
+      .then(self.checkStatus)
+      .then(json => {
+        self.duration = Math.round(json.routes[0].duration / 60);
+        self.errorMessage = self.errorDescription = undefined;
+        self.loading = false;
+        self.updateDom();
+      })
+      .catch(e => {
+        self.errorMessage = payload.error.message;
+        self.errorDescription = payload.error.description;
+        self.loading = false;
+        self.updateDom();
+      });
+
+  },
+
+  checkStatus: function (res) {
+    if (res.ok) {
+      return res.json();
+    } else {
+      return res.json().then(json => {
+        throw new MMMTrafficError(`API Error - ${json.code}`, json.message);
+      });
+    }
   },
 
   getStyles: function () {
@@ -120,7 +149,7 @@ Module.register('MMM-Traffic', {
   },
 
   replaceTokens: function (text) {
-    return text.replace('{duration}', this.duration);
+    return text.replace(/{duration}/g, this.duration);
   },
 
   shouldHide: function () {
@@ -134,22 +163,4 @@ Module.register('MMM-Traffic', {
     }
     return hide;
   },
-
-  socketNotificationReceived: function (notification, payload) {
-    this.leaveBy = '';
-    if (notification === 'MMM_TRAFFIC_DURATION' && payload.url === this.url) {
-      console.log('received MMM_TRAFFIC_DURATION');
-      this.duration = payload.duration;
-      this.errorMessage = this.errorDescription = undefined;
-      this.loading = false;
-      this.updateDom(1000);
-    } else if (notification === 'MMM_TRAFFIC_ERROR' && payload.url === this.url) {
-      console.log('received MMM_TRAFFIC_ERROR');
-      this.errorMessage = payload.error.message;
-      this.errorDescription = payload.error.description;
-      this.loading = false;
-      this.updateDom(1000);
-    }
-  }
-
 });
