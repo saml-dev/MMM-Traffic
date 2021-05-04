@@ -8,6 +8,7 @@ This a module for the [MagicMirror](https://github.com/MichMich/MagicMirror/tree
 
 - [Installation](#installation)
 - [Mapbox Access Token](#mapbox-access-token)
+- [Styling](#styling)
 - [Configuration](#configuration)
   - [Required](#required)
   - [Basic Options](#basic-options)
@@ -36,6 +37,26 @@ npm install
 
 1. Create an account at [Mapbox](https://account.mapbox.com/)
 2. Copy the access token visible after account creation (go [here](https://account.mapbox.com/) if you don't see it)
+
+## Styling
+
+You can use a global `MagicMirror/css/custom.css` file to customize the styles for each line of MMM-Traffic separately. Each line has its own class that should be used to apply styles:
+  - `.mmmtraffic-firstline`
+  - `.mmmtraffic-secondline`
+
+For example, this css
+```
+.mmmtraffic-firstline {
+  font-size: 40px;
+  color: yellow;
+}
+
+.mmmtraffic-secondline {
+  color: green;
+}
+```
+leads to this abomination:
+![css example screenshot](screenshots/css-example.png)
 
 ## Configuration
 

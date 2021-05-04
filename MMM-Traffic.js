@@ -97,9 +97,9 @@ Module.register('MMM-Traffic', {
 
     // base divs
     var firstLineDiv = document.createElement('div');
-    firstLineDiv.className = 'bright medium';
+    firstLineDiv.className = 'bright medium mmmtraffic-firstline';
     var secondLineDiv = document.createElement('div');
-    secondLineDiv.className = 'normal small';
+    secondLineDiv.className = 'normal small mmmtraffic-secondline';
 
     // display any errors
     if (this.errorMessage) {
