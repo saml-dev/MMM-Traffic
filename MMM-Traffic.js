@@ -21,7 +21,7 @@ Module.register('MMM-Traffic', {
   start: function () {
     console.log('Starting module: ' + this.name);
     this.loading = true;
-    this.hidden = false;
+    this.internalHidden = false;
     this.firstResume = true;
     this.errorMessage = undefined;
     this.errorDescription = undefined;
@@ -34,33 +34,22 @@ Module.register('MMM-Traffic', {
     }
   },
 
-  // resume: function () {
-  //   // Added to fix issue when used with MMM-Pages where updateDom was called
-  //   // while MMM-Traffic was suspended. This is due to receiving traffic info
-  //   // from node_helper while suspended. Could probably strip out the node_helper
-  //   // entirely but this works for now.
-  //   if (this.firstResume) {
-  //     this.firstResume = false;
-  //     this.updateDom(1000);
-  //   }
-  // },
-
   updateCommute: async function () {
     let mode = this.config.mode == 'driving' ? 'driving-traffic' : this.config.mode;
     this.url = encodeURI(`https://api.mapbox.com/directions/v5/mapbox/${mode}/${this.config.originCoords};${this.config.destinationCoords}?access_token=${this.config.accessToken}`);
 
     // only run getDom once at the start of a hidden period to remove the module from the screen, then just wait until time to unhide to run again
-    if (this.shouldHide() && !this.hidden) {
-      console.log('Hiding MMM-Traffic');
-      this.hidden = true;
+    if (this.shouldHide() && !this.internalHidden) {
+      console.log('Hiding MMM-Traffic due to config options: days, hoursStart, hoursEnd');
+      this.internalHidden = true;
       this.updateDom();
     } else if (!this.shouldHide()) {
-      this.hidden = false;
+      this.internalHidden = false;
       this.getCommute(this.url);
     }
     // no network requests are made when the module is hidden, so check every 30 seconds during hidden
     // period to see if it's time to unhide yet
-    setTimeout(this.updateCommute, this.hidden ? 3000 : this.config.interval);
+    setTimeout(this.updateCommute, this.internalHidden ? 3000 : this.config.interval);
   },
 
   getCommute: function (api_url) {
@@ -104,7 +93,7 @@ Module.register('MMM-Traffic', {
     var wrapper = document.createElement("div");
 
     // hide when desired (called once on first update during hidden period)
-    if (this.hidden) return wrapper;
+    if (this.internalHidden) return wrapper;
 
     // base divs
     var firstLineDiv = document.createElement('div');
