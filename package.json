@@ -1,6 +1,6 @@
 {
   "name": "Magic-Mirror-Module-Traffic",
-  "version": "1.0.0",
+  "version": "2.0.2",
   "description": "Google Maps Traffic module for the Magic Mirror.",
   "repository": {
     "type": "git",
