@@ -25,6 +25,9 @@ Module.register('MMM-Traffic', {
     this.firstResume = true;
     this.errorMessage = undefined;
     this.errorDescription = undefined;
+    this.updateCommute = this.updateCommute.bind(this);
+    this.getCommute = this.getCommute.bind(this);
+    this.getDom = this.getDom.bind(this);
     if ([this.config.originCoords, this.config.destinationCoords, this.config.accessToken].includes(undefined)) {
       this.errorMessage = 'Config error';
       this.errorDescription = 'You must set originCoords, destinationCoords, and accessToken in your config';
@@ -34,7 +37,7 @@ Module.register('MMM-Traffic', {
     }
   },
 
-  updateCommute: async function () {
+  updateCommute: function () {
     let mode = this.config.mode == 'driving' ? 'driving-traffic' : this.config.mode;
     this.url = encodeURI(`https://api.mapbox.com/directions/v5/mapbox/${mode}/${this.config.originCoords};${this.config.destinationCoords}?access_token=${this.config.accessToken}`);
 
