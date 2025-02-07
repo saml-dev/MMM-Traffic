@@ -61,6 +61,7 @@ Module.register('MMM-Traffic', {
       .then(self.checkStatus)
       .then(json => {
         self.duration = Math.round(json.routes[0].duration / 60);
+	self.route = json.routes[0].legs[0].summary;
         self.errorMessage = self.errorDescription = undefined;
         self.loading = false;
         self.updateDom();
@@ -141,7 +142,7 @@ Module.register('MMM-Traffic', {
   },
 
   replaceTokens: function (text) {
-    return text.replace(/{duration}/g, this.duration);
+    return text.replace(/{duration}/g, this.duration).replace(/{route}/g, this.route);
   },
 
   shouldHide: function () {

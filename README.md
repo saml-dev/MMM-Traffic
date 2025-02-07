@@ -100,6 +100,7 @@ in firstLine/secondLine._
 | Token        | Value                                         |
 | ------------ | --------------------------------------------- |
 | `{duration}` | The driving time returned from the mapbox API |
+| `{route}`    | The summary of the route from the mapbox API  |
 
 ### Per Day/Time Customization
 
@@ -161,6 +162,24 @@ rate limited.
 		destinationCoords: "-84.504259,33.88210",
 		firstLine: "{duration} mins",
 		secondLine: "Coffee Run"
+	}
+},
+```
+
+![both lines with route screenshot](screenshots/06-both_lines_route.png)
+
+### Use both lines with route
+
+```js
+{
+	module: "MMM-Traffic",
+	position: "top_left",
+	config: {
+		accessToken: "your_key_here",
+		originCoords: "-84.398848,33.755165",
+		destinationCoords: "-84.504259,33.88210",
+		firstLine: "{duration} mins",
+		secondLine: "via {route}"
 	}
 },
 ```
