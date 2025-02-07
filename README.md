@@ -165,8 +165,7 @@ rate limited.
 	}
 },
 ```
-
-![both lines with route screenshot](screenshots/06-both_lines_route.png)
+![both lines custom screenshot](screenshots/03-both_lines.png)
 
 ### Use both lines with route
 
@@ -183,8 +182,8 @@ rate limited.
 	}
 },
 ```
+![both lines with route screenshot](screenshots/06-both_lines_route.png)
 
-![both lines custom screenshot](screenshots/03-both_lines.png)
 
 ### Multiple Routes
 
