@@ -15,7 +15,8 @@ Module.register('MMM-Traffic', {
     mode: 'driving',
     days: [0, 1, 2, 3, 4, 5, 6],
     hoursStart: '00:00',
-    hoursEnd: '23:59'
+    hoursEnd: '23:59',
+    waypoints: []
   },
 
   start: function () {
@@ -39,7 +40,15 @@ Module.register('MMM-Traffic', {
 
   updateCommute: function () {
     let mode = this.config.mode == 'driving' ? 'driving-traffic' : this.config.mode;
-    this.url = encodeURI(`https://api.mapbox.com/directions/v5/mapbox/${mode}/${this.config.originCoords};${this.config.destinationCoords}?access_token=${this.config.accessToken}`);
+
+    // Build coordinates string with optional waypoints
+    let coordinates = this.config.originCoords;
+    if (this.config.waypoints && this.config.waypoints.length > 0) {
+      coordinates += ';' + this.config.waypoints.join(';');
+    }
+    coordinates += ';' + this.config.destinationCoords;
+
+    this.url = encodeURI(`https://api.mapbox.com/directions/v5/mapbox/${mode}/${coordinates}?access_token=${this.config.accessToken}`);
 
     // only run getDom once at the start of a hidden period to remove the module from the screen, then just wait until time to unhide to run again
     if (this.shouldHide() && !this.internalHidden) {
@@ -61,7 +70,7 @@ Module.register('MMM-Traffic', {
       .then(self.checkStatus)
       .then(json => {
         self.duration = Math.round(json.routes[0].duration / 60);
-	self.route = json.routes[0].legs[0].summary;
+        self.route = json.routes[0].legs[0].summary;
         self.errorMessage = self.errorDescription = undefined;
         self.loading = false;
         self.updateDom();
