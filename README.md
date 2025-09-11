@@ -72,6 +72,7 @@ _Note: Google maps coordinates are `latitude,longitude`, but Mapbox uses `longit
 | `accessToken`       | Mapbox access token                          | string | -                         |
 | `originCoords`      | `longitude,latitude` of the origin location. | string | `'-84.504259,33.882107'` |
 | `destinationCoords` | `longitude,latitude` of the origin location. | string | `'-84.504259,33.882107'` |
+| `waypoints`         | Optional array of `longitude,latitude` waypoints between origin and destination. | array | `['-81.307398,28.411692', '-81.570944,28.393389']` |
 
 ### Basic Options
 
@@ -183,6 +184,23 @@ rate limited.
 },
 ```
 ![both lines with route screenshot](screenshots/06-both_lines_route.png)
+
+### Using waypoints
+
+```js
+{
+	module: "MMM-Traffic",
+	position: "top_left",
+	config: {
+		accessToken: "your_key_here",
+		originCoords: "-84.398848,33.755165",
+		destinationCoords: "-84.504259,33.88210",
+		waypoints: ["-84.456210,33.876496"],
+		firstLine: "{duration} mins",
+		secondLine: "with stops"
+	}
+},
+```
 
 
 ### Multiple Routes
