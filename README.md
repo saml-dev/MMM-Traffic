@@ -248,7 +248,7 @@ be completely hidden on weekends.
 		destinationCoords: "-84.504259,33.88210",
 		firstLine: "{duration} mins",
 		secondLine: "School",
-		days: [0,2,4],
+		days: [1,3,5],
 		hoursStart: "07:00",
 		hoursEnd: "09:00"
 	}
@@ -262,7 +262,7 @@ be completely hidden on weekends.
 		destinationCoords: "-84.504259,33.88210",
 		firstLine: "{duration} mins",
 		secondLine: "Work",
-		days: [1,3],
+		days: [2,4],
 		hoursStart: "07:00",
 		hoursEnd: "09:00"
 	}
