@@ -85,14 +85,16 @@ Module.register('MMM-Traffic', {
       .then(self.checkStatus)
       .then((json) => {
         self.duration = Math.round(json.routes[0].duration / 60);
+        self.hours = Math.floor(self.duration / 60);
+        self.leftoverMinutes = self.duration % 60;
         self.route = json.routes[0].legs[0].summary;
         self.errorMessage = self.errorDescription = undefined;
         self.loading = false;
         self.updateDom();
       })
       .catch((e) => {
-        self.errorMessage = payload.error.message;
-        self.errorDescription = payload.error.description;
+        self.errorMessage = 'Error fetching commute';
+        self.errorDescription = e.message;
         self.loading = false;
         self.updateDom();
       });
@@ -169,6 +171,8 @@ Module.register('MMM-Traffic', {
   replaceTokens: function (text) {
     return text
       .replace(/{duration}/g, this.duration)
+      .replace(/{hours}/g, this.hours)
+      .replace(/{leftoverMinutes}/g, this.leftoverMinutes)
       .replace(/{route}/g, this.route);
   },
 

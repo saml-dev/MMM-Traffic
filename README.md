@@ -98,10 +98,12 @@ in firstLine/secondLine._
 
 #### Tokens
 
-| Token        | Value                                         |
-| ------------ | --------------------------------------------- |
-| `{duration}` | The driving time returned from the mapbox API |
-| `{route}`    | The summary of the route from the mapbox API  |
+| Token              | Value                                                              |
+| ------------------ | ------------------------------------------------------------------ |
+| `{duration}`       | The total driving time in minutes returned from the mapbox API     |
+| `{hours}`          | The hours portion of the driving time (e.g., 2 for a 125 min trip) |
+| `{leftoverMinutes}`| The remaining minutes after hours (e.g., 5 for a 125 min trip)     |
+| `{route}`          | The summary of the route from the mapbox API                       |
 
 ### Per Day/Time Customization
 
