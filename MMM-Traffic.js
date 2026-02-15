@@ -16,7 +16,7 @@ Module.register('MMM-Traffic', {
     days: [0, 1, 2, 3, 4, 5, 6],
     hoursStart: '00:00',
     hoursEnd: '23:59',
-    waypoints: []
+    waypoints: [],
   },
 
   start: function () {
@@ -29,9 +29,16 @@ Module.register('MMM-Traffic', {
     this.updateCommute = this.updateCommute.bind(this);
     this.getCommute = this.getCommute.bind(this);
     this.getDom = this.getDom.bind(this);
-    if ([this.config.originCoords, this.config.destinationCoords, this.config.accessToken].includes(undefined)) {
+    if (
+      [
+        this.config.originCoords,
+        this.config.destinationCoords,
+        this.config.accessToken,
+      ].includes(undefined)
+    ) {
       this.errorMessage = 'Config error';
-      this.errorDescription = 'You must set originCoords, destinationCoords, and accessToken in your config';
+      this.errorDescription =
+        'You must set originCoords, destinationCoords, and accessToken in your config';
       this.updateDom();
     } else {
       this.updateCommute();
@@ -39,7 +46,8 @@ Module.register('MMM-Traffic', {
   },
 
   updateCommute: function () {
-    let mode = this.config.mode == 'driving' ? 'driving-traffic' : this.config.mode;
+    let mode =
+      this.config.mode == 'driving' ? 'driving-traffic' : this.config.mode;
 
     // Build coordinates string with optional waypoints
     let coordinates = this.config.originCoords;
@@ -48,11 +56,15 @@ Module.register('MMM-Traffic', {
     }
     coordinates += ';' + this.config.destinationCoords;
 
-    this.url = encodeURI(`https://api.mapbox.com/directions/v5/mapbox/${mode}/${coordinates}?access_token=${this.config.accessToken}`);
+    this.url = encodeURI(
+      `https://api.mapbox.com/directions/v5/mapbox/${mode}/${coordinates}?access_token=${this.config.accessToken}`,
+    );
 
     // only run getDom once at the start of a hidden period to remove the module from the screen, then just wait until time to unhide to run again
     if (this.shouldHide() && !this.internalHidden) {
-      console.log('Hiding MMM-Traffic due to config options: days, hoursStart, hoursEnd');
+      console.log(
+        'Hiding MMM-Traffic due to config options: days, hoursStart, hoursEnd',
+      );
       this.internalHidden = true;
       this.updateDom();
     } else if (!this.shouldHide()) {
@@ -61,34 +73,36 @@ Module.register('MMM-Traffic', {
     }
     // no network requests are made when the module is hidden, so check every 30 seconds during hidden
     // period to see if it's time to unhide yet
-    setTimeout(this.updateCommute, this.internalHidden ? 3000 : this.config.interval);
+    setTimeout(
+      this.updateCommute,
+      this.internalHidden ? 3000 : this.config.interval,
+    );
   },
 
   getCommute: function (api_url) {
     var self = this;
     fetch(api_url)
       .then(self.checkStatus)
-      .then(json => {
+      .then((json) => {
         self.duration = Math.round(json.routes[0].duration / 60);
         self.route = json.routes[0].legs[0].summary;
         self.errorMessage = self.errorDescription = undefined;
         self.loading = false;
         self.updateDom();
       })
-      .catch(e => {
+      .catch((e) => {
         self.errorMessage = payload.error.message;
         self.errorDescription = payload.error.description;
         self.loading = false;
         self.updateDom();
       });
-
   },
 
   checkStatus: function (res) {
     if (res.ok) {
       return res.json();
     } else {
-      return res.json().then(json => {
+      return res.json().then((json) => {
         throw new MMMTrafficError(`API Error - ${json.code}`, json.message);
       });
     }
@@ -103,7 +117,7 @@ Module.register('MMM-Traffic', {
   },
 
   getDom: function () {
-    var wrapper = document.createElement("div");
+    var wrapper = document.createElement('div');
 
     // hide when desired (called once on first update during hidden period)
     if (this.internalHidden) return wrapper;
@@ -136,7 +150,9 @@ Module.register('MMM-Traffic', {
 
     // first line
     var firstLineText = document.createElement('span');
-    firstLineText.innerHTML = this.loading ? this.config.loadingText : this.replaceTokens(this.config.firstLine)
+    firstLineText.innerHTML = this.loading
+      ? this.config.loadingText
+      : this.replaceTokens(this.config.firstLine);
     firstLineDiv.appendChild(firstLineText);
     wrapper.appendChild(firstLineDiv);
     if (this.loading) return wrapper;
@@ -151,13 +167,16 @@ Module.register('MMM-Traffic', {
   },
 
   replaceTokens: function (text) {
-    return text.replace(/{duration}/g, this.duration).replace(/{route}/g, this.route);
+    return text
+      .replace(/{duration}/g, this.duration)
+      .replace(/{route}/g, this.route);
   },
 
   shouldHide: function () {
     let hide = true;
     let now = moment();
-    if (this.config.days.includes(now.day()) &&
+    if (
+      this.config.days.includes(now.day()) &&
       moment(this.config.hoursStart, 'HH:mm').isBefore(now) &&
       moment(this.config.hoursEnd, 'HH:mm').isAfter(now)
     ) {
