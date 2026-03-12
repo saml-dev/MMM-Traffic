@@ -82,7 +82,16 @@ Module.register('MMM-Traffic', {
   getCommute: function (api_url) {
     var self = this;
     fetch(api_url)
-      .then(self.checkStatus)
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((json) => {
+            throw new Error(
+              json.message || `API Error - ${res.status} ${res.statusText}`,
+            );
+          });
+        }
+        return res.json();
+      })
       .then((json) => {
         self.duration = Math.round(json.routes[0].duration / 60);
         self.hours = Math.floor(self.duration / 60);
@@ -98,16 +107,6 @@ Module.register('MMM-Traffic', {
         self.loading = false;
         self.updateDom();
       });
-  },
-
-  checkStatus: function (res) {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return res.json().then((json) => {
-        throw new MMMTrafficError(`API Error - ${json.code}`, json.message);
-      });
-    }
   },
 
   getStyles: function () {
